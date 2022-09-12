@@ -1,0 +1,27 @@
+10215501448朱施颐
+
+使用过的代码：
+
+普通排序
+sort  prctice.txt > result.txt
+
+去除重复行的排序
+sort -u prctice.txt >result.txt
+
+根据数字的排序
+sort -n prctice.txt >answer.txt
+
+去除重复行并写入result.txt尾部的排序
+sort -u prctice.txt >>result.txt
+
+根据数字并将结果写入answe.txt的排序
+sort -n prctice.txt >>answer.txt
+
+输出answer.txt中的结果
+cat answer.txt
+
+生成50000个随机字符串的命令
+for i in `seq 50000`; do echo $RANDOM | md5sum | cut -c 1-9 >>result.txt ;done
+
+正则表达式查找并输出次数：
+grep -o fe answer.txt | wc -l

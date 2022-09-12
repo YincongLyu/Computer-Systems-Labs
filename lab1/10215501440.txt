@@ -1,0 +1,42 @@
+#1. 生成 50000 行的文件，每一行可以包含字母、数字。长度不限制。
+#在实验过程中 我利用了C++的随机数引擎生成的只包含小写字母和数字的字符串
+#其中每个小写字母和数字生成的频率相等
+
+touch file2.txt file3.txt file4.txt file5.txt file6.txt file7.txt
+
+for i in {1..50000}; do echo $RANDOM | md5sum | cut -c 1-10; done >>file2.txt
+#生成10位随机字符串
+
+sort file2.txt -o file3.txt
+#将file2（生成的随机字符串）按ASCII码排序写入file3.txt
+
+sort -n file2.txt -o file4.txt
+#将file2按数字排序写入file4.txt
+
+sort file2.txt | uniq
+#按ASCII码顺序输出uniq行
+
+sort -n file2.txt | uniq
+#按数字顺序输出uniq行
+
+sort file2.txt | uniq > file4.txt
+#按ASCII码顺序覆盖写入file4.txt
+
+sort file2.txt | uniq >> file5.txt
+#按ASCII码顺序追加写入 file5.txt
+
+
+
+
+#2. 随便生成一个文件
+
+touch see_you_again.txt
+vim see_you_again.txt
+#随便生成一个文件 在文本量较大的情况下 为了加大重复率
+#使用了《see you again》的歌词作为文本
+
+grep "see" see_you_again.txt -i -n
+#寻找包含see的行并将其列出 同时高亮所有的see -i表示不区分大小写
+
+grep -o "see" see_you_again.txt -i | wc -l
+#利用统计行数 统计出see的个数
