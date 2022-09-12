@@ -1,0 +1,19 @@
+for i in `seq 1000`
+do
+    echo $RANDOM | md5sum | cut -c 1-9
+done >> List.txt
+#覆盖字母unique
+sort -u List.txt > List1.txt
+#覆盖数字unique
+sort -u -n List.txt > List2.txt
+#追加字母unique
+sort -u List.txt >> List1.txt
+#追加数字unique
+sort -u -n List.txt >> List2.txt
+
+#生成含“computer”文件
+echo "computer" > List3.txt
+#寻找该字符串
+grep -rn "computer" List3.txt
+#统计数目
+grep -o 'computer' ./List3.txt | wc -l
