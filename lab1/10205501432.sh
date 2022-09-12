@@ -1,0 +1,1 @@
+sort test.txt | uniq
