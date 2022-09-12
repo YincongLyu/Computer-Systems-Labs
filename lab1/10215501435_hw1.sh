@@ -19,5 +19,5 @@ sort -u -n random_5000.txt > number.txt
 sort -u random_5000.txt >> alph.txt
 #以追加写的方式，数字排序，输出unique行
 sort -u -n random_5000.txt >> number.txt
-#已经生成一个含有60个Computer的letter文件
+#已经生成一个含有60个Computer字符的letter文件
 grep -c "Computer" letter.txt  
