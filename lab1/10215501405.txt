@@ -1,0 +1,19 @@
+1.
+for i in `seq 1000`;do echo $RANDOM | md5sum | cut -c 1-9;done>>test.txt;
+生成文件 test.txt
+sort test.txt | uniq
+字母顺序排序输出所有unique行
+sort -n test.txt | uniq
+数字顺序输出unique行
+sort test.txt | uniq > test1.txt
+覆盖写重定向
+sort test.txt | uniq >> test2.txt
+追加写重定向
+
+2.
+echo "computer" > test3.txt
+生成文件
+grep -rn "computer" test3.txt
+找字符串“computer”
+grep -o 'computer' ./test3.txt | wc -l
+统计
