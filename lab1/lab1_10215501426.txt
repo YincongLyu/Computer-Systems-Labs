@@ -1,0 +1,96 @@
+#生成随机字符串的python程序
+import random
+
+
+
+def randstr():
+    resstr =''
+    charsum = 'ABCDEFGHIGKLMNOPQRSTUVWXYZabcdefghigklmnopqrstuvwxyz0123456789_'
+    for i in range(15):
+        x = random.randint(0,62)
+        resstr += charsum[x]
+    return resstr
+
+if __name__ == '__main__':
+    f=open('E:/randstring/test.txt','w')
+    for i in range(1000):
+        ans = randstr()
+        ans+='\n'
+        f.write(ans*50)
+    f.close()
+
+
+shell脚本
+#!/bin/bash
+export LC_ALL=C:
+
+sort -d randstring.txt | uniq //按字母与数字顺序排序
+sort -n randstring.txt | uniq
+
+touch n_sorted_a.txt
+touch d_sorted_a.txt
+touch n_sorted_w.txt
+touch d_sorted_w.txt
+
+sort -d randstring.txt | uniq >d_sorted_w.txt  //排序后重定向到各个文件
+sort -d randstring.txt | uniq>>d_sorted_a.txt
+sort -n randstring.txt | uniq>n_sorted_w.txt
+sort -n randstring.txt | uniq>>n_sorted_a.txt
+
+grep -w "gas" essay.txt //查找文章中的gas
+grep -c "gas" essay.txt //统计gas 出现的次数
+
+essay.txt:
+atural gas, like petrol, is also an essential good.
+
+But here, too, new research finds that consumers cut back when prices are higher.
+
+Maximilian Auffhammer of the University of California, Berkeley, and Edward Rubin of the University of Oregon looked at 300m energy bills in California.
+
+In some parts of the golden state similar households are supplied by two different gas firms, which employ different price-adjustment mechanisms—providing the researchers with something akin to the treatment and control groups that are often used in medical research.
+
+They established that a 10% rise in gas prices led to an average 2% drop in consumption.
+
+An interesting variation hid behind these figures.
+
+During summer months, there was hardly any response to prices; in winter, households cut use by 4%.
+
+California’s price changes were small compared with those Europe is facing.
+
+How households respond to enormous price shocks has rarely been studied, owing to a lack of real-world data.
+
+One exception is that produced by Ukraine, which Anna Alberini of the University of Maryland and co-authors have studied, looking at price rises in 2015 after subsidies were cut.
+
+They found that among households that did not invest in better heating or insulation a doubling of prices led to a 16% decline in consumption.
+
+Policies to help households cope with high prices have also been studied—and the results are bad news for politicians capping prices.
+
+In California, where a government programme cut the marginal price of gas for poor households by 20%, households raised their consumption by 8.5% over the next year to 18 months.
+
+Ukraine has found a better way to help.
+
+Households struggling to pay their bills can apply for a cash transfer.
+
+Since such a transfer is unrelated to consumption, it preserves the incentive for shorter showers, and thus does not blunt the effect of high prices on gas use.
+
+Another option is a halfway house between a price cap and a transfer.
+
+An Austrian state recently introduced a discount on the first 80% of a typical household’s consumption, which means people retain an incentive to cut back on anything over that.
+
+Households are not the only consumers of gas.
+
+Early in the war, manufacturers and agricultural producers argued against doing anything that might risk supplies, since production processes took time to alter and output losses could cascade through the economy.
+
+But initial evidence from the German dairy and fertiliser industries suggests that even heavy users respond to higher prices.
+
+Farmers have switched from gas to oil heating; ammonia, fertiliser’s gas-intensive ingredient, is now imported instead of being made locally.
+
+Over time, households and industry will adapt more to higher prices, meaning that with every passing month demand for gas will fall.
+
+If Europe’s politicians are serious about cutting gas use, they should heed the latest research and avoid price caps.
+
+There is even a self-interested case for doing so.
+
+Without high prices to encourage households and industry to cut back on their energy consumption, governments will have to find ways other than the price mechanism to allocate scarce resources.
+
+Who wants to be the politician to have introduced rationing?
