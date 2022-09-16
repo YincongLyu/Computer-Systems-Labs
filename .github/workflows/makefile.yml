@@ -15,7 +15,8 @@ jobs:
       
     - name: Install dependencies
       run: |
-        cd https://github.com/zjpedu/Computer-Systems-Labs/tree/main/lab2/datalab-handout
+        git clone https://github.com/zjpedu/Computer-Systems-Labs
+        cd Computer-Systems-Labs/lab2/datalab-handout
         make
         ./btest
 
