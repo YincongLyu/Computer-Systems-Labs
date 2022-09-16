@@ -143,7 +143,12 @@ NOTES:
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-  return 2;
+    /* x ^ y = (~x & y) | (~y & x)
+     * x | y = ~((~x) & (~y))
+     */
+    int t1 = (~x) & y;
+    int t2 = (~y) & x;
+    return ~((~t1) & (~t2));
 }
 /* 
  * tmin - return minimum two's complement integer 
@@ -153,7 +158,10 @@ int bitXor(int x, int y) {
  */
 int tmin(void) {
 
-  return 2;
+    /*
+     * 0x80 << 24
+     */
+    return 0x80 << 24;
 
 }
 //2
@@ -165,7 +173,11 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return 2;
+    /*
+     * x + 1 should be equal to ~x other than all 1.
+     */
+    return (!((x + 1) ^ (~x))) & !!(~x);
+
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -176,7 +188,16 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
-  return 2;
+    /*
+     * get masked x and check weather is all 1s.
+     */
+  int t1 = 0xAA;
+  int t2 = (t1 << 8) | t1;
+  int t3 = (t2 << 16) | t2;  // get 10101010 ... 1010 mask
+  x = x & t3;   // get masked x
+  x = (x >> 1) | x; // if allOddBits, then x should be all 1
+  return !(~x);  // check weather x is all 1;
+
 }
 /* 
  * negate - return -x 
@@ -186,7 +207,7 @@ int allOddBits(int x) {
  *   Rating: 2
  */
 int negate(int x) {
-  return 2;
+    return (~x) + 1;
 }
 //3
 /* 
@@ -199,7 +220,14 @@ int negate(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-  return 2;
+
+    int t = !((x >> 4) ^ 3);  // check weather 8 - 15 is 0x30 and bigger is 0;
+    int remain = x & 0x0F; // get the remain .
+    int is_nine = !(remain ^ 9); // is 9 or not.
+    int is_eight = !(remain ^ 8); // is 8 or not.
+    int is_less_than_eight = !(remain & 8); // is less than 8
+    return t & (is_eight | is_nine | is_less_than_eight); // get the result
+
 }
 /* 
  * conditional - same as x ? y : z 
@@ -209,7 +237,14 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  return 2;
+    // get all 1s and all 0s.
+    int t = !x;
+    t = (t << 1) | t;
+    t = (t << 2) | t;
+    t = (t << 4) | t;
+    t = (t << 8) | t;
+    t = (t << 16) | t;
+    return (t & z) | ((~t) & y);
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
@@ -219,7 +254,13 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+    int eq = !(x ^ y); // equal or not.
+    int x_pos = !(x >> 31);
+    int y_pos = !(y >> 31);
+    int sign_dif_and_x_less_y = (x_pos ^ y_pos) & y_pos;
+    int dif = x + ((~y) + 1); // only their sign is the same, this is ok.
+    int x_less_y = !!(dif >> 31);
+    return (eq | sign_dif_and_x_less_y | (x_less_y & (!(x_pos ^ y_pos))));
 }
 //4
 /* 
@@ -231,7 +272,15 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-  return 2;
+    /*
+     * test weather has 1
+     */
+    x = (x >> 16) | x;
+    x = (x >> 8) | x;
+    x = (x >> 4) | x;
+    x = (x >> 2) | x;
+    x = (x >> 1) | x;
+    return (x & 1) ^ 1;  // only check the last bit.
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -246,7 +295,40 @@ int logicalNeg(int x) {
  *  Rating: 4
  */
 int howManyBits(int x) {
-  return 0;
+
+    int t = x >> 31;
+    int pos = !t;    // x is positive or negitive.
+    x = (t & (~x + 1)) | ((~t) & x); // get abs(x), the rep is unsigned int.
+    int x_bak = x;
+    // get the bit number of abs(x)
+    t = 0;
+    int a = (!!(x >> 16));
+    a = (a << 4) & 16;
+    t = t + a;
+    x = x >> a;
+    a = (!!(x >> 8));
+    a = (a << 3) & 8;
+    t = t + a;
+    x = x >> a;
+    a = (!!(x >> 4));
+    a = (a << 2) & 4;
+    t = t + a;
+    x = x >> a;
+    a = (!!(x >> 2));
+    a = (a << 1) & 2;
+    t = t + a;
+    x = x >> a;
+    a = (!!(x >> 1));
+    t = t + a;
+    x = x >> a;
+    t += !!(x);
+
+    int one = 1;
+    int min_1 = (~one) + 1;
+    int is_2_pow = !(x_bak & (x_bak + min_1));
+
+    return t +  (pos | (!is_2_pow));
+
 }
 //float
 /* 
@@ -261,7 +343,10 @@ int howManyBits(int x) {
  *   Rating: 4
  */
 unsigned floatScale2(unsigned uf) {
-  return 2;
+
+
+
+
 }
 /* 
  * floatFloat2Int - Return bit-level equivalent of expression (int) f
