@@ -22,4 +22,5 @@ jobs:
         cd Computer-Systems-Labs/lab2/datalab-handout
         make
         ./btest
+        echo "$?"
 
