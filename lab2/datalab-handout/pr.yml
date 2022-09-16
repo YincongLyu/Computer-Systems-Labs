@@ -1,9 +1,0 @@
-name: LAB2-CI
-jobs:
-  printInputs:
-    runs-on: ubuntu-latest
-    steps:
-    - run: |
-        make
-        ./btest
-        echo "Run something"
