@@ -8,15 +8,12 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-      
     - name: Install dependencies
       run: |
         sudo apt-get install gcc-multilib
-    - name: Inspection Codes
+    - name: Execute Codes
       run: |
         git clone https://github.com/zjpedu/Computer-Systems-Labs
         cd Computer-Systems-Labs/lab2/datalab-handout
