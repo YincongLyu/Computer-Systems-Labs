@@ -1,0 +1,20 @@
+1-1
+#!/bin/bash
+for i in `seq 50000`
+do echo $RANDOM | md5sum | cut -c 1-9 
+done >> test.txt      //随机生成文件
+sort -d test.txt | uniq      //sort和uniq一起用的正确格式，sort只是输出排序好的原文件，但并不改变原文件的排序
+sort -d test.txt | uniq > test1.txt
+cat test1.txt >> test2.txt
+sort -n test.txt | uniq
+sort -n test.txt | uniq > test3.txt
+cat test3.txt >> test4.txt
+
+1-2
+#!/bin/bash
+#!/bin/bash
+for i in `seq $RANDOM`
+do echo $RANDOM | md5sum | cut -c 1-9 
+done >> test.txt
+grep computer test.txt
+grep -c computer test.txt
