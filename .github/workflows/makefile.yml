@@ -13,10 +13,10 @@ jobs:
 
     steps:
       
-    -name: Install dependencies
+    - name: Install dependencies
       run: |
         sudo apt-get install gcc-multilib
-    -name: Inspection Codes
+    - name: Inspection Codes
       run: |
         git clone https://github.com/zjpedu/Computer-Systems-Labs
         cd Computer-Systems-Labs/lab2/datalab-handout
