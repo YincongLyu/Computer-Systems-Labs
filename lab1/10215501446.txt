@@ -1,0 +1,10 @@
+#!/bin/bash
+for i in `seq 50000`
+do echo $RANDOM | md5sum |cut -c 1-9
+done >> test2.txt
+
+
+µÚ¶şÌâ£º
+#!/bin/bash
+grep abcd test.txt
+grep -c abcd test.txt
