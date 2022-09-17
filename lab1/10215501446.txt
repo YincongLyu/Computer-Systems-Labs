@@ -1,10 +1,16 @@
+1£º
 #!/bin/bash
 for i in `seq 50000`
 do echo $RANDOM | md5sum |cut -c 1-9
-done >> test2.txt
+done >> test.txt
 
+#!/bin/bash
+sort -d test.txt | uniq > answer1.txt
+sort -d test.txt | uniq >> answer2.txt
+sort -n test.txt | uniq > answer3.txt
+sort -n test.txt | uniq >> answer4.txt
 
-µÚ¶şÌâ£º
+2£º
 #!/bin/bash
 grep abcd test.txt
 grep -c abcd test.txt
