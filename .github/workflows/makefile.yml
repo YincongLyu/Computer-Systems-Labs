@@ -18,6 +18,7 @@ jobs:
         git clone https://github.com/zjpedu/Computer-Systems-Labs
         cd Computer-Systems-Labs/lab2/datalab-handout
         make
+        ./btest
         result=`./btest | grep "Total point" | cut -d " " -f3 | cut -d "/" -f1`
         [ $result -ge 24 ]
         echo "$?"
