@@ -1,4 +1,4 @@
-name: Makefile CI
+name: CSAPP CI
 
 on:
   push:
@@ -6,7 +6,18 @@ on:
   pull_request:
     branches: [ "main" ]
 
-jobs:
+jobs 1:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Execute Codes
+        git clone https://github.com/zjpedu/Computer-Systems-Labs
+        cd Computer-Systems-Labs/lab1
+        chmod a+x ./*
+        touch test.txt
+        chmod 777 test.txt
+        ./*
+jobs 2:
   build:
     runs-on: ubuntu-latest
     steps:
