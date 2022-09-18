@@ -34,9 +34,6 @@ jobs:
         result=`./btest | grep "Total point" | cut -d " " -f3 | cut -d "/" -f1`
         ddl=`date -d "2022-10-09 23:59" +%s --utc`
         current_time=`date +%s`
-        if [ $current_time -le $ddl ];then
-            echo "作业超时"
-        fi
-        if [ $result -ge 24 ]; then
-            echo "作业存在漏做或者错误"
-        fi
+        [ $current_time -ge $ddl ]
+        [ $result -ge 24 ]
+          
