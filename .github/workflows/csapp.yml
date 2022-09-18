@@ -37,3 +37,4 @@ jobs:
         echo "ddl is true?: $?"
         [ $result -ge 24 ]
         echo "score >= 24?: $?"
+        wait
