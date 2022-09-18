@@ -33,11 +33,11 @@ jobs:
         result=`./btest | grep "Total point" | cut -d " " -f3 | cut -d "/" -f1`
         ddl=`date -d "2022-10-09 23:59" +%s --utc`
         current_time=`date +%s`
-        [ $result -ge 24 ] && [ $current_time -le $ddl ]
+        [ $result -ge 24 ] 
         if [ "$?" -eq 0 ]; then
           echo "您已完成本次作业，请在水杉在线提供本次作业文档!";
         else
           echo "您的作业不符合要求，可能有错题或漏题";
         fi
-        [ $result -ge 24 ] && [ $current_time -le $ddl ]
+        [ $result -ge 24 ]
         echo "$?"
