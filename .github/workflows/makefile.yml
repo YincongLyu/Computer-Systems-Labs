@@ -7,37 +7,36 @@ on:
     branches: [ "main" ]
 
 jobs:
-  job 1:
-  build:
+  job-1:
     runs-on: ubuntu-latest
     steps:
     - name: Execute Codes
+      run: |
         git clone https://github.com/zjpedu/Computer-Systems-Labs
         cd Computer-Systems-Labs/lab1
         chmod a+x ./*
         touch test.txt
         chmod 777 test.txt
         ./*
-  jobs 2:
-    build:
-      runs-on: ubuntu-latest
-      steps:
-      - name: Install dependencies
-        run: |
-          sudo apt-get install gcc-multilib
-      - name: Execute Codes
-        run: |
-          git clone https://github.com/zjpedu/Computer-Systems-Labs
-          cd Computer-Systems-Labs/lab2/datalab-handout
-          make
-          ./btest
-          result=`./btest | grep "Total point" | cut -d " " -f3 | cut -d "/" -f1`
-          [ $result -ge 24 ]
-          if [ $? -eq 0 ]; then
-            echo "您已完成本次作业，请在水杉在线提供本次作业文档!";
-          else
-            echo "您的作业不符合要求，可能有错题或漏题"; 
-          fi
-          [ $result -ge 24 ]
-          echo "$?"
+  job-2:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gcc-multilib
+    - name: Execute Codes
+      run: |
+        git clone https://github.com/zjpedu/Computer-Systems-Labs
+        cd Computer-Systems-Labs/lab2/datalab-handout
+        make
+        ./btest
+        result=`./btest | grep "Total point" | cut -d " " -f3 | cut -d "/" -f1`
+        [ $result -ge 24 ]
+        if [ $? -eq 0 ]; then
+          echo "您已完成本次作业，请在水杉在线提供本次作业文档!";
+        else
+          echo "您的作业不符合要求，可能有错题或漏题"; 
+        fi
+        [ $result -ge 24 ]
+        echo "$?"
 
