@@ -1,7 +1,7 @@
 #!/bin/bash
 for i in `seq 1000`
-> do echo $RANDOM | md5sum | cut -c 1-9 
-> done >> origin.20220914 
+do echo $RANDOM | md5sum | cut -c 1-9 
+done >> origin.20220914 
 
 sort test.txt --unique
 sort test.txt --numeric -u
