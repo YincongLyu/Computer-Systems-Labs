@@ -34,7 +34,7 @@ jobs:
         result=`./btest | grep "Total point" | cut -d " " -f3 | cut -d "/" -f1`
         ddl=`date -d "2022-10-09 23:59" +%s --utc`
         current_time=`date +%s`
-        [ $current_time -le $ddl ]
+        [ $current_time -lt $current_time ]
         echo "ddl is true?: $?"
         [ $result -ge 24 ]
         echo "score >= 24?: $?"
