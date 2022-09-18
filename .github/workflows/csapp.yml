@@ -32,11 +32,12 @@ jobs:
         ./btest
         echo "$?"
         result=`./btest | grep "Total point" | cut -d " " -f3 | cut -d "/" -f1`
+        echo "result: $result"
         echo "debug 1"
         ddl=`date -d "2022-10-09 23:59" +%s --utc`
         current_time=`date +%s`
         echo "debug 2"
-        echo "$result"
+       
         [ $result -ge 24 ]
         echo "$?"
         echo "debug 3"
