@@ -36,4 +36,12 @@ jobs:
         current_time=`date +%s`
         [ $current_time -le $ddl ]
         [ $result -ge 24 ]
+  job-3:
+    runs-on: ubuntu-lastest
+    needs: job-2
+    steps:
+    - name: Bomb homework
+      run: |
+        echo "Bomb HW"
+  
           
