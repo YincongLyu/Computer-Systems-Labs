@@ -36,5 +36,7 @@ jobs:
         current_time=`date +%s`
         if [ $current_time -le $ddl ];then
             echo "作业超时"
+        fi
         if [ $result -ge 24 ]; then
             echo "作业存在漏做或者错误"
+        fi
