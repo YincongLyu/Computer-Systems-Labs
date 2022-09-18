@@ -39,5 +39,5 @@ jobs:
         else
           echo "您的作业不符合要求，可能有错题或漏题";
         fi
-        [ $result -ge 24 ] || [ $current_time -le $ddl ]
+        [ $result -ge 24 ] && [ $current_time -le $ddl ]
         echo "$?"
