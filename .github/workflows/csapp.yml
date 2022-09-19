@@ -35,7 +35,7 @@ jobs:
         ddl=`date -d "2022-10-09 23:59" +%s --utc`
         current_time=`date +%s`
         [ $current_time -le $ddl ]
-        [ $result -ge 24 ]
+        [ $result -ge 36 ]
   job-3:
     runs-on: ubuntu-latest
     needs: job-2
