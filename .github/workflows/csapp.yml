@@ -12,7 +12,7 @@ jobs:
     steps:
     - name: Execute Codes
       run: |
-        git clone https://github.com/zjpedu/Computer-Systems-Labs
+        git clone https://github.com/GentleCold/Computer-Systems-Labs
         cd Computer-Systems-Labs/lab1
         chmod a+x ./*
         touch test.txt
@@ -27,7 +27,7 @@ jobs:
     - name: Execute Codes
       run: |
         set -x
-        git clone https://github.com/zjpedu/Computer-Systems-Labs
+        git clone https://github.com/GentleCold/Computer-Systems-Labs
         cd Computer-Systems-Labs/lab2/datalab-handout
         make
         ./btest
