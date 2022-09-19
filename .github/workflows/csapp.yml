@@ -37,7 +37,7 @@ jobs:
         [ $current_time -le $ddl ]
         [ $result -ge 24 ]
   job-3:
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
     needs: job-2
     steps:
     - name: Bomb homework
