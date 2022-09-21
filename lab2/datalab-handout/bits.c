@@ -175,9 +175,8 @@ int isTmax(int x) {
   int x1 = x+1;
   int x2 = ~x1;
   int x3 = x^x2;
-  int x4 = !x3;
-  int x5 = x4&x1;
-  return x5;
+  int x4 = !(x3+!x1);
+  return x4;
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
