@@ -149,8 +149,7 @@ int bitXor(int x, int y) {
   int xy2 = x1&y1;
   int xy11 = ~xy1;
   int xy22 = ~xy2;
-  int r1 = xy11&xy22;
-  int r = ~r1;
+  int r = xy11&xy22;
   return r;
 }
 /* 
