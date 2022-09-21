@@ -64,7 +64,7 @@ INTEGER CODING RULES:
 
  
   You may assume that your machine:
-  1. Uses 2s complement, 32-bit representations of integers.
+  1. Uses 2s complement(2的补码), 32-bit representations of integers.
   2. Performs right shifts arithmetically.
   3. Has unpredictable behavior when shifting if the shift amount
      is less than 0 or greater than 31.
@@ -153,7 +153,7 @@ int bitXor(int x, int y) {
  */
 int tmin(void) {
 
-  return 2;
+  return 1 << 31;
 
 }
 //2
