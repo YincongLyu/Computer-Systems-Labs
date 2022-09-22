@@ -187,13 +187,21 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
+  /* (all Odd or Even Bits)
   int xa1 = x >> 1;
   int xa2 = ~xa1;
   int xb1 = x >> 2;
   int xb2 = xb1^x;
   int x1 = xa2&xb2;
   int x2 = !(x1 + !x);
-  return x2;
+  return x2;*/
+  int a = 170;
+  int a1 = (a << 8) | a; 
+  int a2 = (a1 << 16) | a1;
+  int x1 = x&a2;
+  int x2 = x1^a2;
+  int x3 = !x2;
+  return x3;
 }
 /* 
  * negate - return -x 
