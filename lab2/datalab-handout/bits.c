@@ -242,7 +242,7 @@ int conditional(int x, int y, int z) {
   int b1 = a1 + ((~1)+1);
   int b2 = b1&1;
   int b3 = ~b2+1;
-  int res = b3&y + a2&z;
+  int res = (b3&y) + (a2&z);
   return res;
 }
 /* 
