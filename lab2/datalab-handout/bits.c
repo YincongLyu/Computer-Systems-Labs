@@ -192,7 +192,7 @@ int allOddBits(int x) {
   int xb1 = x >> 2;
   int xb2 = xb1^x;
   int x1 = xa2&xb2;
-  int x2 = !x1;
+  int x2 = !(x1 + !x);
   return x2;
 }
 /* 
