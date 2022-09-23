@@ -289,19 +289,14 @@ unsigned floatScale2(unsigned uf) {
     unsigned s = uf>>31;
     unsigned e = (uf&0x7f800000)>>23;
     unsigned m = uf&0x7fffff;
-
+    unsigned res;
     if (e==0xff)
-        return uf;
-
-    else if (e!=0){
-        e+=1;
-        return s<<31 | e<<23 | m;
-    }
-
-    else{
-        m<<=1;
-        return s<<31 | e<<23 | m;
-    }
+        res = uf;
+    else if (e!=0)
+        res = s<<31 | (++e)<<23 | m;
+    else
+        res = s<<31 | e<<23 | m<<1;
+    return res;
 }
 /* 
  * floatFloat2Int - Return bit-level equivalent of expression (int) f
@@ -316,7 +311,25 @@ unsigned floatScale2(unsigned uf) {
  *   Rating: 4
  */
 int floatFloat2Int(unsigned uf) {
-    return 2;
+    unsigned s = uf>>31;
+    unsigned e = (uf&0x7f800000)>>23;
+    unsigned m = uf&0x7fffff;
+    int E = e-127;
+
+    if (E<0)
+        return 0;
+
+    else if (E>=31)
+        return 0x80000000u;
+
+    else{
+        m= m|1<<23; //加上1
+        if (E<23) // 舍入
+            m>>=(23-E);
+        else
+            m<<=(E-23);
+        return s?-m:m ;
+    }
 }
 /* 
  * floatPower2 - Return bit-level equivalent of the expression 2.0^x
@@ -332,6 +345,16 @@ int floatFloat2Int(unsigned uf) {
  *   Rating: 4
  */
 unsigned floatPower2(int x) {
-    return 2;
+    if(x>127)
+        return 0xFF<<23;
+    else if(x<-148)
+        return 0;
+    else if(x>=-126){
+        int exp = x + 127;
+        return (exp << 23);
+    } else{
+        int t = 148 + x;
+        return (1 << t);
+    }
 }
 
