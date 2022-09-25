@@ -273,11 +273,11 @@ int isLessOrEqual(int x, int y) {
 int logicalNeg(int x) {
   int x1 = x + (~1 + 1);
   int x2 = x^x1;
-  int x3 = ~x2 + x;
-  int x4 = x3 >> 32;
-  int x5 = x4&0x1;
-  int x6 = ~x5 + 1;
-  int x7 = x6 + 1;
+  int x3 = x2 >> 31;
+  int x4 = x3&0x1;
+  int x5 = (~x) >> 31;
+  int x6 = x5&0x1;
+  int x7 = x6&x4;
   return x7;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
