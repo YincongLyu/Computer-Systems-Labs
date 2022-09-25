@@ -251,14 +251,14 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  int y1 = ~y+1;
-  int a = x + y1 -1;
+  int x1 = ~x+1;
+  int a = y + x1;
   int b = 0x1;
-  int signD = !(a >> 31)&b;
+  int signD = (a >> 31)&b;
   int signX = (x >> 31)&b;
   int signY = (y >> 31)&b;
   int samesign = !(signX^signY);
-  int res = (samesign & signD) | ((!samesign) & (!signX)); 
+  int res = (samesign & (!signD)) | ((!samesign) & (signX)); 
   return res; 
 }
 //4
