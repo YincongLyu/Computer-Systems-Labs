@@ -316,7 +316,13 @@ int howManyBits(int x) {
   int cut1 = (cut2 << 1) ^ cut2;
   int bit1 = !!(cut1 & (0x1 << 31));
 
-  int res = (31 & (~b3 + 1))+(16 & (~bit16 + 1)) + (8 & (~bit8 + 1)) + (4 & (~bit4 + 1)) + (2 & (~bit2 + 1)) + (1 & (~bit1 + 1)) + 1;
+  int res = (31 & (~b3 + 1)) 
+          + (16 & (~bit16 + 1)) 
+          + (8 & (~bit8 + 1)) 
+          + (4 & (~bit4 + 1)) 
+          + (2 & (~bit2 + 1)) 
+          + (1 & (~bit1 + 1)) 
+          + 1;
   return res;
 }
 //float
