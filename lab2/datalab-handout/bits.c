@@ -295,11 +295,16 @@ int logicalNeg(int x) {
 int howManyBits(int x) {
   int a = ~(0x1 << 31);
   int x1 = x & a;
+  int b1 = !x1;
+  int b2 = !!(x & (0x1 <<31));
+  int b3 = b1 & b2;
+
   int x2 = (x1 >> 1) | x1;
   int x3 = (x2 >> 2) | x2;
   int x4 = (x3 >> 4) | x3;
   int x5 = (x4 >> 8) | x4;
   int x6 = (x5 >> 16) | x5;
+
   int cut16 = (x6 << 16) ^ x2;
   int bit16 = !!(cut16 & (0x1 << 31));
   int cut8 = (cut16 << 8) ^ cut16;
@@ -310,7 +315,8 @@ int howManyBits(int x) {
   int bit2 = !!(cut2 & (0x1 << 31));
   int cut1 = (cut2 << 1) ^ cut2;
   int bit1 = !!(cut1 & (0x1 << 31));
-  int res = (16 & (~bit16 + 1)) + (8 & (~bit8 + 1)) + (4 & (~bit4 + 1)) + (2 & (~bit2 + 1)) + (1 & (~bit1 + 1)) + 1;
+
+  int res = (31 & (~b3 + 1))+(16 & (~bit16 + 1)) + (8 & (~bit8 + 1)) + (4 & (~bit4 + 1)) + (2 & (~bit2 + 1)) + (1 & (~bit1 + 1)) + 1;
   return res;
 }
 //float
