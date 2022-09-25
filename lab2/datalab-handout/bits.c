@@ -273,7 +273,7 @@ int isLessOrEqual(int x, int y) {
 int logicalNeg(int x) {
   int x1 = x + (~1 + 1);
   int x2 = x^x1;
-  int x3 = ~x2;
+  int x3 = ~x2 + x;
   int x4 = x3 >> 31;
   int x5 = x4&0x1;
   int x6 = ~x5 + 1;
