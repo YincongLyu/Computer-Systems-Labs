@@ -324,8 +324,7 @@ int floatFloat2Int(unsigned uf) {
   int sign=uf&0x80000000;
   int e=(uf>>23)&0xFF;
   int E=e-127;
-  unsigned frac=(1<<23)|uf&0x7FFFFF;
-  int bias=127;
+  unsigned frac=(1<<23)|(uf&0x7FFFFF);
   int result;
   if (E<0) {
     result=0;
