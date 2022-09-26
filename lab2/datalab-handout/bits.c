@@ -165,7 +165,7 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return (!(!(x+1)))&(!(((x+1)^x)+1));
+  return (!(!(x+1)))&(!(((x+1)^x)+1)); // 排除0x11111111
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -176,7 +176,7 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
-  return !((x&0xAAAAAAAA)+(~0xAAAAAAAA+1));
+  return !((x&0xAAAAAAAA)+(~0xAAAAAAAA+1)); // 与0xAAAAAAAA比对
 }
 /* 
  * negate - return -x 
@@ -199,7 +199,7 @@ int negate(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-  return (!((x+(~0x30+1))&(1<<31)))&(!((0x39+(~x+1))&(1<<31)));
+  return (!((x+(~0x30+1))&(1<<31)))&(!((0x39+(~x+1))&(1<<31))); // 比大小, 做减法，检查第一位是0还是1
 }
 /* 
  * conditional - same as x ? y : z 
@@ -209,7 +209,9 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  return 2;
+  return ((~(!!x)+1)&y)|(~(~(!!x)+1)&z); 
+  // 使用!!可以将数字转化为0或1, 最后在比较的时候转化为全0或全1
+  // 参考https://zhuanlan.zhihu.com/p/59534845
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
@@ -219,7 +221,17 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+  int TX=~x+1;//-x
+  int sum=TX+y;//y-x
+  int checkSign=(sum>>31)&1; //检查y-x的符号
+  int xLeft=x&(1<<31);//x的符号
+  int yLeft=y&(1<<31);//y的符号
+  int bitXor=xLeft^yLeft;//检测x与y的符号是否相同
+  bitXor=(bitXor>>31)&1;//符号相同标志位格式化设置为0或1
+  return ((!bitXor)&(!checkSign))|(bitXor&(xLeft>>31));
+  //符号位相同且y-x>=0时返回1
+  //符号位不同且x的符号为正时返回1
+  //参考https://zhuanlan.zhihu.com/p/59534845
 }
 //4
 /* 
@@ -231,7 +243,8 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-  return 2;
+  return (x|((~x+1)>>31)+1); //只有0的相反数时自身
+  //参考https://zhuanlan.zhihu.com/p/59534845
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -246,7 +259,24 @@ int logicalNeg(int x) {
  *  Rating: 4
  */
 int howManyBits(int x) {
-  return 0;
+  int b16,b8,b4,b2,b1,b0;
+  int sign=x>>31;
+  x=(sign&~x)|(~sign&x);//如果x为正则不变，否则按位取反
+
+// 使用二分搜索不断缩小范围
+  b16=!!(x>>16)<<4;//高十六位是否有1
+  x=x>>b16;//如果有（至少需要16位），则将原数右移16位
+  b8=!!(x>>8)<<3;//剩余位高8位是否有1
+  x=x>>b8;//如果有（至少需要16+8=24位），则右移8位
+  b4=!!(x>>4)<<2;//同理
+  x=x>>b4;
+  b2=!!(x>>2)<<1;
+  x=x>>b2;
+  b1=!!(x>>1);
+  x=x>>b1;
+  b0=x;
+  return b16+b8+b4+b2+b1+b0+1;//+1表示加上符号位
+  //参考https://zhuanlan.zhihu.com/p/59534845
 }
 //float
 /* 
@@ -261,7 +291,22 @@ int howManyBits(int x) {
  *   Rating: 4
  */
 unsigned floatScale2(unsigned uf) {
-  return 2;
+  int sign=uf&(1<<31);
+  int e=(uf>>23)&0xFF;//阶码+bias
+  int frac=uf&0x7FFFFF;//尾数
+  int result;
+  if (e==0xFF) {
+    //无穷或NaN
+    result=uf;
+  } else if (e==0) {
+    //非规格化
+    result=sign|(uf<<1);
+  } else {
+    //规格化,阶码+1
+    result=sign|(e+1)<<23|frac;
+  }
+  return result;
+  //参考https://www.cnblogs.com/looking-for-zihuatanejo/p/15993893.html
 }
 /* 
  * floatFloat2Int - Return bit-level equivalent of expression (int) f
@@ -276,7 +321,28 @@ unsigned floatScale2(unsigned uf) {
  *   Rating: 4
  */
 int floatFloat2Int(unsigned uf) {
-  return 2;
+  int sign=uf&0x80000000;
+  int e=(uf>>23)&0xFF;
+  int E=e-127;
+  unsigned frac=(1<<23)|uf&0x7FFFFF;
+  int bias=127;
+  int result;
+  if (E<0) {
+    result=0;
+  } else if (E>=31) {
+    result=0x80000000;
+  } else {
+    if (E>23) {
+      result=frac<<(E-23);
+    } else {
+      result=frac>>(23-E);
+    }
+    if (sign&0x80000000) {
+      result=result&0xFFFFFFFF;
+    }
+  }
+  return result;
+  //参考https://www.cnblogs.com/looking-for-zihuatanejo/p/15993893.html
 }
 /* 
  * floatPower2 - Return bit-level equivalent of the expression 2.0^x
@@ -292,5 +358,16 @@ int floatFloat2Int(unsigned uf) {
  *   Rating: 4
  */
 unsigned floatPower2(int x) {
-    return 2;
+  int result;
+  if (x<=-150) {
+    result=0;
+  } else if (x>=128) {
+    result=0xFF<<23;
+  } else if (x<-126) {
+    result=1<<(23-(-126-x));
+  } else {
+    result=(x+127)<<23;
+  }
+  return result;
+  //参考https://www.cnblogs.com/looking-for-zihuatanejo/p/15993893.html
 }
