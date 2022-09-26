@@ -243,7 +243,7 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-  return ((x|(~x+1))>>31+1); //只有0的相反数时自身
+  return ((x|(~x+1))>>31)+1; //只有0的相反数时自身
   //参考https://zhuanlan.zhihu.com/p/59534845
 }
 /* howManyBits - return the minimum number of bits required to represent x in
