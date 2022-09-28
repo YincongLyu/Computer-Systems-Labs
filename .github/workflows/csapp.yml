@@ -27,7 +27,7 @@ jobs:
     - name: Execute Codes
       run: |
         set -x
-        git clone https://github.com/zjpedu/Computer-Systems-Labs
+        git clone https://github.com/Pankiller1/Computer-Systems-Labs
         cd Computer-Systems-Labs/lab2/datalab-handout
         make
         ./btest -T 50
