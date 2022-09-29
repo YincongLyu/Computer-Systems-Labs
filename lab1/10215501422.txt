@@ -1,0 +1,11 @@
+#1
+sort -d file.txt | uniq
+sort -n file.txt | uniq
+sort -d file.txt | uniq > d.txt
+sort -n file.txt | uniq > n.txt
+sort -d file.txt | uniq >> d.txt
+sort -n file.txt | uniq >> n.txt
+
+#2
+grep Maycomb test.txt
+grep -o  Maycomb test.txt | grep -c Maycomb

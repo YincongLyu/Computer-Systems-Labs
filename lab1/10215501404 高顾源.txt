@@ -1,0 +1,14 @@
+#!/bin/bash
+# a= date +%s%N | md5sum | head -c 8
+cat /dev/null > text.txt
+cat /dev/null > text1.txt
+cat /dev/null > text2.txt
+int=1
+while(( $int<=100 ))
+do
+    echo $(date +%s%N | md5sum | head -c 8)>>text.txt
+    let "int++"
+done
+sort text.txt | uniq > text1.txt
+sort -n text.txt | uniq >> text2.txt
+awk -v RS="@##@#" '{print gsub(/computer/, "&")}' text.txt
