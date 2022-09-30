@@ -1,18 +1,30 @@
-#include <random>
-#include <ctime>
-#include <iostream>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-using namespace std;
+char * buf;
 
-int main() {
-    srand(time(NULL));
-    int num;
-  
-    for (int i = 0; i < 3; ++i) {
-        num = random() % 5;
-        cout << num << endl;
-    }
+int sum_to_n(int num)
+{
+	int i,sum=0;
+	for(i=1;i<=num;i++)
+		sum+=i;
+	return sum;
+}
 
-    abort();
-    return 0;
+void printSum()
+{
+	char line[10];
+	printf("enter a number:\n");
+	fgets(line, 10, stdin);
+	if(line != NULL)
+		strtok(line, "\n");
+	sprintf(buf,"sum=%d",sum_to_n(atoi(line)));
+	printf("%s\n",buf);
+}
+
+int main(void)
+{
+	printSum();
+	return 0;
 }
