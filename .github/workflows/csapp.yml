@@ -17,7 +17,7 @@ jobs:
   job-1:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Execute Codes
       run: |
 <<<<<<< HEAD
@@ -34,12 +34,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 <<<<<<< HEAD
+<<<<<<< HEAD
     - uses: actions/checkout@v3
       with:
         ref: ${{ github.event.pull_request.head.sha }}
 =======
     - uses: actions/checkout@v2
 >>>>>>> dea5fbb (using github action checkout@v2)
+=======
+    - uses: actions/checkout@v3
+>>>>>>> 74e0e6e (using github actions checkout@v3)
     - name: Install dependencies
       run: |
         sudo apt-get install gcc-multilib
