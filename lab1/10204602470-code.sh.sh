@@ -1,5 +1,5 @@
 #生成 50000 行的文件，每一行可以包含字母、数字。长度不限制。
-for((i = 0; i < 50000; i++))
+for((i = 0; i < 500; i++))
 do
 head -c 50 /dev/urandom | tr -dc A-Za-z0-9 >> RandChara;
 echo -e \ >> RandChara;
