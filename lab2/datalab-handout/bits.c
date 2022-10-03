@@ -143,7 +143,9 @@ NOTES:
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-  return 2;
+  int m = ~x & y;
+  int n = x & ~y;  
+  return ~(~m&~n);
 }
 /* 
  * tmin - return minimum two's complement integer 
@@ -153,7 +155,7 @@ int bitXor(int x, int y) {
  */
 int tmin(void) {
 
-  return 2;
+  return 1<<31;
 
 }
 //2
@@ -165,7 +167,8 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return 2;
+  int max = 2147483647;
+  return !(max + (~x + 1));
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -176,7 +179,12 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
-  return 2;
+  int a = 0xaa;
+  int b = a << 8;
+  int c = a|b;
+  int d = c << 16;
+  int e = c|d;/*0xaaaaaaaa*/  
+  return !((x & e)^e);
 }
 /* 
  * negate - return -x 
@@ -186,7 +194,7 @@ int allOddBits(int x) {
  *   Rating: 2
  */
 int negate(int x) {
-  return 2;
+  return ~x+1;
 }
 //3
 /* 
@@ -199,7 +207,9 @@ int negate(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-  return 2;
+  int a = (x + (~0x30 + 1))>>31;
+  int b = (-x + 0x39)>>31;
+  return !(a | b);
 }
 /* 
  * conditional - same as x ? y : z 
@@ -209,7 +219,9 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  return 2;
+  int a = !!x;
+  int b = ~a + 1;
+  return (b & y)|(~b & z);
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
@@ -219,7 +231,11 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+  /*先判断两数是否异号 如果异号 x>=0 则返回0，如果同号 两数相减*/
+  int f1 = !((x ^ ~y) + 1) | (((x + (~y + 1)) >>31) & 1);
+  int f2 = (x >> 31) & 1;
+  int sign = (x >> 31) ^ (y >> 31);
+  return (~sign & f1) | (sign & f2);
 }
 //4
 /* 
@@ -231,7 +247,8 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-  return 2;
+  int xt = ~x + 1;
+  return ~((x|xt)>>31)&1;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -246,7 +263,20 @@ int logicalNeg(int x) {
  *  Rating: 4
  */
 int howManyBits(int x) {
-  return 0;
+  int sign = x >> 31;
+  x = (~sign & x) | (sign & ~x);/*x为正保持原形，x为负按位取反*/
+  int b16 = !!(x >> 16) << 4;
+  x >>= b16;
+  int b8 = !!(x >> 8) << 3;
+  x >>= b8;
+  int b4 = !!(x >> 4) << 2;
+  x >>= b4;
+  int b2 = !!(x >> 2) << 1;  
+  x >>= b2;
+  int b1 = !!(x >> 1);
+  x >>= b1;
+  int b0 = x; 
+  return b16 + b8 + b4 + b2 + b1 + b0 + 1;
 }
 //float
 /* 
@@ -261,7 +291,22 @@ int howManyBits(int x) {
  *   Rating: 4
  */
 unsigned floatScale2(unsigned uf) {
-  return 2;
+    unsigned flag = uf >> 31;
+    unsigned exp = (uf >> 23) & 0xff;
+    /*规格化的*/
+    int res_exp = (exp + 1) << 23;
+    int res = uf & 0x807fffff;
+    /*无穷大或NAN*/
+    if(exp == 255){
+        return uf;
+    }
+    /*非规格化的*/
+    if(exp ==0){
+        uf = uf << 1;
+        uf = uf | (flag << 31);
+        return uf;
+    }
+  return res | res_exp;
 }
 /* 
  * floatFloat2Int - Return bit-level equivalent of expression (int) f
@@ -276,7 +321,32 @@ unsigned floatScale2(unsigned uf) {
  *   Rating: 4
  */
 int floatFloat2Int(unsigned uf) {
-  return 2;
+    unsigned flag = uf >> 31;
+    unsigned exp = (uf >> 23) & 0xff;
+    unsigned frac = uf & 0x7fffff;
+    
+    /*无穷大或NAN*/
+    if(exp == 255){
+        return 0x80000000;
+    }
+    /*非规格化的*/
+    if(exp == 0){
+        return 0;
+    }
+    /*规格化的*/
+    int real_exp = exp - 127;
+    unsigned real_frac = frac | 0x800000;
+    if(real_exp >= 0){
+        if(real_exp >= 31){
+            return 0x80000000;
+        }
+        real_frac = real_frac >> (23 - real_exp);
+        if(flag){
+            real_frac = ~real_frac + 1;
+        }
+        return real_frac;
+    }
+    return 0;
 }
 /* 
  * floatPower2 - Return bit-level equivalent of the expression 2.0^x
@@ -292,5 +362,17 @@ int floatFloat2Int(unsigned uf) {
  *   Rating: 4
  */
 unsigned floatPower2(int x) {
-    return 2;
+    if(x > 127){
+        return 0x7f800000;
+    }
+    /*规格化的*/
+    else if(x >= -126){
+        unsigned exp = x + 127;
+        return exp << 23;
+    }
+    /*非规格化的*/
+    else if(x >= -149){
+        return 0x1 << (x + 149);
+    }
+    return 0;
 }
