@@ -21,13 +21,13 @@ jobs:
   job-2:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Install dependencies
       run: |
         sudo apt-get install gcc-multilib
     - name: Execute Codes
       run: |
         set -x
-        git clone https://github.com/zjpedu/Computer-Systems-Labs
         cd Computer-Systems-Labs/lab2/datalab-handout
         make
         ./btest -T 50
