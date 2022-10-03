@@ -33,9 +33,13 @@ jobs:
   job-2:
     runs-on: ubuntu-latest
     steps:
+<<<<<<< HEAD
     - uses: actions/checkout@v3
       with:
         ref: ${{ github.event.pull_request.head.sha }}
+=======
+    - uses: actions/checkout@v2
+>>>>>>> dea5fbb (using github action checkout@v2)
     - name: Install dependencies
       run: |
         sudo apt-get install gcc-multilib
@@ -44,6 +48,8 @@ jobs:
         set -x
 <<<<<<< HEAD
         git clone https://github.com/wyhwhye/Computer-Systems-Labs
+=======
+>>>>>>> d0f5174 (using github action checkout@v2)
         cd Computer-Systems-Labs/lab2/datalab-handout
 =======
         cd ./lab2/datalab-handout
