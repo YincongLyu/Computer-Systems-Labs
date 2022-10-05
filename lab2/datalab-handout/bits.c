@@ -294,19 +294,20 @@ int logicalNeg(int x) {
  */
 int howManyBits(int x) {
     int sign = x>>31;
-    int y = (sign & ~x) | (~sign & x);
-    int b16 = (!!(y>>16))<<4;     
-    y = y>>b16;                   
-    int b8 = (!!(y>>8))<<3;       
-    y = y>>b8;                    
-    int b4 = (!!(y>>4))<<2;
-    y = y>>b4;
-    int b2 = (!!(y>>2))<<1;
-    y = y>>b2;
-    int b1 = !!(y>>1);
-    y = y>>b1;
-    int b0 = y;
-    return b16 + b8 + b4 + b2 + b1 + b0 + 1;
+    int x1 = (sign & ~x) | (~sign & x);
+    int bit16 = (!!(x1>>16))<<4;     
+    x1 = x1>>bit16;                   
+    int bit8 = (!!(x1>>8))<<3;       
+    x1 = x1>>bit8;                    
+    int bit4 = (!!(x1>>4))<<2;
+    x1 = x1>>bit4;
+    int bit2 = (!!(x1>>2))<<1;
+    x1 = x1>>bit2;
+    int bit1 = !!(x1>>1);
+    x1 = x1>>bit1;
+    int bit0 = x1;
+    int res = bit16 + bit8 + bit4 + bit2 + bit1 + bit0 + 1;
+    return res;
 }
 
 //float
@@ -322,7 +323,22 @@ int howManyBits(int x) {
  *   Rating: 4
  */
 unsigned floatScale2(unsigned uf) {
-  return 2;
+  unsigned s = uf >> 31;
+  unsigned exp = (uf >> 23) & 0xFF;
+  unsigned frac = uf & 0x7fffff;
+  if (exp == 0xFF)
+  {
+    return uf;
+  }
+  else if (exp == 0 && frac == 0)
+  {
+    return uf;
+  }
+  else 
+  {
+    exp += 1;
+  }
+  return ((s << 31) | (exp << 23) | (frac));
 }
 /* 
  * floatFloat2Int - Return bit-level equivalent of expression (int) f
