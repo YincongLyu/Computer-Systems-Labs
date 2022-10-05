@@ -308,7 +308,6 @@ int howManyBits(int x) {
     int bit0 = x1;
     int res = bit16 + bit8 + bit4 + bit2 + bit1 + bit0 + 1;
     return res;
-
 }
 //float
 /* 
