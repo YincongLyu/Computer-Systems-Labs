@@ -7,7 +7,7 @@
  *          This is the file you will hand in to your instructor.
  *
  * WARNING: Do not include the <stdio.h> header; it confuses the dlc
- * compiler. you can still use printf for debugging without including
+ * compiler. You can still use printf for debugging without including
  * <stdio.h>, although you might get a compiler warning. In general,
  * it's not good practice to ignore compiler warnings, but in this
  * case it's OK.  
@@ -20,13 +20,13 @@
  * STEP 1: Read the following instructions carefully.
  */
 
-you will provide your solution to the Data Lab by
+You will provide your solution to the Data Lab by
 editing the collection of functions in this source file.
 
 INTEGER CODING RULES:
  
   Replace the "return" statement in each function with one
-  or more lines of C code that implements the function. your code 
+  or more lines of C code that implements the function. Your code 
   must conform to the following style:
  
   int Funct(arg1, arg2, ...) {
@@ -41,18 +41,18 @@ INTEGER CODING RULES:
       return ExprR;
   }
 
-  Each "Expr" is an expression using ONLy the following:
-  1. Integer constants 0 through 255 (0xFF), inclusive. you are
+  Each "Expr" is an expression using ONLY the following:
+  1. Integer constants 0 through 255 (0xFF), inclusive. You are
       not allowed to use big constants such as 0xffffffff.
   2. Function arguments and local variables (no global variables).
   3. Unary integer operations ! ~
   4. Binary integer operations & ^ | + << >>
     
   Some of the problems restrict the set of allowed operators even further.
-  Each "Expr" may consist of multiple operators. you are not restricted to
+  Each "Expr" may consist of multiple operators. You are not restricted to
   one operator per line.
 
-  you are expressly forbidden to:
+  You are expressly forbidden to:
   1. Use any control constructs such as if, do, while, for, switch, etc.
   2. Define or use any macros.
   3. Define any additional functions in this file.
@@ -63,14 +63,14 @@ INTEGER CODING RULES:
      cannot use arrays, structs, or unions.
 
  
-  you may assume that your machine:
+  You may assume that your machine:
   1. Uses 2s complement(2的补码), 32-bit representations of integers.
   2. Performs right shifts arithmetically.
   3. Has unpredictable behavior when shifting if the shift amount
      is less than 0 or greater than 31.
 
 
-EXAMPLES OF ACCEPTABLE CODING STyLE:
+EXAMPLES OF ACCEPTABLE CODING STYLE:
   /*
    * pow2plus1 - returns 2^x + 1, where 0 <= x <= 31
    */
@@ -92,12 +92,12 @@ EXAMPLES OF ACCEPTABLE CODING STyLE:
 FLOATING POINT CODING RULES
 
 For the problems that require you to implement floating-point operations,
-the coding rules are less strict.  you are allowed to use looping and
-conditional control.  you are allowed to use both ints and unsigneds.
-you can use arbitrary integer and unsigned constants. you can use any arithmetic,
+the coding rules are less strict.  You are allowed to use looping and
+conditional control.  You are allowed to use both ints and unsigneds.
+You can use arbitrary integer and unsigned constants. You can use any arithmetic,
 logical, or comparison operations on int or unsigned data.
 
-you are expressly forbidden to:
+You are expressly forbidden to:
   1. Define or use any macros.
   2. Define any additional functions in this file.
   3. Call any functions.
@@ -143,10 +143,10 @@ NOTES:
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-  int y = ~x;
+  int x1 = ~x;
   int y1 = ~y;
   int xy1 = x&y;
-  int xy2 = y&y1;
+  int xy2 = x1&y1;
   int xy11 = ~xy1;
   int xy22 = ~xy2;
   int r = xy11&xy22;
@@ -172,10 +172,10 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  int y = x+1;
-  int x2 = ~y;
+  int x1 = x+1;
+  int x2 = ~x1;
   int x3 = x^x2;
-  int x4 = !(x3+!y);
+  int x4 = !(x3+!x1);
   return x4;
 }
 /* 
@@ -190,8 +190,8 @@ int allOddBits(int x) {
   int a = 170;
   int a1 = (a << 8) | a; 
   int a2 = (a1 << 16) | a1;
-  int y = x&a2;
-  int x2 = y^a2;
+  int x1 = x&a2;
+  int x2 = x1^a2;
   int x3 = !x2;
   return x3;
 }
@@ -203,8 +203,8 @@ int allOddBits(int x) {
  *   Rating: 2
  */
 int negate(int x) {
-  int y = ~x;
-  int x2 = y + 1;
+  int x1 = ~x;
+  int x2 = x1 + 1;
   return x2;
 }
 //3
@@ -220,13 +220,13 @@ int negate(int x) {
 int isAsciiDigit(int x) {
   int a = ~0x30+1;
   int b = 1 << 31;
-  int y1 = x + a;
-  int y2 = y1 & b;
-  int y3 = !y2;
+  int x11 = x + a;
+  int x12 = x11 & b;
+  int x13 = !x12;
   int x21 = 0x39 + (~x+1);
   int x22 = x21 & b;
   int x23 = !x22;
-  int x3 = y3 & x23;
+  int x3 = x13 & x23;
   return x3;
 }
 /* 
@@ -239,8 +239,8 @@ int isAsciiDigit(int x) {
 int conditional(int x, int y, int z) {
   int a1 = !x;
   int a2 = ~a1+1; 
-  int bit1 = a1 + ((~1)+1);
-  int res = (bit1&y) + (a2&z);
+  int b1 = a1 + ((~1)+1);
+  int res = (b1&y) + (a2&z);
   return res;
 }
 /* 
@@ -251,13 +251,13 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  int y = ~x+1;
-  int a = y + y;
-  int b = 0y;
+  int x1 = ~x+1;
+  int a = y + x1;
+  int b = 0x1;
   int signD = (a >> 31)&b;
   int signX = (x >> 31)&b;
-  int signy = (y >> 31)&b;
-  int samesign = !(signX^signy);
+  int signY = (y >> 31)&b;
+  int samesign = !(signX^signY);
   int res = (samesign & (!signD)) | ((!samesign) & (signX)); 
   return res; 
 }
@@ -271,12 +271,12 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-  int y = x + (~1 + 1);
-  int x2 = x^y;
+  int x1 = x + (~1 + 1);
+  int x2 = x^x1;
   int x3 = x2 >> 31;
-  int x4 = x3&0y;
+  int x4 = x3&0x1;
   int x5 = (~x) >> 31;
-  int x6 = x5&0y;
+  int x6 = x5&0x1;
   int x7 = x6&x4;
   return x7;
 }
@@ -295,19 +295,20 @@ int logicalNeg(int x) {
 int howManyBits(int x) {
     int sign = x>>31;
     int y = (sign & ~x) | (~sign & x);
-    int bit16 = (!!(y>>16))<<4;     
-    y = y>>bit16;                   
-    int bit8 = (!!(y>>8))<<3;       
-    y = y>>bit8;                    
-    int bit4 = (!!(y>>4))<<2;
-    y = y>>bit4;
-    int bit2 = (!!(y>>2))<<1;
-    y = y>>bit2;
-    int bit1 = !!(y>>1);
-    y = y>>bit1;
-    int bit0 = y;
-    int res = bit16 + bit8 + bit4 + bit2 + bit1 + bit0 + 1;
-    return res;
+    int b16 = (!!(y>>16))<<4;     
+    y = y>>b16;                   
+    int b8 = (!!(y>>8))<<3;       
+    y = y>>b8;                    
+    int b4 = (!!(y>>4))<<2;
+    y = y>>b4;
+    int b2 = (!!(y>>2))<<1;
+    y = y>>b2;
+    int b1 = !!(y>>1);
+    y = y>>b1;
+    int b0 = y;
+    return b16 + b8 + b4 + b2 + b1 + b0 + 1;
+}
+
 }
 //float
 /* 
