@@ -334,7 +334,16 @@ unsigned floatScale2(unsigned uf) {
   {
     return uf;
   }
-  else 
+  else if (exp == 0)
+  {
+    if ((frac >> 22) == 1)
+    {
+      frac = frac & ~0x800000;
+      exp = 1;
+    }
+    frac << 1;
+  }
+  else
   {
     exp += 1;
   }
