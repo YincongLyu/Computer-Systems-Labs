@@ -2,6 +2,7 @@
  * CS:APP Data Lab 
  * 
  * <Please put your name and userid here>
+ * 刘露莹10215501428
  * 
  * bits.c - Source file with your solutions to the Lab.
  *          This is the file you will hand in to your instructor.
@@ -143,7 +144,9 @@ NOTES:
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-  return 2;
+  int m=~(~x&y);
+  int n=~(x&~y);
+  return ~(m&n);
 }
 /* 
  * tmin - return minimum two's complement integer 
@@ -153,7 +156,7 @@ int bitXor(int x, int y) {
  */
 int tmin(void) {
 
-  return 2;
+  return 1<<31;
 
 }
 //2
@@ -165,7 +168,12 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return 2;
+  int a=x+1;
+  x+=a;
+  x=~x;
+  a=!a;
+  int b=x+a;
+  return !b;
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -176,7 +184,9 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
-  return 2;
+  int tmp=(0xAA<<8)+0xAA;
+  tmp=(tmp<<16)+tmp;
+  return !(tmp^(x&tmp));
 }
 /* 
  * negate - return -x 
@@ -186,7 +196,7 @@ int allOddBits(int x) {
  *   Rating: 2
  */
 int negate(int x) {
-  return 2;
+  return ~x+1;
 }
 //3
 /* 
@@ -199,7 +209,7 @@ int negate(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-  return 2;
+  return !(0x03^(x>>4))&!!((x+0x06)&0x10);
 }
 /* 
  * conditional - same as x ? y : z 
@@ -209,7 +219,9 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  return 2;
+  int tmp=!!x;
+  int a=~0x1+1;//0xffffffff
+  return (~(tmp+a)&y)|((tmp+a)&z);
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
@@ -219,7 +231,9 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+  int a=!(((x^y)>>31)&0x1);//判断同号
+  int b=((y+(~x+1))>>31)&0x1;//判断异号
+  return (a&!b)|(!a&((x>>31)&0x1));
 }
 //4
 /* 
@@ -231,7 +245,7 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-  return 2;
+  return ((x|(~x+0x01))>>31)+0x1;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -246,7 +260,22 @@ int logicalNeg(int x) {
  *  Rating: 4
  */
 int howManyBits(int x) {
-  return 0;
+  int a = x >> 31;
+  x = (a & ~x) | (~a & x); // x统一为正数
+
+  int b16 = !!(x >> 16) << 4; // if大于16位，b16=16，else为0
+  x >>= b16;
+  int b8 = !!(x >> 8) << 3;
+  x >>= b8;
+  int b4 = !!(x >> 4) << 2;
+  x >> b4;
+  int b2 = !!(x >> 2) << 1;
+  x >>= b2;
+  int b1 = !!(x >> 1);
+  x >>= b1;
+  int b0 = x;
+
+  return b16 + b8 + b4 + b2 + b1 + b0 + 1;
 }
 //float
 /* 
@@ -261,7 +290,23 @@ int howManyBits(int x) {
  *   Rating: 4
  */
 unsigned floatScale2(unsigned uf) {
-  return 2;
+  int s=uf&(1<<31);
+  int e=(uf&0x7F800000)>>23;
+  //非规格数
+  if(e==0x00)
+  {
+    return uf<<1|s;
+  }
+  //特殊值溢出
+  if(e==0xFF)
+  {
+    return uf;
+  }
+  if(e++==0xFF)
+  {
+    return (0x7F800000|s);
+  }
+  return (e<<23)|(uf&0x807FFFFF);
 }
 /* 
  * floatFloat2Int - Return bit-level equivalent of expression (int) f
@@ -276,7 +321,24 @@ unsigned floatScale2(unsigned uf) {
  *   Rating: 4
  */
 int floatFloat2Int(unsigned uf) {
-  return 2;
+  int exp=((uf&0x7F800000)>>23)-0x7F;
+  int frac=((uf&0x007FFFFF)|0x00800000);
+  if (exp > 31) //特殊
+    return 0x80000000;
+  if (!(uf & 0x7FFFFFFF) || exp < 0) //非规格化
+    return 0;
+
+  if (exp > 23)//尾码左移或右移
+    frac = frac << (exp - 23);
+  else
+    frac = frac >> (23 - exp);
+
+  if (!(uf >> 31))//判断符号
+    return frac;
+  else
+    return ~frac + 1;
+
+  return 1;
 }
 /* 
  * floatPower2 - Return bit-level equivalent of the expression 2.0^x
@@ -292,5 +354,15 @@ int floatFloat2Int(unsigned uf) {
  *   Rating: 4
  */
 unsigned floatPower2(int x) {
-    return 2;
+  if (x > 127) //溢出
+    return 0x7F800000;
+  if (x >= -126) //规格化
+  {
+    int e = x + 127;
+    return e << 23;
+  }
+  if (x >= -149) //非规格化
+    return 0x1 << (x + 149);
+  //太小
+  return 0;
 }
