@@ -143,7 +143,9 @@ NOTES:
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-  return 2;
+  int result;
+  result=~(~(~x&y)&~(~y&x));
+  return result;
 }
 /* 
  * tmin - return minimum two's complement integer 
@@ -152,9 +154,7 @@ int bitXor(int x, int y) {
  *   Rating: 1
  */
 int tmin(void) {
-
-  return 2;
-
+  return 1<<31;
 }
 //2
 /*
@@ -165,7 +165,7 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return 2;
+  return !(~(x^(x+1)))&!!(x+1);
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -176,7 +176,8 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
-  return 2;
+  int a=85+(85<<8)+(85<<16)+(85<<24);
+  return !(~(x|a));
 }
 /* 
  * negate - return -x 
@@ -186,7 +187,7 @@ int allOddBits(int x) {
  *   Rating: 2
  */
 int negate(int x) {
-  return 2;
+  return (~x+1);
 }
 //3
 /* 
@@ -199,7 +200,7 @@ int negate(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-  return 2;
+  return !((x+(~0x30+1))>>31)&((x+(~0x3a+1))>>31);
 }
 /* 
  * conditional - same as x ? y : z 
@@ -209,7 +210,8 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  return 2;
+  x = ~(!!(x^0))+1;
+  return (x&y)+((~x)&z);
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
@@ -219,7 +221,11 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+  int z = (y+(~x+1))>>31;
+  x = x>>31;
+  y = y>>31;
+  int sign = x^y;
+  return !((~sign & z)|(sign & y));
 }
 //4
 /* 
@@ -231,7 +237,9 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-  return 2;
+  int y = (~x+1)>>31;
+  x = x>>31;
+  return ((x^y)|(x&y))+1;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -246,7 +254,21 @@ int logicalNeg(int x) {
  *  Rating: 4
  */
 int howManyBits(int x) {
-  return 0;
+  int op = x^(x>>31);
+  int shift16 = (!!(op>>16))<<4;
+  op = op>>shift16;
+  int shift8 = (!!(op>>8))<<3;
+  op = op>>shift8;
+  int shift4 = (!!(op>>4))<<2;
+  op = op>>shift4;
+  int shift2 = (!!(op>>2))<<1;
+  op = op>>shift2;
+  int shift1 = (!!(op>>1));
+  op = op>>shift1;
+  int sum = 2+shift16+shift8+shift4+shift2+shift1;
+  int t = ((!x)<<31)>>31;
+  int t2 = ((!~x)<<31)>>31;
+  return (t2&1)|((~t2)&((t&1)|((~t)&sum)));
 }
 //float
 /* 
