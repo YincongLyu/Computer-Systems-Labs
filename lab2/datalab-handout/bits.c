@@ -366,7 +366,7 @@ int floatFloat2Int(unsigned uf) {
   int exp = (uf >> 23) & 0xFF;
   int frac = uf & 0x7fffff;
   int bias = 127;
-  int res,res1;
+  int res;
   if (exp == 0xFF)
   {
     return 0x80000000u;
@@ -381,8 +381,11 @@ int floatFloat2Int(unsigned uf) {
     int frac1 = frac & (0xffffffff << (23 - E));
     int m = ~(0xffffffff << E);
     int frac2 = (frac1 >> (23-E)) & m;
-    res1 =  frac2 | (0x1 << E);
-    res = ~res1+1;
+    res =  frac2 | (0x1 << E);
+    if ((res << 31) & 0x1)
+    {
+      res = ~res + 1;
+    }
   }
   return res;
 }
