@@ -371,7 +371,7 @@ int floatFloat2Int(unsigned uf) {
   {
     return 0x80000000u;
   }
-  else if (exp == 0)
+  else if (exp < 127)
   {
     return 0;
   }
