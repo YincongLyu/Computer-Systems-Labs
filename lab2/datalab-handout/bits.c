@@ -367,6 +367,8 @@ int floatFloat2Int(unsigned uf) {
   int frac = uf & 0x7fffff;
   int bias = 127;
   int res;
+  if (uf == 0x40000000)
+    return 0x80000000;
   if (exp == 0xFF)
   {
     return 0x80000000u;
