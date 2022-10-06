@@ -362,7 +362,28 @@ unsigned floatScale2(unsigned uf) {
  *   Rating: 4
  */
 int floatFloat2Int(unsigned uf) {
-  return 2;
+  unsigned s = uf >> 31;
+  unsigned exp = (uf >> 23) & 0xFF;
+  unsigned frac = uf & 0x7fffff;
+  int bias = 127;
+  int res;
+  if (exp == 0xFF)
+  {
+    return 0x80000000u;
+  }
+  else if (exp >= bias)
+  {
+    return 0;
+  }
+  else
+  {
+    int E = exp - bias;
+    unsigned frac1 = frac & (0xffffffff << (23 - E));
+    int m = ~(0xffffffff << E);
+    int frac2 = (frac1 >> (23-E)) & m;
+    res = frac2 | (0x1 << E);
+  }
+  return res;
 }
 /* 
  * floatPower2 - Return bit-level equivalent of the expression 2.0^x
