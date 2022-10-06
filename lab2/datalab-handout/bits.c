@@ -323,9 +323,9 @@ int howManyBits(int x) {
  *   Rating: 4
  */
 unsigned floatScale2(unsigned uf) {
-  unsigned s = uf >> 31;
-  unsigned exp = (uf >> 23) & 0xFF;
-  unsigned frac = uf & 0x7fffff;
+  int s = uf >> 31;
+  int exp = (uf >> 23) & 0xFF;
+  int frac = uf & 0x7fffff;
   if (exp == 0xFF)
   {
     return uf;
@@ -362,23 +362,23 @@ unsigned floatScale2(unsigned uf) {
  *   Rating: 4
  */
 int floatFloat2Int(unsigned uf) {
-  unsigned s = uf >> 31;
-  unsigned exp = (uf >> 23) & 0xFF;
-  unsigned frac = uf & 0x7fffff;
+  int s = uf >> 31;
+  int exp = (uf >> 23) & 0xFF;
+  int frac = uf & 0x7fffff;
   int bias = 127;
   int res;
   if (exp == 0xFF)
   {
     return 0x80000000u;
   }
-  else if (exp >= bias)
+  else if (exp == 0)
   {
     return 0;
   }
   else
   {
     int E = exp - bias;
-    unsigned frac1 = frac & (0xffffffff << (23 - E));
+    int frac1 = frac & (0xffffffff << (23 - E));
     int m = ~(0xffffffff << E);
     int frac2 = (frac1 >> (23-E)) & m;
     res = frac2 | (0x1 << E);
