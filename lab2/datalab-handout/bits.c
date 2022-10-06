@@ -283,7 +283,7 @@ int howManyBits(int x) {
  *   Rating: 4
  */
 unsigned floatScale2(unsigned uf) {
-  return 2;
+  return 4;
 }
 /* 
  * floatFloat2Int - Return bit-level equivalent of expression (int) f
