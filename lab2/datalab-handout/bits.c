@@ -381,7 +381,7 @@ int floatFloat2Int(unsigned uf) {
     int frac1 = frac & (0xffffffff << (23 - E));
     int m = ~(0xffffffff << E);
     int frac2 = (frac1 >> (23-E)) & m;
-    res = frac2 | (0x1 << E);
+    res = (s << 31) | frac2 | (0x1 << E);
   }
   return res;
 }
