@@ -1,19 +1,19 @@
-name: CSAPP CI
+name: Push to other branches
 
 on:
   push:
-    branches: [ "main" ]
+    branches-ignore:
+      - master
+      - release/*
   pull_request:
-
 jobs:
   job-1:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Execute Codes
       run: |
-        git clone https://github.com/IVseIce/Computer-Systems-Labs.git
-        cd Computer-Systems-Labs/lab1
+        cd ./lab1
         chmod a+x ./*
         touch test.txt
         chmod 777 test.txt
@@ -28,8 +28,7 @@ jobs:
     - name: Execute Codes
       run: |
         set -x
-        git clone https://github.com/IVseIce/Computer-Systems-Labs.git
-        cd Computer-Systems-Labs/lab2/datalab-handout
+        cd ./lab2/datalab-handout
         make
         ./btest -T 50
         result=`./btest -T 50 | grep "Total point" | cut -d " " -f3 | cut -d "/" -f1`
@@ -45,4 +44,3 @@ jobs:
       run: |
         echo "Bomb HW"
   
-          
