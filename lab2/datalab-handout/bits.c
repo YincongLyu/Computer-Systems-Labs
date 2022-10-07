@@ -410,4 +410,5 @@ unsigned floatPower2(int x) {
   if(exp > 255)
     return 0x7f800000;
   return (exp << 23);
+  
 }
