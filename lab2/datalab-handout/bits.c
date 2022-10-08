@@ -143,7 +143,7 @@ NOTES:
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-  return 2;
+  return ~((~(x & ~y)) & (~(y & ~x)));
 }
 /* 
  * tmin - return minimum two's complement integer 
@@ -153,7 +153,7 @@ int bitXor(int x, int y) {
  */
 int tmin(void) {
 
-  return 2;
+  return 1<<31 ;
 
 }
 //2
@@ -165,7 +165,7 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return 2;
+  return !(~(x + 1)^x) & !!(x + 1);
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -176,7 +176,8 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
-  return 2;
+
+  return !(~x&0xaaaaaaaa);
 }
 /* 
  * negate - return -x 
@@ -186,7 +187,7 @@ int allOddBits(int x) {
  *   Rating: 2
  */
 int negate(int x) {
-  return 2;
+  return ~x + 1;
 }
 //3
 /* 
@@ -199,7 +200,8 @@ int negate(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-  return 2;
+
+    return(!((x+~48+1)>>31))&!!((x+~58+1)>>31);
 }
 /* 
  * conditional - same as x ? y : z 
@@ -209,7 +211,9 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  return 2;
+  int a = !!x;
+  int condition = ~a + 1;
+  return (condition & y ) | (~condition & z);
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
@@ -219,7 +223,16 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+    int negX=~x+1;//-x
+    int addX=negX+y;//y-x
+    int checkSign = addX>>31&1; //y-x的符号
+    int leftBit = 1<<31;//最大位为1的32位有符号数
+    int xLeft = x&leftBit;//x的符号
+    int yLeft = y&leftBit;//y的符号
+    int bitXor = xLeft ^ yLeft;//x和y符号相同标志位，相同为0不同为1
+    bitXor = (bitXor>>31)&1;//符号相同标志位格式化为0或1
+    return ((!bitXor)&(!checkSign))|(bitXor&(xLeft>>31));//返回1有两种情况：符号相同标志位为0（相同）位
+    // 与 y-x 的符号为0（y-x>=0）结果为1；符号相同标志位为1（不同）位与x的符号位为1（x<0）
 }
 //4
 /* 
@@ -231,7 +244,7 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-  return 2;
+  return ((x | (~x + 1)) >> 31) + 1;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -246,7 +259,29 @@ int logicalNeg(int x) {
  *  Rating: 4
  */
 int howManyBits(int x) {
-  return 0;
+    int b16,b8,b4,b2,b1,b0;
+    int mask = x >> 31;
+    x = (mask & ~x) | (~mask & x); //如果为正数，保持不变；如果为负数，按位取反
+
+    //step1:判断高16为是否有1
+    b16 = !!(x >> 16) << 4; //如果高16为有1,则b16 = 16，否则为0
+    x >>= b16; //如果高16为有1,x右移16位舍弃低16位,在新的低16位继续查找；否则保持不变
+    //step2:判断高8位是否有1
+    b8 = !!(x >> 8) << 3;
+    x >>= b8;
+    //step3:高4位
+    b4 = !!(x >> 4) << 2;
+    x >>= b4;
+    //step4:高2位
+    b2 = !!(x >> 2) << 1;
+    x >>= b2;
+    //step5:高1位
+    b1 = !!(x >> 1);
+    x >>= b1;
+    //step6:低1位
+    b0 = x;
+
+    return b16 + b8 + b4 + b2 + b1 + b0 + 1;
 }
 //float
 /* 
@@ -261,7 +296,13 @@ int howManyBits(int x) {
  *   Rating: 4
  */
 unsigned floatScale2(unsigned uf) {
-  return 2;
+    int exp = (uf&0x7f800000)>>23;//取出exp部分
+    int sign = uf&(1<<31);//取出符号位
+    if(exp==0) return uf<<1|sign;//情况2
+    if(exp==255) return uf;//情况1
+    exp++;
+    if(exp==255) return 0x7f800000|sign;//情况3
+    return (exp<<23)|(uf&0x807fffff);
 }
 /* 
  * floatFloat2Int - Return bit-level equivalent of expression (int) f
@@ -276,7 +317,38 @@ unsigned floatScale2(unsigned uf) {
  *   Rating: 4
  */
 int floatFloat2Int(unsigned uf) {
-  return 2;
+    int sign = (uf >> 31) & 1;
+    int exp = (uf >> 23) & 0xff;
+    int frac = uf & 0x7fffff;
+
+    int E = exp - 127;
+
+    if (E < 0) //小数
+    {
+        return 0;
+    }
+    else if (E >= 31) // 超出int范围
+    {
+        return 0x80000000u;
+    }
+    else
+    {
+        frac = frac | (1 << 23);  //加上隐含的1
+
+        if (E < 23)     //舍去部分小数
+        {
+            frac >>= (23 - E);
+        }
+        else        //不需要舍去小数
+        {
+            frac <<= (E - 23);
+        }
+
+        if (sign)
+            return -frac;
+        else
+            return frac;
+    }
 }
 /* 
  * floatPower2 - Return bit-level equivalent of the expression 2.0^x
@@ -292,5 +364,22 @@ int floatFloat2Int(unsigned uf) {
  *   Rating: 4
  */
 unsigned floatPower2(int x) {
-    return 2;
+    if (x > 127) //too large, return +INF
+    {
+        return (0xFF << 23);
+    }
+    else if (x < -148) //too small, return 0
+    {
+        return 0;
+    }
+    else if (x >= -126) //norm，计算exp
+    {
+        int exp = x + 127;
+        return (exp << 23);
+    }
+    else //denorm，令frac中某一位为1
+    {
+        int t = 148 + x;
+        return (1 << t);
+    }
 }
