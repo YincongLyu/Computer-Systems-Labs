@@ -1,18 +1,18 @@
-name: CSAPP CI
+name: Push to other branches
 
 on:
   push:
-    branches: [ "main" ]
+    branches-ignore:
+      - master
+      - release/*
   pull_request:
-
 jobs:
   job-1:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Execute Codes
       run: |
-
         cd ./lab1
         chmod a+x ./*
         touch test.txt
@@ -44,4 +44,3 @@ jobs:
       run: |
         echo "Bomb HW"
   
-          
