@@ -176,9 +176,9 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
-  unsigned int a=85;
-  unsigned int b=a+(a<<8)+(a<<16)+(a<<24);
-  return !(x|b+1);
+  int mask = 0xAA+(0xAA<<8);
+  mask=mask+(mask<<16);
+  return !((mask&x)^mask);
 }
 /* 
  * negate - return -x 
@@ -211,7 +211,9 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  return ((!x+~1+1)&y)|((~!x+1)&z);
+  x = !!x;
+  x = ~x+1;
+  return (x&y)|(~x&z);
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
