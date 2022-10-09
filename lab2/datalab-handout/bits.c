@@ -143,7 +143,8 @@ NOTES:
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-  return 2;
+	/*求两个数x,y的异或值*/
+  return ~(~x&~y)&~(x&y);
 }
 /* 
  * tmin - return minimum two's complement integer 
@@ -152,8 +153,8 @@ int bitXor(int x, int y) {
  *   Rating: 1
  */
 int tmin(void) {
-
-  return 2;
+/*获取对2补码最小的整数值，因为每个int值含有32位，所以对1左移31位，即可实现首位为1，其它所有位均为0*/
+  return 1 << 31;
 
 }
 //2
@@ -165,7 +166,10 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return 2;
+	/*首先获取对2补码最大的整数，然后进行判断并返回结果*/
+	int max = 255 >> 1;
+	int result = max^x;
+	return !result;
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -176,7 +180,11 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
-  return 2;
+	/*先获取奇数位全为1的数，然后将其它位清零后与x进行异或操作*/
+	int sign = 170+(170<<8);
+	sign=sign+(sign<<16);
+	int re = sign & x;
+	return !(sign^re);
 }
 /* 
  * negate - return -x 
@@ -186,7 +194,8 @@ int allOddBits(int x) {
  *   Rating: 2
  */
 int negate(int x) {
-  return 2;
+	/*对x取反并加一，获取x的补码，即-x*/
+  return ~x+1;
 }
 //3
 /* 
@@ -199,7 +208,13 @@ int negate(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-  return 2;
+	/*获取两个数，让一个数加上比0x39大的数字后变为负数，另一个加上比0x30小的数字后变为负数，然后通过移位操作取符号位以获得结果*/
+	int sign = 0x1<<31;
+    int top = ~(sign|0x39);
+    top = sign&(top+x)>>31;
+    int buttom = ~0x30;
+    buttom = sign&(buttom+1+x)>>31;
+    return !(top|buttom);
 }
 /* 
  * conditional - same as x ? y : z 
@@ -209,7 +224,10 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  return 2;
+	/*通过x的布尔值来判断*/
+  	int bo = !!x;
+  	int re = ~bo+1;
+  	return (re&y)|(~re&z);
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
@@ -219,7 +237,16 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+	/*比较符号位，相同时比较差值的符号位，不相同的时候正数较大*/
+	int sign = 1<<31;
+	int sign_x = x&sign;
+    int sign_y = y&sign;
+    int x1=~x+1;
+	int y_x=x1+y;
+    int sign_y_x = y_x>>31&1;
+    int re = sign_x ^ sign_y;
+    sign_y_x = (sign_y_x>>31)&1;
+    return ((sign_y_x&(sign_x>>31)|(!sign_y_x)&(!re)));
 }
 //4
 /* 
@@ -231,7 +258,8 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-  return 2;
+	/*利用补码性质*/ 
+  return ((x|(~x+1))>>31)+1;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -246,7 +274,22 @@ int logicalNeg(int x) {
  *  Rating: 4
  */
 int howManyBits(int x) {
-  return 0;
+	/*逐位判断是否有1，不断缩小范围*/
+    int b0,b1,b2,b4,b8,b16;
+    int sign=x>>31;
+    x = (sign&~x)|(~sign&x);
+    b16 = !!(x>>16)<<4;
+    x = x>>b16;
+    b8 = !!(x>>8)<<3;
+    x = x>>b8;
+    b4 = !!(x>>4)<<2;
+    x = x>>b4;
+    b2 = !!(x>>2)<<1;
+    x = x>>b2;
+    b1 = !!(x>>1);
+    x = x>>b1;
+    b0 = x;
+    return 1+b0+b1+b2+b4+b8+b16;
 }
 //float
 /* 
@@ -261,7 +304,16 @@ int howManyBits(int x) {
  *   Rating: 4
  */
 unsigned floatScale2(unsigned uf) {
-  return 2;
+	/*对于无穷小和0，要将数字乘二再加上符号位；对于其它的数，如果指数+1之后为指数为255，则返回无穷大，否则返回指数+1之后的数字。*/
+  	int m = (uf&0x7f800000)>>23;
+  	int sign = uf&(1<<31);
+  	if(m==0) return uf<<1|sign;
+  	else if(m==255) return uf;
+  	else {
+	  m += 1;
+  		if(m==255) return 0x7f800000|sign;
+  		else return (m<<23)|(uf&0x807fffff);
+  	}
 }
 /* 
  * floatFloat2Int - Return bit-level equivalent of expression (int) f
@@ -276,7 +328,18 @@ unsigned floatScale2(unsigned uf) {
  *   Rating: 4
  */
 int floatFloat2Int(unsigned uf) {
-  return 2;
+	/*根据情况分类讨论*/
+  	int s = uf>>31;
+  	int m  = ((uf&0x7f800000)>>23)-127;
+  	int frac  = (uf&0x007fffff)|0x00800000;
+  	if(!(uf&0x7fffffff)) return 0;
+  	if(m > 31) return 0x80000000;
+  	if(m < 0) return 0;
+  	if(m > 23) frac <<= (m-23);
+  	else frac >>= (23-m);
+  	if(!((frac>>31)^s)) return frac;
+  	else if(frac>>31) return 0x80000000;
+  	else return ~frac+1;
 }
 /* 
  * floatPower2 - Return bit-level equivalent of the expression 2.0^x
@@ -292,5 +355,10 @@ int floatFloat2Int(unsigned uf) {
  *   Rating: 4
  */
 unsigned floatPower2(int x) {
-    return 2;
+	/*得到偏移后的指数值m，然后进行分类判断*/
+    int INF = 0xff<<23;
+  	int m = x + 127;
+  	if(m <= 0) return 0;
+  	if(m >= 255) return INF;
+  	return m << 23;
 }
