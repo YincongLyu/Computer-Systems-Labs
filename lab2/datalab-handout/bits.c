@@ -213,8 +213,7 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  int a=~(!!x)+1;
-  return (a&y)|(~a&z);
+  return ((!x+~1+1)&y)|((~!x+1)&z);
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
@@ -270,8 +269,7 @@ int howManyBits(int x) {
   a1 = !!(x>>1);
   x = x>>a1;
   a0 = x;
-  return a16+a8+a4+a2+a1+a0+1
-  return 0;
+  return a16+a8+a4+a2+a1+a0+1;
 }
 //float
 /* 
