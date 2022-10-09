@@ -166,10 +166,13 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-	/*首先获取对2补码最大的整数，然后进行判断并返回结果*/
-	int max = 255 >> 1;
-	int result = max^x;
-	return !result;
+	/*首先获取对2补码最小的整数，然后进行判断并返回结果*/
+	int min = x+1;
+  	x=x+min;
+  	x=~x;
+  	int re=!min;
+  	x=x+re;
+  	return !x;
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -245,8 +248,8 @@ int isLessOrEqual(int x, int y) {
 	int y_x=x1+y;
     int sign_y_x = y_x>>31&1;
     int re = sign_x ^ sign_y;
-    sign_y_x = (sign_y_x>>31)&1;
-    return (((!sign_y_x)&(!re)) | (sign_y_x&(sign_x>>31)));
+    re = (re>>31)&1;
+    return (((!re)&(!sign_y_x)) | (re&(sign_x>>31)));
 }
 //4
 /* 
