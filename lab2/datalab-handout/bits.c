@@ -231,6 +231,8 @@ int conditional(int x, int y, int z) {
 int isLessOrEqual(int x, int y) {
   int e=y+(~x+1); 
   int flag=e>>31;
+  int c1=(a&~b); 
+  int c2=(~a&b); 
   return c1 |(!c2&!flag);
 }
 //4
@@ -324,24 +326,28 @@ unsigned floatScale2(unsigned uf) {
  *   Rating: 4
  */
 int floatFloat2Int(unsigned uf) {
-   int sign = uf >> 31;
-    int exponent = (uf >> 23) & 0xff;
-    int E = exponent - 127;
-    int fraction = uf & (0xff | (0xff << 8) | (0x7f << 16));
-    int offset = 23 - E;
-    if (E < 0)
-        return 0;
-    if (exponent == 0xff || offset < -8)
-        return (1 << 31);
-    if (offset < 0)
-        fraction <<= (-offset);
-    if (offset >= 0)
-        fraction >>= offset;
+   unsigned exp = (uf&0x7f800000)>>23;
+    int sign=uf>>31&0x1;
+    unsigned frac=uf&0x7FFFFF;
+    int E=exp-127;
+    if(E<0)return 0;
+    else if(E >= 31){
+        return 0x80000000u;
+    }
+    else{
 
-    fraction |= (1 << E);
+        frac=frac|1<<23;
+        if(E<23) {
+            frac>>=(23-E);
+        }else{
+            frac <<= (E - 23);
+        }
+
+    }
     if (sign)
-        fraction = -fraction;
-    return fraction;
+        return -frac;
+    else
+        return frac;
 }
 /* 
  * floatPower2 - Return bit-level equivalent of the expression 2.0^x
@@ -357,27 +363,15 @@ int floatFloat2Int(unsigned uf) {
  *   Rating: 4
  */
 unsigned floatPower2(int x) {
-    if (x >= 0)
-    {
-        if (x <= 0x80)
-        {
-            int ans = (0x7f + x) << 23;
-            return ans;
-        }
-        return 0xff << 23;
+    if(x>127){
+        return 0xFF<<23;
     }
-    if (x < 0)
-    {
-        if (x >= -126)
-        {
-            int ans = (0x7f + x) << 23;
-            return ans;
-        }
-        if (x >= -149)
-        {
-            int ans = 1 << (23 - (-x - 126));
-            return ans;
-        }
-        return 0;
+    else if(x<-148)return 0;
+    else if(x>=-126){
+        int exp = x + 127;
+        return (exp << 23);
+    } else{
+        int t = 148 + x;
+        return (1 << t);
     }
 }
