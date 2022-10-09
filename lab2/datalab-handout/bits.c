@@ -165,7 +165,7 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return !(x+x+2)&(!!(x+1));
+  return (!(x+x+2))&(!!(x+1));
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -213,7 +213,9 @@ int isAsciiDigit(int x) {
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  return ((!x+~1+1)&y)|((~!x+1)&z);
+  int a=!!x;
+  a=~a+1;
+  return (a&y)|(~a&z);
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
@@ -335,7 +337,7 @@ int floatFloat2Int(unsigned uf) {
   }
   else
   {
-    b>>= (23-a);
+    b>>=(23-a);
   }
   if(!((b>>31)^s))
   {
@@ -347,7 +349,7 @@ int floatFloat2Int(unsigned uf) {
   }
   else
   {
-    return ~a+1;
+    return ~b+1;
   }
 }
 /* 
