@@ -246,7 +246,7 @@ int isLessOrEqual(int x, int y) {
     int sign_y_x = y_x>>31&1;
     int re = sign_x ^ sign_y;
     sign_y_x = (sign_y_x>>31)&1;
-    return ((sign_y_x&(sign_x>>31)|(!sign_y_x)&(!re)));
+    return (((!sign_y_x)&(!re)) | (sign_y_x&(sign_x>>31)));
 }
 //4
 /* 
