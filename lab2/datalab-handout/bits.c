@@ -178,11 +178,10 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
-    int mask = 0x55 + 0x55 << 8;
-    mask = mask + mask << 16;
-    x = x | mask;
-    return !(~x);
-    return 2;
+ int a=0xAA<<8; //0xAA00
+ int c=a|0xAA; //0xAAAA
+ int d=c<<16|c;
+ return !((x&d)^(d));
 }
 /* 
  * negate - return -x 
@@ -230,12 +229,9 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-    int difference = (unsigned)y + (unsigned)(~x + 1);
-    int sign_x = (x >> 31) & 1;
-    int sign_y = (y >> 31) & 1;
-    int is_xy_share_same_sign = !(sign_x ^ sign_y);
-    int sign = (difference >> 31) & 1;
-    return (!sign & is_xy_share_same_sign) | (!is_xy_share_same_sign & (((sign_y +(~sign_x+ 1)) >> 31) & 1));
+  int e=y+(~x+1); 
+  int flag=e>>31;
+  return c1 |(!c2&!flag);
 }
 //4
 /* 
