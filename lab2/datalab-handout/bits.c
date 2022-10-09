@@ -270,7 +270,7 @@ int howManyBits(int x) {
   b1=!!(x>>1);
   x=x>>b1;
   b0=x;
-  return b0+b1+b2+b4+b8+b16;
+  return 1+b0+b1+b2+b4+b8+b16;
 }
 //float
 /* 
