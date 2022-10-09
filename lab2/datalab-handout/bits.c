@@ -260,7 +260,7 @@ int howManyBits(int x) {
   int sign=x>>31;
   x=(sign&(~x))|((~sign)&x);
   b16=!!(x>>16)<<4;
-  x=x>>16;
+  x=x>>b16;
   b8=!!(x>>8)<<3;
   x=x>>b8;
   b4=!!(x>>4)<<2;
