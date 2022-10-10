@@ -4,6 +4,14 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   job-1:
@@ -22,6 +30,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
     - name: Install dependencies
       run: |
         sudo apt-get install gcc-multilib
@@ -32,7 +42,7 @@ jobs:
         make
         ./btest -T 50
         result=`./btest -T 50 | grep "Total point" | cut -d " " -f3 | cut -d "/" -f1`
-        ddl=`date -d "2022-10-09 23:59" +%s --utc`
+        ddl=`date -d "2022-10-09 15:59" +%s --utc`
         current_time=`date +%s`
         [ $current_time -le $ddl ]
         [ $result -ge 36 ]
