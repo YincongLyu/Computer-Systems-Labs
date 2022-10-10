@@ -6,6 +6,12 @@ on:
       - master
       - release/*
   pull_request:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
