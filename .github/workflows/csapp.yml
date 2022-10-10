@@ -4,8 +4,6 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
-  pull_request_target:
-    types: [opened]
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -24,14 +22,9 @@ jobs:
   job-2:
     runs-on: ubuntu-latest
     steps:
-    - name: Automatic Approve
-      uses: mheap/automatic-approve-action@v1
-      with:
-        token: ${{ secrets.PAT }}
-        workflows: "csapp.yml,push_other.yml"
     - uses: actions/checkout@v3
       with:
-        ref: "refs/pull/${{ github.event.number }}/merge"
+        ref: ${{ github.event.pull_request.head.sha }}
     - name: Install dependencies
       run: |
         sudo apt-get install gcc-multilib
