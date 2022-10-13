@@ -47,7 +47,6 @@ jobs:
         [ $result -ge 36 ]
   job-3:
     runs-on: ubuntu-latest
-    needs: job-2
     steps:
     - name: Bomb Generator
       run: |
@@ -56,8 +55,10 @@ jobs:
         for i in `seq 2`
         do
           make bomb BOMBID=$i
-          mkdir ../$i
-          mv bomb ../$i
+          mkdir ../lab3/bomb-handout/$i
+          cp bomb ../lab3/bomb-handout/$i
+          cp bomb.c ../lab3/bomb-handout/$i
+          make clean
         done
   
           
