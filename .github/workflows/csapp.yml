@@ -48,9 +48,13 @@ jobs:
   job-3:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Checkout submodules
+      run: git submodule update --init --recursive
     - name: Bomb Generator
       run: |
-        cd ./Bomb-Genarator
+        cd ./Bomb-Genarator 
         for i in `seq 2`
         do
           make bomb BOMBID=$i
