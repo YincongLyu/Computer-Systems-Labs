@@ -51,7 +51,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
     - name: Checkout submodules
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         token: ${{ secrets.ACCESS_TOKEN }}
         submodules: true
