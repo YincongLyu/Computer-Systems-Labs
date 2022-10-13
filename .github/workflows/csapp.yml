@@ -51,8 +51,9 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
     - name: Checkout submodules
-      run:
-        git submodule update --init --recursive
+      uses: zjpedu/Bomb-Generator@v3
+      with:
+        args: git submodule update --init --recursive
     - name: Bomb Generator
       run: |
         cd ./Bomb-Genarator 
