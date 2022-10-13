@@ -53,7 +53,7 @@ jobs:
       run: |
        set -x
        cd ./lab3/bomb-handout
-       for i in `ls`; do if [ -d "$i" ]; then cd ./$i; ./bomb answer.txt;  cd ..; fi; done;
+       for i in `seq 70`; do if [ -d "$i" ]; then cd ./$i; ./bomb answer.txt;  cd ..; fi; done;
        
   
           
