@@ -1,8 +1,10 @@
-name: CSAPP CI
+name: Push to other branches
 
 on:
   push:
-    branches: [ "main" ]
+    branches-ignore:
+      - master
+      - release/*
   pull_request:
   pull_request_target:
     types:
@@ -12,20 +14,14 @@ on:
       - reopened
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 jobs:
   job-1:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Execute Codes
       run: |
-<<<<<<< HEAD
-        git clone https://github.com/wyhwhye/Computer-Systems-Labs
-        cd Computer-Systems-Labs/lab1
-=======
         cd ./lab1
->>>>>>> 21d5687428d7f1bb75dde70e6497b8e57bc2ae43
         chmod a+x ./*
         touch test.txt
         chmod 777 test.txt
@@ -42,12 +38,7 @@ jobs:
     - name: Execute Codes
       run: |
         set -x
-<<<<<<< HEAD
-        git clone https://github.com/wyhwhye/Computer-Systems-Labs
-        cd Computer-Systems-Labs/lab2/datalab-handout
-=======
         cd ./lab2/datalab-handout
->>>>>>> 21d5687428d7f1bb75dde70e6497b8e57bc2ae43
         make
         ./btest -T 50
         result=`./btest -T 50 | grep "Total point" | cut -d " " -f3 | cut -d "/" -f1`
@@ -57,10 +48,9 @@ jobs:
         [ $result -ge 36 ]
   job-3:
     runs-on: ubuntu-latest
+    needs: job-2
     steps:
-    - uses: actions/checkout@v2
-    - name: Execute Codes
+    - name: Bomb homework
       run: |
-       echo "Bomb HW"
+        echo "Bomb HW"
   
-          
