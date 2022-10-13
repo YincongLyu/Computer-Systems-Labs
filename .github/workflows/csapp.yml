@@ -52,8 +52,19 @@ jobs:
     - name: Execute Codes
       run: |
        set -x
+       ans=0
        cd ./lab3/bomb-handout
-       for i in `seq 70`; do if [ -d "$i" ]; then cd ./$i; ./bomb answer.txt;  cd ..; fi; done;
-       
-  
-          
+       for i in `seq 70`
+       do
+          if [ -d "$i" ]; then
+            cd ./$i;
+            ./bomb answer.txt;
+            if [ ! $? -eq 0 ]; then
+              echo "$? is not correct"
+            elsif
+              echo "$i is corrent"
+              let ans+=1
+            fi
+          fi
+        done
+        [ $ans -eq 70 ]
