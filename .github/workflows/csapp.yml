@@ -54,9 +54,4 @@ jobs:
        set -x
        cd ./lab3/bomb-handout
        cd ./1
-       result=`./bomb answer.txt`
-       echo $result | grep "BOOM"
-       if [ $? -eq 0 ]; then
-            echo "作业不正确"
-            exit
-       fi
+       ./bomb answer.txt
