@@ -51,6 +51,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Execute Codes
       run: |
-       echo "Bomb HW"
+       set -x
+       cd ./lab3/bomb-handout
+       for i in `ls`; do if [ -d "$i" ]; then cd ./$i; ./bomb answer.txt;  cd ..; fi; done;
+       
   
           
