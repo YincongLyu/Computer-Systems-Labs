@@ -48,23 +48,9 @@ jobs:
   job-3:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Checkout submodules
-      uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.csapp-lab }}
-        submodules: recursive
-    - name: Bomb Generator
+    - uses: actions/checkout@v2
+    - name: Execute Codes
       run: |
-        cd ./Bomb-Genarator 
-        for i in `seq 2`
-        do
-          make bomb BOMBID=$i
-          mkdir ../lab3/bomb-handout/$i
-          cp bomb ../lab3/bomb-handout/$i
-          cp bomb.c ../lab3/bomb-handout/$i
-          make clean
-        done
+       echo "Bomb HW"
   
           
