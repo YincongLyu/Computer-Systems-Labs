@@ -50,11 +50,11 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.PERSONAL_TOKEN }}
-        submodules: 'true'
     - name: Checkout submodules
-      run: git submodule update --init --recursive
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.ACCESS_TOKEN }}
+        submodules: true
     - name: Bomb Generator
       run: |
         cd ./Bomb-Genarator 
