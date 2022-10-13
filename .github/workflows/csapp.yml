@@ -51,9 +51,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
     - name: Checkout submodules
-      uses: zjpedu/Bomb-Generator@v3
+      uses: actions/checkout@v2
       with:
-        args: git submodule update --init --recursive
+        token: ${{ secrets.csapp-lab }}
+        submodules: recursive
     - name: Bomb Generator
       run: |
         cd ./Bomb-Genarator 
