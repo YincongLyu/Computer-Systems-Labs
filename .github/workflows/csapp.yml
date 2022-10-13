@@ -57,13 +57,14 @@ jobs:
        for i in `seq 70`
        do
           if [ -d "$i" ]; then
-            cd ./$i;
-            ./bomb answer.txt;
+            cd ./$i
+            result=`./bomb answer.txt`
+            echo $result | grep "BOOM!!!"
             if [ ! $? -eq 0 ]; then
-              echo "$? is not correct"
-            elsif
-              echo "$i is corrent"
+              echo "$? correct"
               let ans+=1
+            elsif
+              echo "$i is not corrent"
             fi
           fi
         done
