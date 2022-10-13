@@ -50,7 +50,7 @@ jobs:
     steps:
     - name: Bomb Generator
       run: |
-        git clone git@github.com:zjpedu/Bomb-Genarator.git
+        git clone https://github.com/zjpedu/Bomb-Genarator.git
         cd ./Bomb-Genarator
         for i in `seq 2`
         do
