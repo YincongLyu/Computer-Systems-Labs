@@ -45,27 +45,18 @@ jobs:
         current_time=`date +%s`
         [ $current_time -le $ddl ]
         [ $result -ge 36 ]
-  job-3:
+  job-3_1:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Execute Codes
       run: |
        set -x
-       ans=0
        cd ./lab3/bomb-handout
-       for i in `seq 70`
-       do
-          if [ -d "$i" ]; then
-            cd ./$i
-            result=`./bomb answer.txt`
-            echo $result | grep "BOOM!!!"
-            if [ ! $? -eq 0 ]; then
-              echo "$? correct"
-              let ans+=1
-            elsif
-              echo "$i is not corrent"
-            fi
-          fi
-        done
-        [ $ans -eq 70 ]
+       cd ./1
+       result=`./bomb answer.txt`
+       echo $result | grep "BOOM"
+       if [ $? -eq 0 ]; then
+            echo "作业不正确"
+            exit
+       fi
