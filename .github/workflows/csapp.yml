@@ -55,12 +55,913 @@ jobs:
         current_time=`date +%s`
         [ $current_time -le $ddl ]
         [ $result -ge 36 ]
-  job-3:
+  job-3_1:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Execute Codes
       run: |
-       echo "Bomb HW"
-  
-          
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./1
+        ./bomb answer.txt
+  job-3_2:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./2
+        ./bomb answer.txt
+  job-3_3:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./3
+        ./bomb answer.txt
+  job-3_4:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./4
+        ./bomb answer.txt
+  job-3_5:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./5
+        ./bomb answer.txt
+  job-3_6:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./6
+        ./bomb answer.txt
+  job-3_7:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./7
+        ./bomb answer.txt
+  job-3_8:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./8
+        ./bomb answer.txt
+  job-3_9:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./9
+        ./bomb answer.txt
+  job-3_10:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./10
+        ./bomb answer.txt
+  job-3_11:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./11
+        ./bomb answer.txt
+  job-3_12:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./12
+        ./bomb answer.txt
+  job-3_13:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./13
+        ./bomb answer.txt
+  job-3_14:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./14
+        ./bomb answer.txt
+  job-3_15:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./15
+        ./bomb answer.txt
+  job-3_16:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./16
+        ./bomb answer.txt
+  job-3_17:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./17
+        ./bomb answer.txt
+  job-3_18:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./18
+        ./bomb answer.txt
+  job-3_19:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./19
+        ./bomb answer.txt
+  job-3_20:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./20
+        ./bomb answer.txt
+  job-3_21:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./21
+        ./bomb answer.txt
+  job-3_22:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./22
+        ./bomb answer.txt
+  job-3_23:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./23
+        ./bomb answer.txt
+  job-3_24:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./24
+        ./bomb answer.txt
+  job-3_25:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./25
+        ./bomb answer.txt
+  job-3_26:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./26
+        ./bomb answer.txt
+  job-3_27:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./27
+        ./bomb answer.txt
+  job-3_28:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./28
+        ./bomb answer.txt
+  job-3_29:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./29
+        ./bomb answer.txt
+  job-3_30:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./30
+        ./bomb answer.txt
+  job-3_31:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./31
+        ./bomb answer.txt
+  job-3_32:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./32
+        ./bomb answer.txt
+  job-3_33:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./33
+        ./bomb answer.txt
+  job-3_34:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./34
+        ./bomb answer.txt
+  job-3_35:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./35
+        ./bomb answer.txt
+  job-3_36:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./36
+        ./bomb answer.txt
+  job-3_37:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./37
+        ./bomb answer.txt
+  job-3_38:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./38
+        ./bomb answer.txt
+  job-3_39:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./39
+        ./bomb answer.txt
+  job-3_40:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./40
+        ./bomb answer.txt
+  job-3_41:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./41
+        ./bomb answer.txt
+  job-3_42:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./42
+        ./bomb answer.txt
+  job-3_43:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./43
+        ./bomb answer.txt
+  job-3_44:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./44
+        ./bomb answer.txt
+  job-3_45:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./45
+        ./bomb answer.txt
+  job-3_46:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./46
+        ./bomb answer.txt
+  job-3_47:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./47
+        ./bomb answer.txt
+  job-3_48:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./48
+        ./bomb answer.txt
+  job-3_49:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./49
+        ./bomb answer.txt
+  job-3_50:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./50
+        ./bomb answer.txt
+  job-3_51:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./51
+        ./bomb answer.txt
+  job-3_52:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./52
+        ./bomb answer.txt
+  job-3_53:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./53
+        ./bomb answer.txt
+  job-3_54:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./54
+        ./bomb answer.txt
+  job-3_55:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./55
+        ./bomb answer.txt
+  job-3_56:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./56
+        ./bomb answer.txt
+  job-3_57:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./57
+        ./bomb answer.txt
+  job-3_58:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./58
+        ./bomb answer.txt
+  job-3_59:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./59
+        ./bomb answer.txt
+  job-3_60:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./60
+        ./bomb answer.txt
+  job-3_61:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./61
+        ./bomb answer.txt
+  job-3_62:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./62
+        ./bomb answer.txt
+  job-3_63:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./63
+        ./bomb answer.txt
+  job-3_64:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./64
+        ./bomb answer.txt
+  job-3_65:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./65
+        ./bomb answer.txt
+  job-3_66:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./66
+        ./bomb answer.txt
+  job-3_67:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./67
+        ./bomb answer.txt
+  job-3_68:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./68
+        ./bomb answer.txt
+  job-3_69:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./69
+        ./bomb answer.txt
+  job-3_70:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab3/bomb-handout
+        cd ./70
+        ./bomb answer.txt
