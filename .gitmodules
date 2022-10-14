@@ -1,0 +1,3 @@
+[submodule "Bomb-Generator"]
+	path = Bomb-Generator
+	url = git@github.com:zjpedu/Bomb-Generator.git
