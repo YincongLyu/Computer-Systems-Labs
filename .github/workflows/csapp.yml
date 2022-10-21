@@ -2,14 +2,14 @@ name: CSAPP CI
 
 on:
   push:
-    branches: [ "main" ]
+#     branches: [ "main" ]
   pull_request:
-  pull_request_target:
-    types:
-      - opened
-      - edited
-      - synchronize
-      - reopened
+#   pull_request_target:
+#     types:
+#       - opened
+#       - edited
+#       - synchronize
+#       - reopened
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
