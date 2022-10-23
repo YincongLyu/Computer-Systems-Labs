@@ -1,0 +1,29 @@
+name: Attack Lab CI
+
+on:
+  push:
+  pull_request:
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  job-3_1:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-06 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./1
+        cat answer1.txt | ./hex2raw | ./ctarget -q | grep "PASS" | wc -l
+        [ $? -eq 2 ]
+        cat answer2.txt | ./hex2raw | ./ctarget -q | grep "PASS" | wc -l
+        [ $? -eq 2 ]
+        cat answer3.txt | ./hex2raw | ./ctarget -q | grep "PASS" | wc -l
+        [ $? -eq 2 ]
+        cat answer4.txt | ./hex2raw | ./rtarget -q | grep "PASS" | wc -l
+        [ $? -eq 2 ]
