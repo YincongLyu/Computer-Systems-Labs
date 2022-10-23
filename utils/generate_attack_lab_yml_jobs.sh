@@ -8,7 +8,7 @@ echo '  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}'
 
 echo "jobs:"
 
-for i in `seq 2`
+for i in `seq 70`
 do
         echo "  job-4_$i:"
         echo "    runs-on: ubuntu-latest"
