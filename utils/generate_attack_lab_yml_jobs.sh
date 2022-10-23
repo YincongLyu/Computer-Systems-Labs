@@ -10,14 +10,14 @@ do
         echo '      current_time=`date +%s`'
         echo '      [ $current_time -le $ddl ]'
         echo "      set -x"
-        echo "      cd ./lab3/bomb-handout"
+        echo "      cd ./lab4/attack-handout"
         echo "      cd ./$i"
         echo "      cat answer1.txt | ./hex2raw | ./ctarget -q | grep "PASS" | wc -l"
-        echo "      [ $? -eq 2 ]"
+        echo '      [ $? -eq 2 ]'
         echo "      cat answer2.txt | ./hex2raw | ./ctarget -q | grep "PASS" | wc -l"
-        echo "      [ $? -eq 2 ]"
+        echo '      [ $? -eq 2 ]'
         echo "      cat answer3.txt | ./hex2raw | ./ctarget -q | grep "PASS" | wc -l"
-        echo "      [ $? -eq 2 ]"
+        echo '      [ $? -eq 2 ]'
         echo "      cat answer4.txt | ./hex2raw | ./rtarget -q | grep "PASS" | wc -l"
-        echo "      [ $? -eq 2 ]"
+        echo '      [ $? -eq 2 ]'
 done
