@@ -53,4 +53,4 @@ cat answer4.txt | ./hex2raw | ./rtarget -q
 
 同学们有问题就直接进来pair
 
-> 大家也可以尽量通过 [New Issue](https://github.com/zjpedu/Computer-Systems-Labs/issues) 的方式在 github 发起一个 issue，我们也会回复 issue。
+> 大家尽量通过 [Discussions](https://github.com/zjpedu/Computer-Systems-Labs/discussions) 或 csapp 群内问问题，尽量不要通过私人微信问问题，避免大量重复的问题及回答。
