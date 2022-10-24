@@ -52,3 +52,5 @@ cat answer4.txt | ./hex2raw | ./rtarget -q
 地点: **腾讯会议号：646-8393-4548，**
 
 同学们有问题就直接进来pair
+
+> 大家也可以尽量通过 [New Issue](https://github.com/zjpedu/Computer-Systems-Labs/issues) 的方式在 github 发起一个 issue，我们也会回复 issue。
