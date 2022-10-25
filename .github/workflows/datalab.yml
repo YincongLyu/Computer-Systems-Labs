@@ -1,0 +1,40 @@
+name: Data Lab CI
+
+on:
+  push:
+  pull_request:
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  job-1:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Execute Codes
+      run: |
+        cd ./lab1
+        chmod a+x ./*
+        touch test.txt
+        chmod 777 test.txt
+        for i in `ls -al .`; do if [ -f $i ];then ./$i; fi; done
+  job-2:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gcc-multilib
+    - name: Execute Codes
+      run: |
+        set -x
+        cd ./lab2/datalab-handout
+        make
+        ./btest -T 50
+        result=`./btest -T 50 | grep "Total point" | cut -d " " -f3 | cut -d "/" -f1`
+        ddl=`date -d "2022-10-09 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        [ $result -ge 36 ]
