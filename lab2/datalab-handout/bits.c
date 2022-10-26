@@ -294,4 +294,3 @@ int floatFloat2Int(unsigned uf) {
 unsigned floatPower2(int x) {
     return 2;
 }
-Footer
