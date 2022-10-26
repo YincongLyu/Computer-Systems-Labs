@@ -357,4 +357,3 @@ unsigned floatPower2(int x) {
         return (1 << t);
     }
 }
-
