@@ -6,12 +6,26 @@ Attack Lab 共有 5 个 phase，其中前 4 个 phase 必选，第 5 个 phase �
 
 所有同学按照[序号](https://docs.qq.com/sheet/DRWpBcHpscWFHb2NG?tab=7j3vho)选择题目，题目已经在 [github](https://github.com/zjpedu/Computer-Systems-Labs/tree/main/lab4/attack-handout) 上开放，作业测试的 [job](https://github.com/zjpedu/Computer-Systems-Labs/blob/main/.github/workflows/attacklab.yml) 也开放，大家可阅读其中的 `shell` 代码，这是我们检查作业的依据。
 
-> 由于汇编代码在装载时会发生地址重新映射，所以请大家通过 gdb 调试，并且看 `run` 之后的汇编代码。
+> 请大家通过 gdb 调试，并且看 `run` 之后的汇编代码。举例如下:
 
 ```shell
 gdb ctarget
-r
+run
+disas getbuf
+disas touch1
+disas touch2
+disas touch3
 ```
+
+当你通过上述代码得到答案后，可以使用下述方法测试答案，以 phase_1 为例:
+
+```shell
+cat answer1.txt | ./hex2raw > answer1_raw1.txt
+gdb ctarget -ex 'run -q < answer1_raw1.txt'
+```
+
+你将会在 gdb 的输出中看到 `PASS` 字样，此时说明结果正确，恭喜你可以继续探索其它的题目。如果不正确，请自行修改。这一点和 [csapp attack lab](http://csapp.cs.cmu.edu/3e/attacklab.pdf) 给出的测试方法略有不同**。
+
 
 4 个 phase 的**答案命名且只能命名** 为 **answer1.txt、answer2.txt、answer3.txt、answer4.txt**，测试请大家好好看自己的作业测试 [job](https://github.com/zjpedu/Computer-Systems-Labs/blob/main/.github/workflows/attacklab.yml)
 
