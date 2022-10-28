@@ -5,7 +5,894 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
-  
+  job-4_1:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./1
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_2:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./2
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_3:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./3
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_4:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./4
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_5:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./5
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_6:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./6
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_7:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./7
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_8:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./8
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_9:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./9
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_10:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./10
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_11:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./11
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_12:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./12
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_13:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./13
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_14:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./14
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_15:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./15
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_16:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./16
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_17:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./17
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_18:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./18
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_19:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./19
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_20:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./20
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_21:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./21
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_22:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./22
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_23:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./23
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_24:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./24
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
   job-4_25:
     runs-on: ubuntu-latest
     steps:
@@ -21,10 +908,1690 @@ jobs:
         set -x
         cd ./lab4/attack-handout
         cd ./25
+        gdb -ex 'set logging on' -ex quit
         cat answer1.txt | ./hex2raw > answer1_raw1.txt
-        gdb ctarget -ex 'b touch1' -ex 'run -q < answer1_raw1.txt'
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
         rm -f answer1_raw1.txt
         cat answer2.txt | ./hex2raw > answer2_raw2.txt
-        gdb ctarget -ex 'b touch2' -ex 'run -q < answer2_raw2.txt'
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
         rm -f answer2_raw2.txt
-      
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_26:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./26
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_27:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./27
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_28:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./28
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_29:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./29
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_30:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./30
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_31:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./31
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_32:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./32
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_33:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./33
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_34:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./34
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_35:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./35
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_36:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./36
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_37:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./37
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_38:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./38
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_39:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./39
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_40:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./40
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_41:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./41
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_42:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./42
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_43:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./43
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_44:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./44
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_45:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./45
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_46:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./46
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_47:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./47
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_48:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./48
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_49:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./49
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_50:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./50
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_51:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./51
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_52:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./52
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_53:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./53
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_54:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./54
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_55:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./55
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_56:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./56
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_57:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./57
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_58:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./58
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_59:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./59
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_60:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./60
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_61:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./61
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_62:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./62
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_63:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./63
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_64:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./64
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_65:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./65
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_66:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./66
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_67:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./67
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_68:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./68
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_69:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./69
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
+  job-4_70:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gdb
+    - name: Execute Codes
+      run: |
+        ddl=`date -d "2022-11-20 15:59" +%s --utc`
+        current_time=`date +%s`
+        [ $current_time -le $ddl ]
+        set -x
+        cd ./lab4/attack-handout
+        cd ./70
+        gdb -ex 'set logging on' -ex quit
+        cat answer1.txt | ./hex2raw > answer1_raw1.txt
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer1_raw1.txt
+        cat answer2.txt | ./hex2raw > answer2_raw2.txt
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer2_raw2.txt
+        cat answer3.txt | ./hex2raw > answer3_raw3.txt
+        gdb ctarget -ex 'run -q < answer3_raw3.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer3_raw3.txt
+        cat answer4.txt | ./hex2raw > answer4_raw4.txt
+        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        result=`cat gdb.txt | grep "PASS" | wc -l`
+        [ $result -eq 2 ]
+        rm -f answer4_raw4.txt
+        rm -f gdb.txt
