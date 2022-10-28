@@ -23,12 +23,11 @@ jobs:
         cd ./20
         gdb -ex 'set logging on' -ex quit
         cat answer1.txt | ./hex2raw > answer1_raw1.txt
-        gdb ctarget -ex 'run -q < answer1_raw1.txt'
+        gdb ctarget -ex 'run -q < answer1_raw1.txt' |& tee gdb.txt
         rm -f answer1_raw1.txt
         cat answer2.txt | ./hex2raw > answer2_raw2.txt
-        gdb ctarget -ex 'run -q < answer2_raw2.txt'
+        gdb ctarget -ex 'run -q < answer2_raw2.txt' |& tee gdb.txt
         rm -f answer2_raw2.txt
-        ls -al
         cat gdb.txt | grep "PASS" | wc -l
         [ $? -eq 4 ]
         
