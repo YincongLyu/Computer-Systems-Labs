@@ -28,6 +28,7 @@ jobs:
         cat answer2.txt | ./hex2raw > answer2_raw2.txt
         gdb ctarget -ex 'run -q < answer2_raw2.txt'
         rm -f answer2_raw2.txt
+        ls -al
         cat gdb.txt | grep "PASS" | wc -l
         [ $? -eq 4 ]
         
