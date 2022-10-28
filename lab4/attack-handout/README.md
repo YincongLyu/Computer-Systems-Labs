@@ -4,7 +4,7 @@
 
 Attack Lab 共有 5 个 phase，其中前 4 个 phase 必选，第 5 个 phase 选做 （暂不计入成绩）。
 
-所有同学按照[序号](https://docs.qq.com/sheet/DRWpBcHpscWFHb2NG?tab=7j3vho)选择题目，题目已经在 [github](https://github.com/zjpedu/Computer-Systems-Labs/tree/main/lab4/attack-handout) 上开放，作业测试的 [job](https://github.com/zjpedu/Computer-Systems-Labs/blob/main/utils/generate_attack_lab_yml_jobs.sh) 也开放，大家可阅读其中的 `shell` 代码，这是我们检查作业的依据。
+所有同学按照[序号](https://docs.qq.com/sheet/DRWpBcHpscWFHb2NG?tab=7j3vho)选择题目，题目已经在 [github](https://github.com/zjpedu/Computer-Systems-Labs/tree/main/lab4/attack-handout) 上开放，作业测试的 [job](https://github.com/zjpedu/Computer-Systems-Labs/blob/main/.github/workflows/attacklab.yml) 也开放，大家可阅读其中的 `shell` 代码，这是我们检查作业的依据。
 
 4 个 phase 的**答案命名且只能命名** 为 **answer1.txt、answer2.txt、answer3.txt、answer4.txt**，通过下述方法测试自己的答案是否正确:
 
