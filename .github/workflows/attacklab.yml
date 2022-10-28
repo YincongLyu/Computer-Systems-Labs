@@ -6,7 +6,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   
-  job-4_25:
+  job-4_20:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -20,7 +20,7 @@ jobs:
         [ $current_time -le $ddl ]
         set -x
         cd ./lab4/attack-handout
-        cd ./25
+        cd ./20
         cat answer1.txt | ./hex2raw > answer1_raw1.txt
         gdb ctarget -ex 'run -q < answer1_raw1.txt'
         rm -f answer1_raw1.txt
