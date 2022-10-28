@@ -54,3 +54,7 @@ cat answer4.txt | ./hex2raw | ./rtarget -q
 同学们有问题就直接进来pair
 
 > 大家尽量通过 [Discussions](https://github.com/zjpedu/Computer-Systems-Labs/discussions) 或 csapp 群内问问题，尽量不要通过私人微信问问题，避免大量重复的问题及回答。
+
+### 截止日期
+
+**2022-11-20 23:59** 截止日期过后，作业将不会被检查。
