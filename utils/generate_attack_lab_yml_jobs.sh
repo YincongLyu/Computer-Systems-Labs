@@ -42,7 +42,7 @@ do
         echo '        [ $result -eq 2 ]'
         echo "        rm -f answer3_raw3.txt"
         echo "        cat answer4.txt | ./hex2raw > answer4_raw4.txt"
-        echo "        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt"
+        echo "        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt"
         echo '        result=`cat gdb.txt | grep "PASS" | wc -l`'
         echo '        [ $result -eq 2 ]'
         echo "        rm -f answer4_raw4.txt"
