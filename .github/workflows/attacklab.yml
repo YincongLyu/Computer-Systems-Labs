@@ -37,7 +37,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -74,7 +74,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -111,7 +111,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -148,7 +148,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -185,7 +185,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -222,7 +222,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -259,7 +259,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -296,7 +296,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -333,7 +333,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -370,7 +370,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -407,7 +407,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -444,7 +444,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -481,7 +481,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -518,7 +518,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -555,7 +555,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -592,7 +592,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -629,7 +629,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -666,7 +666,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -703,7 +703,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -740,7 +740,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -777,7 +777,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -814,7 +814,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -851,7 +851,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -888,7 +888,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -925,7 +925,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -962,7 +962,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -999,7 +999,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1036,7 +1036,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1073,7 +1073,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1110,7 +1110,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1147,7 +1147,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1184,7 +1184,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1221,7 +1221,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1258,7 +1258,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1295,7 +1295,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1332,7 +1332,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1369,7 +1369,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1406,7 +1406,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1443,7 +1443,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1480,7 +1480,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1517,7 +1517,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1554,7 +1554,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1591,7 +1591,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1628,7 +1628,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1665,7 +1665,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1702,7 +1702,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1739,7 +1739,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1776,7 +1776,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1813,7 +1813,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1850,7 +1850,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1887,7 +1887,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1924,7 +1924,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1961,7 +1961,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -1998,7 +1998,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2035,7 +2035,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2072,7 +2072,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2109,7 +2109,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2146,7 +2146,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2183,7 +2183,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2220,7 +2220,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2257,7 +2257,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2294,7 +2294,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2331,7 +2331,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2368,7 +2368,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2405,7 +2405,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2442,7 +2442,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2479,7 +2479,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2516,7 +2516,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2553,7 +2553,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
@@ -2590,7 +2590,7 @@ jobs:
         [ $result -eq 2 ]
         rm -f answer3_raw3.txt
         cat answer4.txt | ./hex2raw > answer4_raw4.txt
-        gdb ctarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
+        gdb rtarget -ex 'run -q < answer4_raw4.txt' |& tee gdb.txt
         result=`cat gdb.txt | grep "PASS" | wc -l`
         [ $result -eq 2 ]
         rm -f answer4_raw4.txt
