@@ -1,0 +1,6 @@
+And they have no disregard for human life.
+1 2 4 8 16 32
+5 -102
+4 19
+BELDOG
+2 1 4 3 6 5

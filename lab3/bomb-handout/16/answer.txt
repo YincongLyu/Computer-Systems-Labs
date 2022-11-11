@@ -1,0 +1,6 @@
+I was trying to give Tina Fey more material.
+1 2 4 8 16 32
+3 v 457
+2 13
+beldog
+2 4 6 3 5 1
