@@ -22,7 +22,7 @@ do
         echo '        ddl=`date -d "2022-11-20 15:59" +%s --utc`'
         echo '        current_time=`date +%s`'
         echo '        [ $current_time -le $ddl ]'
-        echo "        set -x"
+        echo "        set -ex"
         echo "        cd ./lab4/attack-handout"
         echo "        cd ./$i"
         echo "        gdb -ex 'set logging on' -ex quit"
