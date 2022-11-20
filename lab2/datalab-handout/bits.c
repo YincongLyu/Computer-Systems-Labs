@@ -1,9 +1,9 @@
 /* 
  * CS:APP Data Lab 
  * 
- * <Please put your name and userid here>
+ * <姚修齐 10215501419>
  * 
- * bits.c - Source file with your solutions to the Lab.
+ * bits.c-Source file with your solutions to the Lab.
  *          This is the file you will hand in to your instructor.
  *
  * WARNING: Do not include the <stdio.h> header; it confuses the dlc
@@ -31,13 +31,13 @@ INTEGER CODING RULES:
  
   int Funct(arg1, arg2, ...) {
       /* brief description of how your implementation works */
-      int var1 = Expr1;
+      int var1=Expr1;
       ...
-      int varM = ExprM;
+      int varM=ExprM;
 
-      varJ = ExprJ;
+      varJ=ExprJ;
       ...
-      varN = ExprN;
+      varN=ExprN;
       return ExprR;
   }
 
@@ -46,7 +46,7 @@ INTEGER CODING RULES:
       not allowed to use big constants such as 0xffffffff.
   2. Function arguments and local variables (no global variables).
   3. Unary integer operations ! ~
-  4. Binary integer operations & ^ | + << >>
+  4. Binary integer operations&^ |+<< >>
     
   Some of the problems restrict the set of allowed operators even further.
   Each "Expr" may consist of multiple operators. You are not restricted to
@@ -72,19 +72,19 @@ INTEGER CODING RULES:
 
 EXAMPLES OF ACCEPTABLE CODING STYLE:
   /*
-   * pow2plus1 - returns 2^x + 1, where 0 <= x <= 31
+   * pow2plus1-returns 2^x+1, where 0 <= x <= 31
    */
   int pow2plus1(int x) {
      /* exploit ability of shifts to compute powers of 2 */
-     return (1 << x) + 1;
+     return (1<<x)+1;
   }
 
   /*
-   * pow2plus4 - returns 2^x + 4, where 0 <= x <= 31
+   * pow2plus4-returns 2^x+4, where 0 <= x <= 31
    */
   int pow2plus4(int x) {
      /* exploit ability of shifts to compute powers of 2 */
-     int result = (1 << x);
+     int result=(1<<x);
      result += 4;
      return result;
   }
@@ -136,121 +136,136 @@ NOTES:
 #endif
 //1
 /* 
- * bitXor - x^y using only ~ and & 
- *   Example: bitXor(4, 5) = 1
+ * bitXor-x^y using only ~ and&
+ *   Example: bitXor(4, 5)=1
  *   Legal ops: ~ &
  *   Max ops: 14
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-  return 2;
+  return ~(~(x&~y)&~(~x&y));
+  //摩尔根定律即异或等于取反的组合,(~(~x&~y))==(x|y),(~(~x&~y))&(~(x&y))即x或y且排除x与y同时为真
 }
 /* 
- * tmin - return minimum two's complement integer 
- *   Legal ops: ! ~ & ^ | + << >>
+ * tmin-return minimum two's complement integer 
+ *   Legal ops: ! ~&^ |+<< >>
  *   Max ops: 4
  *   Rating: 1
  */
 int tmin(void) {
-
-  return 2;
-
+  return 1<<31;
+  //将1左移31位移至符号位
 }
 //2
 /*
- * isTmax - returns 1 if x is the maximum, two's complement number,
+ * isTmax-returns 1 if x is the maximum, two's complement number,
  *     and 0 otherwise 
- *   Legal ops: ! ~ & ^ | +
+ *   Legal ops: ! ~&^|+
  *   Max ops: 10
  *   Rating: 1
  */
 int isTmax(int x) {
-  return 2;
+  return !(~(0x80000000+x));
+  //x若为0xFFFFFFFF按位取反再否定得到1
 }
 /* 
- * allOddBits - return 1 if all odd-numbered bits in word set to 1
+ * allOddBits-return 1 if all odd-numbered bits in word set to 1
  *   where bits are numbered from 0 (least significant) to 31 (most significant)
- *   Examples allOddBits(0xFFFFFFFD) = 0, allOddBits(0xAAAAAAAA) = 1
- *   Legal ops: ! ~ & ^ | + << >>
+ *   Examples allOddBits(0xFFFFFFFD)=0, allOddBits(0xAAAAAAAA)=1
+ *   Legal ops: ! ~&^ |+<< >>
  *   Max ops: 12
  *   Rating: 2
  */
 int allOddBits(int x) {
-  return 2;
+  return !(~x&0xaaaaaaaa);
+  //0xaaaaaaaa偶数位为0、奇数位为1。x满足时，取反再且后奇偶全0，再取非得到1
 }
 /* 
- * negate - return -x 
- *   Example: negate(1) = -1.
- *   Legal ops: ! ~ & ^ | + << >>
+ * negate-return -x 
+ *   Example: negate(1)=-1.
+ *   Legal ops: ! ~&^ |+<< >>
  *   Max ops: 5
  *   Rating: 2
  */
 int negate(int x) {
-  return 2;
+  return ~x+1;
+  //负数补码为反码+1
 }
 //3
 /* 
- * isAsciiDigit - return 1 if 0x30 <= x <= 0x39 (ASCII codes for characters '0' to '9')
- *   Example: isAsciiDigit(0x35) = 1.
- *            isAsciiDigit(0x3a) = 0.
- *            isAsciiDigit(0x05) = 0.
- *   Legal ops: ! ~ & ^ | + << >>
+ * isAsciiDigit-return 1 if 0x30 <= x <= 0x39 (ASCII codes for characters '0' to '9')
+ *   Example: isAsciiDigit(0x35)=1.
+ *            isAsciiDigit(0x3a)=0.
+ *            isAsciiDigit(0x05)=0.
+ *   Legal ops: ! ~&^ |+<< >>
  *   Max ops: 15
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-  return 2;
+  return (!((x+(~(0x30)+1))>>31))&((x+(~(0x3a)+1))>>31);
+  //(x+(~m+1))即(x-m),上式意即(x-0x30)符号位为0且(x-0x3a)符号位为1时返回1。
 }
 /* 
- * conditional - same as x ? y : z 
- *   Example: conditional(2,4,5) = 4
- *   Legal ops: ! ~ & ^ | + << >>
+ * conditional-same as x ? y : z 
+ *   Example: conditional(2,4,5)=4
+ *   Legal ops: ! ~&^ |+<< >>
  *   Max ops: 16
  *   Rating: 3
  */
 int conditional(int x, int y, int z) {
-  return 2;
+  return ((!x+~1+1)&y)|(~(!x+~1+1)&z);
+  //(!x~1+1)即(!x-1),x不为0时该式值为-1.补码为0xffffffff。&y得y，取反得0，再&z得0，y|0=y。反之亦然。
 }
 /* 
- * isLessOrEqual - if x <= y  then return 1, else return 0 
- *   Example: isLessOrEqual(4,5) = 1.
- *   Legal ops: ! ~ & ^ | + << >>
+ * isLessOrEqual-if x <= y  then return 1, else return 0 
+ *   Example: isLessOrEqual(4,5)=1.
+ *   Legal ops: ! ~&^ |+<< >>
  *   Max ops: 24
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+  return ((((x+~y+1)>>31)&0x1)|!(x^y)|((x>>31)&0x1)&!((y>>31)&0x1))&!(!((x>>31)&0x1)&((y>>31)&0x1));
+  //(x+~y+1)即(x-y)。记①式为((x+~y+1)>>31)，②式为(!(x^y))，③式为①&0x1。<时①=0xffffffff，③=0x1，②=0x0；=时①=0x0，③=0x0，②=0x1；>时①=0x0，③=0x0，②=0x0。
 }
 //4
 /* 
- * logicalNeg - implement the ! operator, using all of 
+ * logicalNeg-implement the ! operator, using all of 
  *              the legal operators except !
- *   Examples: logicalNeg(3) = 0, logicalNeg(0) = 1
- *   Legal ops: ~ & ^ | + << >>
+ *   Examples: logicalNeg(3)=0, logicalNeg(0)=1
+ *   Legal ops: ~&^ |+<< >>
  *   Max ops: 12
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-  return 2;
+  return ((~x&~(~x+1))>>31)&1;
+  //x=0时，x与-x符号位均为0；=TMin时，均为1；其他情况则不同。所以该式仅在x=0时返回1。
 }
-/* howManyBits - return the minimum number of bits required to represent x in
+/* howManyBits-return the minimum number of bits required to represent x in
  *             two's complement
- *  Examples: howManyBits(12) = 5
- *            howManyBits(298) = 10
- *            howManyBits(-5) = 4
- *            howManyBits(0)  = 1
- *            howManyBits(-1) = 1
- *            howManyBits(0x80000000) = 32
- *  Legal ops: ! ~ & ^ | + << >>
+ *  Examples: howManyBits(12)=5
+ *            howManyBits(298)=10
+ *            howManyBits(-5)=4
+ *            howManyBits(0) =1
+ *            howManyBits(-1)=1
+ *            howManyBits(0x80000000)=32
+ *  Legal ops: ! ~&^ |+<< >>
  *  Max ops: 90
  *  Rating: 4
  */
 int howManyBits(int x) {
-  return 0;
+  int s=x>>31;
+  x=(s&~x)|(~s&x);//正数不变负数取反
+  int m16=(~(!!(x>>16))+0x01)&0x10;
+  int m8=(~(!!(x>>(m16+0x08)))+0x01)&0x08;
+  int m4=(~(!!(x>>(m16+m8+0x04)))+0x01)&0x04;
+  int m2=(~(!!(x>>(m16+m8+m4+0x02)))+0x01)&0x02;
+  int m1=(~(!!(x>>(m16+m8+m4+m2+0x01)))+0x01)&0x01;
+  int m0=(~(!!(x>>(m16+m8+m4+m2)))+0x01)&0x01;
+  return m16+m8+m4+m2+m1+m0+1;
 }
 //float
 /* 
- * floatScale2 - Return bit-level equivalent of expression 2*f for
+ * floatScale2-Return bit-level equivalent of expression 2*f for
  *   floating point argument f.
  *   Both the argument and result are passed as unsigned int's, but
  *   they are to be interpreted as the bit-level representation of
@@ -261,10 +276,15 @@ int howManyBits(int x) {
  *   Rating: 4
  */
 unsigned floatScale2(unsigned uf) {
-  return 2;
+  unsigned sign=uf&(1<<31);//符号
+  unsigned exp=(uf&0x7f800000)>>23;//阶码
+  if(exp==0x00) return uf<<1|sign;
+  if(exp==0xff) return uf;
+  if(exp++==0xff) return (0x7f800000|sign);
+  return (exp<<23)|(uf&0x807fffff);
 }
 /* 
- * floatFloat2Int - Return bit-level equivalent of expression (int) f
+ * floatFloat2Int-Return bit-level equivalent of expression (int) f
  *   for floating point argument f.
  *   Argument is passed as unsigned int, but
  *   it is to be interpreted as the bit-level representation of a
@@ -276,10 +296,18 @@ unsigned floatScale2(unsigned uf) {
  *   Rating: 4
  */
 int floatFloat2Int(unsigned uf) {
-  return 2;
+  int e=((uf&0x7F800000)>>23)-0x7F;//求E
+  int f=((uf&0x007FFFFF)|0x00800000);
+  if (!(uf&0x7FFFFFFF)||e<0) return 0;//如果exp为0或偏移量小于0，均为不大于1的小数，E均等于1，则舍入到0
+  if (e>31) return 0x80000000;//超范围
+  if (e>23) f=f<<(e-23);
+  else f=f>>(23-e);//小数点在23位处，根据E与23的相对位置调整小数点
+  if (!(uf>>31)) return f;
+  else return ~f+1;
+  return 1;
 }
 /* 
- * floatPower2 - Return bit-level equivalent of the expression 2.0^x
+ * floatPower2-Return bit-level equivalent of the expression 2.0^x
  *   (2.0 raised to the power x) for any 32-bit integer x.
  *
  *   The unsigned value that is returned should have the identical bit
@@ -292,5 +320,9 @@ int floatFloat2Int(unsigned uf) {
  *   Rating: 4
  */
 unsigned floatPower2(int x) {
-    return 2;
+  int INF=0xFF<<23;
+  int e=x+0x7F;
+  if (e<=0) return 0;
+  if (e>=0xFF) return INF;
+  return e<<23;
 }
