@@ -152,9 +152,7 @@ int bitXor(int x, int y) {
  *   Rating: 1
  */
 int tmin(void) {
-
   return 0x1<<31;
-
 }
 //2
 /*
@@ -165,7 +163,12 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-  return (!(x>>31))&((x+1)>>31);
+    int i = x + 1;
+    x = x + i;
+    x = ~x;
+    i = !i;
+    x = x + i;
+    return !x;
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
@@ -176,7 +179,9 @@ int isTmax(int x) {
  *   Rating: 2
  */
 int allOddBits(int x) {
-  return !~(x | 0x55555555);
+    int mask = 0xAA+(0xAA<<8);
+    mask=mask+(mask<<16);
+    return !((mask&x)^mask);
 }
 /* 
  * negate - return -x 
@@ -186,7 +191,7 @@ int allOddBits(int x) {
  *   Rating: 2
  */
 int negate(int x) {
-  return ~x+1;
+    return ~x + 1;
 }
 //3
 /* 
@@ -199,9 +204,12 @@ int negate(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
-    int a = (x +(~(0x30) + 1));
-    int b = (x + (~(0x3A) + 1));
-    return (!(a >> 31))&(b >> 31);
+    int sign = 0x1<<31;
+    int upperBound = ~(sign|0x39);
+    int lowerBound = ~0x30;
+    upperBound = sign&(upperBound+x)>>31;
+    lowerBound = sign&(lowerBound+1+x)>>31;
+    return !(upperBound|lowerBound);
 }
 /* 
  * conditional - same as x ? y : z 
@@ -239,7 +247,7 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-   return((~x&~(~x+1))>>31)&1;
+    return ((x|(~x+1))>>31)+1;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement

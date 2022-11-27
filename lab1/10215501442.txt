@@ -1,0 +1,12 @@
+touch first.txt
+touch a.txt
+touch b.txt
+for i in `seq 50000`;do echo %RANDOM|md5sum|cut -c 1-9;done >first.txt
+sort first.txt | uniq -d
+sort -n first.txt | uniq -d
+sort first.txt > a.txt
+sort -n first.txt >> b.txt
+
+
+grep abcd first.txt
+grep -c abcd first.txt
