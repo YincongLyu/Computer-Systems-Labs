@@ -23,7 +23,7 @@
 
 # submit
 
-1. 源码：只需提交你修改的`mm.c`文件（需重新命名为：学号+mm.c）到`github`的`lab5/malloc-handout`文件夹下。
+1. 源码：只需提交你修改的`mm.c`文件（需重新命名为：**学号+mm.c**）到`github`的`lab5/malloc-handout`文件夹下。
 
 1. 报告：提交到邮箱`csapp2022ecnu@163.com`
 
