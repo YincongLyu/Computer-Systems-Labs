@@ -4,7 +4,7 @@
 
 1. 解压缩后，确保有正确的运行环境：
 
-   1. 修改Makefile文件里的gcc编译选项`CFLAGS = -Wall -g -O2 -m32`，很多情况下，你的代码需要 debug。本次实验代码只能跑在 32 位环境中，必须要添加 -m32，在本地做的同学你们的 gcc 需要安装 `sudo apt install gcc-multilib`
+   1. 修改Makefile文件里的gcc编译选项`CFLAGS = -Wall -g -O2 -m32`为`CFLAGS = -Wall -O3 -g -DDRIVER -std=gnu99 -Wno-unused-function -Wno-unused-parameter`很多情况下，你的代码需要 debug。
 
    2. `make`
 
