@@ -31,7 +31,7 @@
 
 同学们需要根据课程上讲过的内容实现: mm_init, mm_malloc, mm_free, mm_realloc 函数，并且通过上面的测试，最后的 perf 分数越高，实验的得分也会越高。good luck :)
 
-# submit
+### submit
 
 1. 源码：只需提交你修改的`mm.c`文件（需重新命名为：**学号+mm.c**）到`github`的`lab5/malloc-handout`文件夹下。
 
