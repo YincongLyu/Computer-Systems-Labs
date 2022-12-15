@@ -22,6 +22,7 @@ f <id>          /* free(ptr_<id>) */
 
 For example, the following trace file:
 
+```
 <beginning of file>
 20000
 3
@@ -36,7 +37,7 @@ r 0 768
 f 0
 f 2
 <end of file>
-
+```
 is balanced. It has a recommended heap size of 20000 bytes (ignored),
 three distinct request ids (0, 1, and 2), eight different requests
 (one per line), and a weight of 1 (ignored).
