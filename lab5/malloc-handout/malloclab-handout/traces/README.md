@@ -4,6 +4,7 @@
 
 A trace file is an ASCII file. It begins with a 4-line header:
 
+```shell
 <sugg_heapsize>   /* suggested heap size (unused) */
 <num_ids>         /* number of request id's */
 <num_ops>         /* number of requests (operations) */
@@ -17,6 +18,7 @@ request.
 a <id> <bytes>  /* ptr_<id> = malloc(<bytes>) */
 r <id> <bytes>  /* realloc(ptr_<id>, <bytes>) */ 
 f <id>          /* free(ptr_<id>) */
+```
 
 For example, the following trace file:
 
