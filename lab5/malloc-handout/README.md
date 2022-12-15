@@ -2,7 +2,7 @@
 
 1. 解压缩后，确保有正确的运行环境：
 
-   1. 修改Makefile文件里的gcc编译选项`CFLAGS = -Wall -O2 -m32`为`CFLAGS = -Wall -Werror -O3 -g -DDRIVER -std=gnu99 -Wno-unused-function -Wno-unused-parameter`
+   1. 修改Makefile文件里的gcc编译选项`CFLAGS = -Wall -O2 -m32`为`CFLAGS = -Wall -O2 -g -DDRIVER -std=gnu99 -Wunused-function -Wunused-parameter -m32` (可选)
 
    2. `make`
 
