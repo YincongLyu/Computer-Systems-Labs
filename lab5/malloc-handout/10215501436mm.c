@@ -36,41 +36,41 @@ team_t team = {
 
 #define SIZE_T_SIZE (ALIGN(sizeof(size_t)))
 /* Base constants and macros */
-#define WSIZE		4		/* Word and header/footer size (bytes) */
-#define DSIZE		8		/* Double word size (bytes) */
-#define CHUNKSIZE	(1<<12)	/* Extend heap by this amount (bytes) */
+#define WSIZE		4		// 单字 4 字节
+#define DSIZE		8		// 双字 8 字节， 双字对齐
+#define CHUNKSIZE	(1<<12)	// 扩展堆的默认大小
 
 #define MAX(x, y) ((x) > (y) ? (x) : (y))
 
-/* Pack a size and allocated bit into a word*/
+// 把大小与标识符合并为头部
 #define PACK(size, alloc)	((size) | (alloc))
 
-/* Read and write a word at address p */
+// 读出指针p指向的内容；把val写入指针p指向的地方
 #define GET(p)		(*(unsigned int *)(p))
 #define PUT(p, val)	(*(unsigned int *)(p) = val)
 
-/* Set pointer value by ptr at address p */
+// 设置指针p为ptr
 #define SET_PTR(p, ptr)	(*(unsigned long *)(p) = (unsigned long)(ptr))
 
-/* Read and write pred and succ pointer at address p */
+// 读写p的前后指针
 #define GET_PRED(p)	((char *)(*(unsigned long *)(p)))
 #define GET_SUCC(p)	((char *)(*(unsigned long *)(p + DSIZE)))
 #define SET_PRED(p, ptr)	(SET_PTR((char *)(p), ptr))
 #define SET_SUCC(p, ptr)	(SET_PTR(((char *)(p)+(DSIZE)), ptr))
 
-/* Read the size and allocated fields from address p */
+// 读出头指针p指向块的大小与是否分配
 #define GET_SIZE(p)		(GET(p) & ~0x7)
 #define GET_ALLOC(p)	(GET(p) & 0x1)
 
-/* Given block ptr bp, compute address of its header and footer */
+// 得出块指针的头部和脚部
 #define HDRP(bp)	((char* )(bp) - WSIZE)
 #define FTRP(bp)	((char* )(bp) + GET_SIZE(HDRP(bp)) - DSIZE)
 
-/* Given block ptr bp, compute address of next and previous blocks */
+// 得出该块前一个和后一个块的块指针
 #define NEXT_BLKP(bp)	((char *)(bp) + GET_SIZE(((char *)(bp) - WSIZE)))
 #define PREV_BLKP(bp)	((char *)(bp) - GET_SIZE(((char *)(bp) - DSIZE)))
 
-/* Free list pointer */
+// 堆开始和结束的指针
 static char *free_list_headp;
 static char *free_list_tailp;
 
