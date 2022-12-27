@@ -1,5 +1,5 @@
 /*
-*    Explicit, 地址顺序
+*    Explicit,  地址顺序
 */
 
 #include <stdio.h>
