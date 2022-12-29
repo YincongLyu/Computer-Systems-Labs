@@ -62,9 +62,9 @@ team_t team = {
 #define SET_PTR(p, ptr)	(*(unsigned long *)(p) = (unsigned long)(ptr))
 
 /* Read and write pred and succ pointer at address p */
-#define GET_PRED(p)	((char *)(*(unsigned long *)(p + WSIZE)))
+#define GET_PRED(p)	((char *)(*(unsigned long *)(p)))
 #define GET_SUCC(p)	((char *)(*(unsigned long *)(p + DSIZE)))
-#define SET_PRED(p, ptr)	(SET_PTR(((char *)(p)+(WSIZE)), ptr))
+#define SET_PRED(p, ptr)	(SET_PTR((char *)(p), ptr))
 #define SET_SUCC(p, ptr)	(SET_PTR(((char *)(p)+(DSIZE)), ptr))
 
 /* Read the size and allocated fields from address p */
