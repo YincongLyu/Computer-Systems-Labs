@@ -53,11 +53,11 @@
 #include "mm.h"
 team_t team = {
     /* Team name */
-    "HEX16",
+    "He Wenyi",
     /* First member's full name */
-    "Mo xiaoxi",
+    "10215501409",
     /* First member's email address */
-    "HNU@cs.HNU.edu",
+    "1776576842@qq.com",
     /* Second member's full name (leave blank if none) */
     "",
     /* Second member's email address (leave blank if none) */
