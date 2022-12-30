@@ -1,27 +1,11 @@
 /*
- * mm-naive.c - The fastest, least memory-efficient malloc package.
- * 
- * In this naive approach, a block is allocated by simply incrementing
- * the brk pointer.  A block is pure payload. There are no headers or
- * footers.  Blocks are never coalesced or reused. Realloc is
- * implemented directly using mm_malloc and mm_free.
- *
- * NOTE TO STUDENTS: Replace this header comment with your own header
- * comment that gives a high level description of your solution.
+ * mm-naive.c - The clear list, first fit malloc package.
  */
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <unistd.h>
 #include <string.h>
 
 #include "mm.h"
 #include "memlib.h"
 
-/*********************************************************
- * NOTE TO STUDENTS: Before you do anything else, please
- * provide your team information in the following struct.
- ********************************************************/
 team_t team = {
     /* Team name */
     "team",
@@ -35,7 +19,7 @@ team_t team = {
     ""
 };
 
-/* single word (4) or double word (8) alignment */
+/* single size_t (4) or double size_t (8) alignment */
 #define ALIGNMENT 8
 /* rounds up to the nearest multiple of ALIGNMENT */
 #define ALIGN(size) (((size) + (ALIGNMENT - 1)) & ~0x7)
@@ -44,7 +28,9 @@ team_t team = {
 #define WSIZE 4
 #define DSIZE 8
 #define FSIZE 16
-#define CHUNK 1 << 10
+#define ADDRESS (sizeof(size_t))
+#define CHUNK 1 << 12
+#define MIN_BLOCK (2 * ADDRESS + DSIZE)
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
@@ -62,14 +48,24 @@ team_t team = {
 #define NEXT(bp) (FOOT(bp) + DSIZE)
 #define PREV(bp) ((byte *)(bp) - PARSE(GET((bp) - DSIZE)) - DSIZE)
 
+#define POS_PRED(bp) ((byte *)(bp))
+#define POS_SUCC(bp) (((byte *)(bp) + ADDRESS))
+#define GET_PRED(bp) (*(size_t *)POS_PRED(bp))
+#define GET_SUCC(bp) (*(size_t *)POS_SUCC(bp))
+
 typedef unsigned int word;
 typedef char byte;
 
 // mark the front and tail pos
 void *front_p = NULL;
 void *tail_p = NULL;
-// used for next fit, updated by mm_init, mm_malloc, _coalesce
+
+/**
+ * used for next fit, updated by mm_init, mm_malloc, _coalesce
+ * @deprecated useless for clear list
+ */
 void *fitted_p = NULL;
+void *list_p = NULL;
 
 // My func
 /**
@@ -89,6 +85,7 @@ static void *_coalesce(void *bp);
 static void *__coalesce_prev(void *bp);
 static void *__coalesce_next(void *bp);
 static void *__coalesce_all(void *bp);
+static void *__coalesce_none(void *bp);
 
 /**
  * traverse and find first fit, then place in
@@ -100,6 +97,7 @@ static void *_first_fit(size_t size);
 
 /**
  * find next fit, then place in
+ * @deprecated I'll use clear list
  * @param size align by 8, excluding head and foot
  * @return
  */
@@ -114,10 +112,30 @@ static void *_next_fit(size_t size);
 static void *_next_best_fit(size_t size);
 
 /**
+ * traverse blank block only and find first fit, then place in
+ * @param size align by 8, excluding head and foot
+ * @return
+ */
+static void *_first_fit_of_clear(size_t size);
+
+/**
  * allocate the block and cut sometimes
  * @param size align by 8, excluding head and foot
  */
 static void _place(void *ptr, size_t size);
+
+/**
+ * just replace in of out in list
+ * @param in the block that in the list
+ * @param out the block that out the list
+ */
+static void _fix_list(void *in, void *out);
+
+/**
+ * check the number of blank list nums and real blank nums and print
+ * @deprecated
+ */
+static void _check();
 // end
 
 /**
@@ -127,7 +145,7 @@ static void _place(void *ptr, size_t size);
 int mm_init(void) {
     if ((front_p = mem_sbrk(WSIZE)) == (void *) - 1) return -1; // blank
     front_p += DSIZE; // first chunk
-    fitted_p = front_p; // init fitted_p
+//    fitted_p = front_p; // init fitted_p
     if (!_extend(CHUNK)) return -1;
     return 0;
 }
@@ -139,8 +157,8 @@ void *mm_malloc(size_t size) {
     size_t adjust_size = ALIGN(size);
     size_t extend_size;
     void *bp;
-    if ((bp = _next_fit(adjust_size)) != NULL) {
-        fitted_p = bp;
+    if ((bp = _first_fit_of_clear(adjust_size)) != NULL) {
+//        fitted_p = bp;
         return bp;
     } else {
         extend_size = adjust_size;
@@ -150,7 +168,7 @@ void *mm_malloc(size_t size) {
         bp = _extend(MAX(extend_size, CHUNK));
         if (bp == NULL) return bp;
         _place(bp, adjust_size);
-        fitted_p = bp;
+//        fitted_p = bp;
         return bp;
     }
 }
@@ -159,6 +177,11 @@ void *mm_malloc(size_t size) {
  * free a block and coalesce immediately
  */
 void mm_free(void *ptr) {
+#ifdef DEBUG
+    printf("---free---\n");
+    _check();
+    printf("----------\n");
+#endif
     size_t size = SIZE(ptr);
     SET(HEAD(ptr), PACK(size, 0));
     SET(FOOT(ptr), PACK(size, 0));
@@ -183,22 +206,24 @@ void *mm_realloc(void *ptr, size_t size) {
     size_t next_size = (ptr != tail_p && !ALLOC(NEXT(ptr))) ? SIZE(NEXT(ptr)) + DSIZE : 0;
     size_t total_size = old_size + next_size;
     if (adjust_size <= total_size) {
-        __coalesce_next(ptr);
-        _place(ptr, adjust_size); // just cut
+        void *next = NEXT(ptr);
+        // remove
+        SET(POS_SUCC(GET_PRED(next)), GET_SUCC(next));
+        SET(POS_PRED(GET_SUCC(next)), GET_PRED(next));
+        if (next == list_p) {
+            if (GET_SUCC(next) == (size_t)next) list_p = NULL;
+            else list_p = (void *)GET_SUCC(next);
+        }
+        SET(HEAD(ptr), PACK(total_size, 1));
+        SET(FOOT(ptr), PACK(total_size, 1));
+        if (next == tail_p) tail_p = ptr;
         return ptr;
-    }
-    size_t prev_size = (ptr != front_p && !ALLOC(PREV(ptr))) ? SIZE(PREV(ptr)) + DSIZE : 0;
-    total_size += prev_size;
-    if (adjust_size <= total_size) { // coalesce prev or all
-        new_ptr = _coalesce(ptr);
-        memmove(new_ptr, ptr, old_size);
-        _place(new_ptr, adjust_size);
     } else {
         if ((new_ptr = mm_malloc(size)) == NULL) return NULL;
         memmove(new_ptr, ptr, old_size);
         mm_free(ptr);
+        return new_ptr;
     }
-    return new_ptr;
 }
 
 // my func
@@ -209,6 +234,13 @@ static void *_extend(size_t size) {
     SET(bp, PACK(size, 0));
     bp += WSIZE;
     SET(FOOT(bp), PACK(size, 0));
+#ifdef DEBUG
+    if (tail_p) {
+        printf("----extend----\n");
+        _check();
+        printf("--------------\n");
+    }
+#endif
     // init mark point
     tail_p = bp;
     return _coalesce(bp);
@@ -216,9 +248,9 @@ static void *_extend(size_t size) {
 
 static void *_coalesce(void *bp) {
     // one chunk
-    if (bp == front_p && bp == tail_p) return bp;
+    if (bp == front_p && bp == tail_p) return __coalesce_none(bp);
     if (bp == front_p || ALLOC(PREV(bp))) {
-        if (bp == tail_p || ALLOC(NEXT(bp))) return bp;
+        if (bp == tail_p || ALLOC(NEXT(bp))) return __coalesce_none(bp);
         return __coalesce_next(bp);
     } else if (bp == tail_p || ALLOC(NEXT(bp))) {
         return __coalesce_prev(bp);
@@ -233,29 +265,72 @@ static void *__coalesce_prev(void *bp) {
     SET(HEAD(prev), PACK(new_size, 0));
     SET(FOOT(bp), PACK(new_size, 0));
     if (bp == tail_p) tail_p = prev;
-    if (bp == fitted_p) fitted_p = prev;
+//    if (bp == fitted_p) fitted_p = prev;
+    list_p = prev;
     return prev;
 }
 
 static void *__coalesce_next(void *bp) {
     void *next = NEXT(bp);
+    // tweak list
+    _fix_list(next, bp);
+    // coalesce
     size_t new_size = SIZE(next) + SIZE(bp) + DSIZE;
     SET(HEAD(bp), PACK(new_size, 0));
     SET(FOOT(next), PACK(new_size, 0));
     if (next == tail_p) tail_p = bp; // should also change
-    if (next == fitted_p) fitted_p = bp;
+//    if (next == fitted_p) fitted_p = bp;
+    list_p = bp;
+
+#ifdef DEBUG
+    printf("----coalesce next----\n");
+    _check();
+    printf("---------------------\n");
+#endif
     return bp;
 }
 
 static void *__coalesce_all(void *bp) {
     void *prev = PREV(bp);
     void *next = NEXT(bp);
+    // tweak list
+    SET(POS_SUCC(GET_PRED(next)), GET_SUCC(next));
+    SET(POS_PRED(GET_SUCC(next)), GET_PRED(next));
+    // coalesce
     size_t new_size = SIZE(prev) + SIZE(bp) + SIZE(next) + FSIZE;
     SET(HEAD(prev), PACK(new_size, 0));
     SET(FOOT(next), PACK(new_size, 0));
     if (next == tail_p) tail_p = prev;
-    if (next == fitted_p || bp == fitted_p) fitted_p = prev;
+//    if (next == fitted_p || bp == fitted_p) fitted_p = prev;
+    list_p = prev;
+#ifdef DEBUG
+    printf("---coalesce all---\n");
+    _check();
+    printf("-------------------\n");
+#endif
     return prev;
+}
+
+static void *__coalesce_none(void *bp) {
+    // tweak list
+    if (list_p == NULL) {
+        list_p = bp;
+        SET(POS_SUCC(list_p), (size_t)list_p);
+        SET(POS_PRED(list_p), (size_t)list_p);
+    } else {
+        // add to list
+        SET(POS_SUCC(bp), GET_SUCC(list_p));
+        SET(POS_PRED(bp), (size_t)list_p);
+        SET(POS_PRED(GET_SUCC(list_p)), (size_t)bp);
+        SET(POS_SUCC(list_p), (size_t)bp);
+        list_p = bp;
+    }
+#ifdef DEBUG
+    printf("---coalesce none---\n");
+    _check();
+    printf("-------------------\n");
+#endif
+    return bp;
 }
 
 static void *_first_fit(size_t size) {
@@ -319,18 +394,93 @@ static void *_next_best_fit(size_t size) {
     return min_p;
 }
 
+static void *_first_fit_of_clear(size_t size) {
+    void *bp = list_p;
+    if (bp == NULL) return NULL;
+    do {
+        if (SIZE(bp) >= size) {
+            _place(bp, size);
+            return bp;
+        }
+        bp = (void *)GET_SUCC(bp);
+    } while (bp != list_p);
+    return NULL;
+}
+
 static void _place(void *ptr, size_t size) {
     size_t p_size = SIZE(ptr);
-    if (p_size - size >= FSIZE) {
+    if (p_size - size >= MIN_BLOCK) {
         SET(HEAD(ptr), PACK(size, 1));
         SET(FOOT(ptr), PACK(size, 1));
         // DSIZE adjust
         size_t adjust_size = p_size - size - DSIZE;
-        SET(HEAD(NEXT(ptr)), PACK(adjust_size, 0));
-        SET(FOOT(NEXT(ptr)), PACK(adjust_size, 0));
-        if (ptr == tail_p) tail_p = NEXT(ptr);
+        void *new_ptr = NEXT(ptr);
+        SET(HEAD(new_ptr), PACK(adjust_size, 0));
+        SET(FOOT(new_ptr), PACK(adjust_size, 0));
+        if (ptr == tail_p) tail_p = new_ptr;
+        // tweak list
+        _fix_list(ptr, new_ptr);
+        if (ptr == list_p) list_p = new_ptr;
     } else {
         SET(HEAD(ptr), PACK(p_size, 1));
         SET(FOOT(ptr), PACK(p_size, 1));
+        // tweak list
+        // remove
+        SET(POS_SUCC(GET_PRED(ptr)), GET_SUCC(ptr));
+        SET(POS_PRED(GET_SUCC(ptr)), GET_PRED(ptr));
+        if (ptr == list_p) {
+            if (GET_SUCC(ptr) == (size_t)ptr) list_p = NULL;
+            else list_p = (void *)GET_SUCC(ptr);
+        }
     }
+//#ifdef DEBUG
+//        printf("----place----\n");
+//        _check();
+//        printf("-------------\n");
+//#endif
+}
+
+static void _fix_list(void *in, void *out) {
+    if (GET_SUCC(in) == (size_t)in) {
+        SET(POS_SUCC(out), (size_t)out);
+        SET(POS_PRED(out), (size_t)out);
+    } else {
+        SET(POS_SUCC(out), GET_SUCC(in));
+        SET(POS_PRED(out), GET_PRED(in));
+        SET(POS_SUCC(GET_PRED(in)), (size_t)out);
+        SET(POS_PRED(GET_SUCC(in)), (size_t)out);
+    }
+}
+
+static void _check() {
+    int num1 = 0;
+    int num2 = 0;
+    int num3 = 0;
+    void *bp = front_p;
+    void *after_p = NEXT(tail_p);
+    void *blank_p = NULL;
+    while (bp != after_p) {
+        if (!ALLOC(bp)) {
+            if (blank_p == NULL) blank_p = bp;
+            num1++;
+        }
+        bp = NEXT(bp);
+    }
+    bp = blank_p;
+    do {
+        if (bp != NULL) {
+            bp = (void *)GET_SUCC(bp);
+            num2++;
+        }
+    } while (bp != blank_p);
+
+    bp = list_p;
+    do {
+        if (bp != NULL) {
+            bp = (void *)GET_SUCC(bp);
+            num3++;
+        }
+    } while (bp != list_p);
+
+    printf("expect: %d, actual: %d, list_p: %d\n", num1, num2, num3);
 }
