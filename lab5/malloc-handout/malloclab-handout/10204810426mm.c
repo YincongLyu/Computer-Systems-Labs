@@ -50,32 +50,31 @@ team_t team = {
 #define SIZE_T_SIZE (ALIGN(sizeof(size_t)))
 
 /* 自定义的宏，有便于操作常量和指针运算 */
-#define WSIZE       4        //字、脚部或头部的大小（字节）
-#define DSIZE       8        //双字大小（字节）
-#define CHUNKSIZE  (1<<12)   //扩展堆时的默认大小
+#define WSIZE       4      
+#define DSIZE       8        
+#define CHUNKSIZE  (1<<12)   
 #define MINBLOCK (DSIZE + 2*WSIZE)
 
 #define MAX(x, y)  ((x) > (y) ? (x) : (y))
 
-#define PACK(size, alloc)  ((size) | (alloc))         //将 size 和 allocated bit 合并为一个字
+#define PACK(size, alloc)  ((size) | (alloc))         
 
-#define GET(p)        (*(unsigned int *)(p))          //读地址p处的一个字
-#define PUT(p, val)   (*(unsigned int *)(p) = (val))  //向地址p处写一个字
+#define GET(p)        (*(unsigned int *)(p))          
+#define PUT(p, val)   (*(unsigned int *)(p) = (val)) 
 
-#define GET_SIZE(p)   (GET(p) & ~0x07)    //得到地址p处的 size
-#define GET_ALLOC(p)  (GET(p) & 0x1)      //得到地址p处的 allocated bit
-//block point --> bp指向有效载荷块指针
-#define HDRP(bp)     ((char*)(bp) - WSIZE)                       //获得头部的地址
-#define FTRP(bp)     ((char*)(bp) + GET_SIZE(HDRP(bp)) - DSIZE)  //获得脚部的地址, 与宏定义HDRP有耦合
+#define GET_SIZE(p)   (GET(p) & ~0x07)    
+#define GET_ALLOC(p)  (GET(p) & 0x1)      
+#define HDRP(bp)     ((char*)(bp) - WSIZE)                       
+#define FTRP(bp)     ((char*)(bp) + GET_SIZE(HDRP(bp)) - DSIZE) 
 
-#define NEXT_BLKP(bp)    ((char*)(bp) + GET_SIZE((char*)(bp) - WSIZE))  //计算后块的地址
-#define PREV_BLKP(bp)    ((char*)(bp) - GET_SIZE((char*)(bp) - DSIZE))  //计算前块的地址
+#define NEXT_BLKP(bp)    ((char*)(bp) + GET_SIZE((char*)(bp) - WSIZE))  
+#define PREV_BLKP(bp)    ((char*)(bp) - GET_SIZE((char*)(bp) - DSIZE))  
 
-static void* heap_listp;    //指向序言块
-static void *extend_heap(size_t size);     //拓展堆块
-static void *find_fit(size_t size);        //寻找空闲块
-static void place(char *bp, size_t size);  //分割空闲块
-static void *coalesce(void *bp);           //合并空闲块
+static void* heap_listp;   
+static void *extend_heap(size_t size);     
+static void *find_fit(size_t size);        
+static void place(char *bp, size_t size);  
+static void *coalesce(void *bp);          
 //check
 static void* next_fitp; 
 
@@ -84,14 +83,14 @@ int mm_init(void)
    
     if ((heap_listp = mem_sbrk(4*WSIZE)) == (void*)-1) 
         return -1;
-    PUT(heap_listp, 0);                     //堆起绐位置的对齐块，使bp对齐8字节
-    PUT(heap_listp + 1*WSIZE, PACK(8, 1));  //序言块
-    PUT(heap_listp + 2*WSIZE, PACK(8, 1));  //序言块
-    PUT(heap_listp, PACK(0, 1));            //结尾块
+    PUT(heap_listp, 0);                    
+    PUT(heap_listp + 1*WSIZE, PACK(8, 1));  
+    PUT(heap_listp + 2*WSIZE, PACK(8, 1));  
+    PUT(heap_listp, PACK(0, 1));            
     heap_listp += (2*WSIZE);    
     next_fitp=heap_listp;
 
-    if (extend_heap(CHUNKSIZE) == NULL)   //拓展堆块
+    if (extend_heap(CHUNKSIZE) == NULL)   
         return -1;
 
     return 0;
@@ -105,9 +104,9 @@ static void *extend_heap(size_t size) {
     if ((long)(bp = mem_sbrk(asize)) == -1)
         return NULL;
 
-    PUT(HDRP(bp), PACK(asize, 0));          //HDRP(bp)指向原结尾块
+    PUT(HDRP(bp), PACK(asize, 0));         
     PUT(FTRP(bp), PACK(asize, 0));          
-    PUT(HDRP(NEXT_BLKP(bp)), PACK(0, 1));   //新结尾块
+    PUT(HDRP(NEXT_BLKP(bp)), PACK(0, 1));   
     return coalesce(bp);
 }
 
@@ -119,8 +118,8 @@ void *mm_malloc(size_t size)
 {
 
 
-    size_t asize;     //ajusted size
-    size_t extendsize;  //若无适配块则拓展堆的大小
+    size_t asize;     
+    size_t extendsize; 
     void *bp = NULL;
 
     if (size == 0)   
@@ -146,7 +145,7 @@ void *mm_malloc(size_t size)
 //放置策略搜索   首次适配搜索
 static void *find_fit(size_t size) {
     char *endp, *lastp;
-    next_fitp = NEXT_BLKP(next_fitp);    //此次开始搜索的位置
+    next_fitp = NEXT_BLKP(next_fitp);   
     endp = (char *)mem_heap_hi() + 1;
     lastp = next_fitp;
 
@@ -201,9 +200,9 @@ static void *coalesce(void *bp) {
 
     if (pre_alloc && post_alloc) {
         return bp;
-    } else if (pre_alloc && !post_alloc) {   //与后块合并
+    } else if (pre_alloc && !post_alloc) {   
         size += GET_SIZE(HDRP(NEXT_BLKP(bp)));
-    } else if (!pre_alloc && post_alloc) {   //与前块合并
+    } else if (!pre_alloc && post_alloc) {   
         size += GET_SIZE(HDRP(PREV_BLKP(bp)));
         if (bp == next_fitp) {
             next_fitp = PREV_BLKP(bp);
@@ -217,8 +216,7 @@ static void *coalesce(void *bp) {
         bp = PREV_BLKP(bp);
     }
     PUT(HDRP(bp), PACK(size, 0));
-    PUT(FTRP(bp), PACK(size, 0));     //FTRP()与GET_SIZE()有耦合，故此时所用的SIZE已经改变
-
+    PUT(FTRP(bp), PACK(size, 0));     
     return bp;
 }
 
