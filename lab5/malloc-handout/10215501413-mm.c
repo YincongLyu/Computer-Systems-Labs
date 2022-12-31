@@ -1,5 +1,5 @@
 /*
- * mm-naive.c - The clear list, first fit malloc package.
+ * mm-naive.c - The clear list(LIFO), best fit, coalesce immediately malloc package.
  */
 #include <string.h>
 
@@ -113,10 +113,18 @@ static void *_next_best_fit(size_t size);
 
 /**
  * traverse blank block only and find first fit, then place in
+ * @deprecated for the memory loss
  * @param size align by 8, excluding head and foot
  * @return
  */
 static void *_first_fit_of_clear(size_t size);
+
+/**
+ * best fit for clear list
+ * @param size align by 8, excluding head and foot
+ * @return
+ */
+static void *_best_fit_of_clear(size_t size);
 
 /**
  * allocate the block and cut sometimes
@@ -157,7 +165,7 @@ void *mm_malloc(size_t size) {
     size_t adjust_size = ALIGN(size);
     size_t extend_size;
     void *bp;
-    if ((bp = _first_fit_of_clear(adjust_size)) != NULL) {
+    if ((bp = _best_fit_of_clear(adjust_size)) != NULL) {
 //        fitted_p = bp;
         return bp;
     } else {
@@ -208,15 +216,35 @@ void *mm_realloc(void *ptr, size_t size) {
     if (adjust_size <= total_size) {
         void *next = NEXT(ptr);
         // remove
-        SET(POS_SUCC(GET_PRED(next)), GET_SUCC(next));
-        SET(POS_PRED(GET_SUCC(next)), GET_PRED(next));
-        if (next == list_p) {
-            if (GET_SUCC(next) == (size_t)next) list_p = NULL;
-            else list_p = (void *)GET_SUCC(next);
+        if (total_size - adjust_size >= MIN_BLOCK) {
+            SET(POS_SUCC(GET_PRED(next)), GET_SUCC(next));
+            SET(POS_PRED(GET_SUCC(next)), GET_PRED(next));
+            SET(HEAD(ptr), PACK(total_size, 1));
+            SET(FOOT(ptr), PACK(total_size, 1));
+            if (next == list_p) {
+                if (GET_SUCC(next) == (size_t) next) list_p = NULL;
+                else list_p = (void *) GET_SUCC(next);
+            }
+            if (next == tail_p) tail_p = ptr;
+        } else { // replace
+            void *pred = (void *)GET_PRED(next);
+            void *succ = (void *) GET_SUCC(next);
+            SET(HEAD(ptr), PACK(adjust_size, 1));
+            SET(FOOT(ptr), PACK(adjust_size, 1));
+            size_t new_size = total_size - adjust_size - DSIZE;
+            void *new = NEXT(ptr);
+            SET(HEAD(new), PACK(new_size, 0));
+            SET(FOOT(new), PACK(new_size, 0));
+            if (pred == next) {
+                SET(POS_PRED(new), (size_t)new);
+                SET(POS_SUCC(new), (size_t)new);
+            } else {
+                SET(POS_PRED(succ), (size_t)new);
+                SET(POS_SUCC(pred), (size_t)new);
+            }
+            if (list_p == next) list_p = new;
+            if (next == tail_p) tail_p = new;
         }
-        SET(HEAD(ptr), PACK(total_size, 1));
-        SET(FOOT(ptr), PACK(total_size, 1));
-        if (next == tail_p) tail_p = ptr;
         return ptr;
     } else {
         if ((new_ptr = mm_malloc(size)) == NULL) return NULL;
@@ -405,6 +433,25 @@ static void *_first_fit_of_clear(size_t size) {
         bp = (void *)GET_SUCC(bp);
     } while (bp != list_p);
     return NULL;
+}
+
+static void *_best_fit_of_clear(size_t size) {
+    void *bp = list_p;
+    if (bp == NULL) return NULL;
+    size_t min = 0;
+    void *min_p = NULL;
+    do {
+        if (SIZE(bp) >= size) {
+            if (min_p == NULL || SIZE(bp) < min) {
+                min = SIZE(bp);
+                min_p = bp;
+            }
+        }
+        bp = (void *)GET_SUCC(bp);
+    } while (bp != list_p);
+    if (min_p == NULL) return NULL;
+    _place(min_p, size);
+    return min_p;
 }
 
 static void _place(void *ptr, size_t size) {
