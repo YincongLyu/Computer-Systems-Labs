@@ -24,11 +24,11 @@
  ********************************************************/
 team_t team = {
     /* Team name */
-    "ateam",
+    "sc",
     /* First member's full name */
-    "Harry Bovik",
+    "Liu Luying",
     /* First member's email address */
-    "bovik@cs.cmu.edu",
+    "10215501428@stu.ecnu.edu.cn",
     /* Second member's full name (leave blank if none) */
     "",
     /* Second member's email address (leave blank if none) */
@@ -83,45 +83,65 @@ team_t team = {
 static char *free_list_headp;
 static char *free_list_tailp;
 
+static void *extend_heap(size_t words);
+static void place(void *bp, size_t asize);
+static void *find_fit(size_t asize);
+static void *coalesce(void *bp);
+
+int mm_init(void);
+void *mm_malloc(size_t size);
+void mm_free(void* bp);
+void *mm_realloc(void* ptr, size_t size);
 
 
-/* coalesce -- Coalesce free block */
+/*
+ * coalesce - 合并空闲块，同时维护链表
+ * bp位置是一个新的节点，已设置好头部与脚部，但未设置PREV与NEXT
+ */
 static void *coalesce(void *ptr)
 {
 	size_t prev_alloc = GET_ALLOC(FTRP(PREV_BLKP(ptr)));
 	size_t next_alloc = GET_ALLOC(HDRP(NEXT_BLKP(ptr)));
 	size_t size = GET_SIZE(HDRP(ptr));
 	
-	void *prevptr = PREV_BLKP(ptr);
-	void *nextptr = NEXT_BLKP(ptr);
-	if (prev_alloc && next_alloc) {				/* Case 1 - Nothing to do */
+	void *prev_ptr = PREV_BLKP(ptr);
+	void *next_ptr = NEXT_BLKP(ptr);
+    
+	if (prev_alloc && next_alloc) {
+        //case1
 		return ptr;
-	} else if (prev_alloc && !next_alloc) {		/* Case 2 */
-		size += GET_SIZE(HDRP(nextptr));
-		SET_SUCC(ptr, GET_SUCC(nextptr));
-		SET_PRED(GET_SUCC(nextptr), ptr);
+	} else if (prev_alloc && !next_alloc) {		
+        //case2
+		size += GET_SIZE(HDRP(next_ptr));
+		SET_SUCC(ptr, GET_SUCC(next_ptr));
+		SET_PRED(GET_SUCC(next_ptr), ptr);
 		PUT(HDRP(ptr), PACK(size, 0));
-		PUT(FTRP(nextptr), PACK(size, 0));
-	} else if (!prev_alloc && next_alloc) {		/* Case 3 */
-		size += GET_SIZE(FTRP(prevptr));
-		SET_SUCC(prevptr, GET_SUCC(ptr));
-		SET_PRED(GET_SUCC(ptr), prevptr);
-		PUT(HDRP(prevptr), PACK(size, 0));
+		PUT(FTRP(next_ptr), PACK(size, 0));
+	} else if (!prev_alloc && next_alloc) {		
+        //case3
+		size += GET_SIZE(FTRP(prev_ptr));
+		SET_SUCC(prev_ptr, GET_SUCC(ptr));
+		SET_PRED(GET_SUCC(ptr), prev_ptr);
+		PUT(HDRP(prev_ptr), PACK(size, 0));
 		PUT(FTRP(ptr), PACK(size, 0));
-		ptr = prevptr;
-	} else if (!prev_alloc && !next_alloc) {	/* Case 4 */
-		size += GET_SIZE(HDRP(prevptr)) 
-			+ GET_SIZE(FTRP(nextptr));
-		SET_SUCC(prevptr, GET_SUCC(nextptr));
-		SET_PRED(GET_SUCC(nextptr), prevptr);
-		PUT(HDRP(prevptr), PACK(size, 0));
-		PUT(FTRP(nextptr), PACK(size, 0));
-		ptr = prevptr;
+		ptr = prev_ptr;
+	} else if (!prev_alloc && !next_alloc) {	
+        //case4
+		size += GET_SIZE(HDRP(prev_ptr)) 
+			+ GET_SIZE(FTRP(next_ptr));
+		SET_SUCC(prev_ptr, GET_SUCC(next_ptr));
+		SET_PRED(GET_SUCC(next_ptr), prev_ptr);
+		PUT(HDRP(prev_ptr), PACK(size, 0));
+		PUT(FTRP(next_ptr), PACK(size, 0));
+		ptr = prev_ptr;
 	}
     
 	return ptr;
 }
 
+/*
+ * extend_heap - 无空闲块时，返回块指针
+ */
 static void *extend_heap(size_t words)
 {
 	char *bp;
@@ -149,35 +169,9 @@ static void *extend_heap(size_t words)
 	
 }
 
-/* 
- * mm_init - initialize the malloc package.
+/*
+ * find_fit
  */
-int mm_init(void)
-{
-	/* Create the initial empty heap(40 bytes) */
-	if ((free_list_headp = mem_sbrk(4*WSIZE+3*DSIZE)) == (void *)-1) {
-		return -1;
-	}
-	PUT(free_list_headp, PACK(0, 0));					/* Padding - for alignment 8 bytes */
-	PUT(free_list_headp+WSIZE, PACK(24, 1));			/* Prologue header */
-	free_list_headp += DSIZE;							/* free list head ptr */
-	free_list_tailp = NEXT_BLKP(free_list_headp);		/* free list tail ptr */
-	SET_PRED(free_list_headp, NULL);					/* Prologue pred */
-	SET_SUCC(free_list_headp, free_list_tailp);			/* Prologue succ */
-	PUT(free_list_headp+(2*DSIZE), PACK(24, 1));		/* Prologue footer */
-
-	PUT(HDRP(free_list_tailp), PACK(0, 1));				/* Epilogue header */
-	SET_PRED(free_list_tailp, free_list_headp);			/* Epilogue pred */
-	PUT(free_list_tailp+DSIZE, PACK(0, 0));				/* Padding - for alignment 8 bytes */
-	/* Extend the empty heap with a free block of CHUNKSIZE bytes */
-	if (extend_heap(CHUNKSIZE/WSIZE) == NULL) {
-		return -1;
-	}
-    
-    return 0;
-}
-
-/* find_fit -- find the first fit free block in free list. */
 static void *find_fit(size_t asize)
 {
 	void* p;
@@ -190,10 +184,9 @@ static void *find_fit(size_t asize)
 	return NULL;
 }
 
-
-
-
-/* place when remaining part size is greater than 6 word, divide it. */
+/*
+ * place - 放置空闲块，剩余部分超出最小块大小时分割
+ */
 static void place(void *bp, size_t asize)
 {
 	size_t size = GET_SIZE(HDRP(bp));
@@ -222,6 +215,34 @@ static void place(void *bp, size_t asize)
 		SET_PRED(GET_SUCC(bp), GET_PRED(bp));
 	}
 
+}
+
+/* 
+ * mm_init - initialize the malloc package.
+ */
+int mm_init(void)
+{
+	/* Create the initial empty heap(40 bytes) */
+	if ((free_list_headp = mem_sbrk(4*WSIZE+3*DSIZE)) == (void *)-1) {
+		return -1;
+	}
+	PUT(free_list_headp, PACK(0, 0));					/* Padding - for alignment 8 bytes */
+	PUT(free_list_headp+WSIZE, PACK(24, 1));			/* Prologue header */
+	free_list_headp += DSIZE;							/* free list head ptr */
+	free_list_tailp = NEXT_BLKP(free_list_headp);		/* free list tail ptr */
+	SET_PRED(free_list_headp, NULL);					/* Prologue pred */
+	SET_SUCC(free_list_headp, free_list_tailp);			/* Prologue succ */
+	PUT(free_list_headp+(2*DSIZE), PACK(24, 1));		/* Prologue footer */
+
+	PUT(HDRP(free_list_tailp), PACK(0, 1));				/* Epilogue header */
+	SET_PRED(free_list_tailp, free_list_headp);			/* Epilogue pred */
+	PUT(free_list_tailp+DSIZE, PACK(0, 0));				/* Padding - for alignment 8 bytes */
+	/* Extend the empty heap with a free block of CHUNKSIZE bytes */
+	if (extend_heap(CHUNKSIZE/WSIZE) == NULL) {
+		return -1;
+	}
+    
+    return 0;
 }
 
 /* 
@@ -300,12 +321,12 @@ void *mm_realloc(void *ptr, size_t size)
 
 	size_t blockSize;
     size_t extendsize;
-	size_t asize;	/* Adjusted block size */
+	size_t asize;
 	size_t sizesum;
 
-	if (ptr == NULL) { 			/* If ptr == NULL, call mm_alloc(size) */
+	if (ptr == NULL) { 	
 		return mm_malloc(size);
-	} else if (size == 0) { 	/* If size == 0, call mm_free(size) */
+	} else if (size == 0) { 
 		mm_free(ptr);
 		return NULL;
 	}
@@ -320,9 +341,11 @@ void *mm_realloc(void *ptr, size_t size)
 	blockSize = GET_SIZE(HDRP(ptr));
 
 	
-	if (asize == blockSize) {						/* Case 1: asize == block size, nothing to do.  */
+	if (asize == blockSize) {						
+        //case 1
 		return ptr;
-	} else if (asize < blockSize) {					/* Case 2: asize < blockSize, */
+	} else if (asize < blockSize) {					
+        //case2
 		if (blockSize-asize >= 3*DSIZE) {	
 			/* Change this block header and footer */
 			PUT(HDRP(ptr), PACK(asize, 1));
@@ -344,9 +367,10 @@ void *mm_realloc(void *ptr, size_t size)
 				}
 			}
 		} 
-		/*  OR remaining block size is less than 24 bytes, cannot divide, nothing to do */
 		return ptr;
-	} else {										/* Case 3: asize > blockSize */
+	} 
+    else {										
+        //case3
 		/* Check next block */
 		nextptr = NEXT_BLKP(ptr);
 		sizesum = GET_SIZE(HDRP(nextptr))+blockSize;	/* Sum of this and next block size */
@@ -361,7 +385,7 @@ void *mm_realloc(void *ptr, size_t size)
 				nextptr = NEXT_BLKP(ptr);
 				PUT(HDRP(nextptr), PACK(sizesum-asize, 0));
 				PUT(FTRP(nextptr), PACK(sizesum-asize, 0));
-				/* Insert into free list. */
+				/* insert */
 				SET_PRED(nextptr, pred);
 				SET_SUCC(nextptr, succ);
 				SET_SUCC(pred, nextptr);
@@ -378,7 +402,7 @@ void *mm_realloc(void *ptr, size_t size)
 			newptr = find_fit(asize);
 			if (newptr == NULL) {
 				extendsize = MAX(asize, CHUNKSIZE);
-				if ((newptr = extend_heap(extendsize/WSIZE)) == NULL) {	/* Can not find a fit block, it must allocate memory from heap. */
+				if ((newptr = extend_heap(extendsize/WSIZE)) == NULL) {	
 					return NULL;
 				}
 			}
@@ -390,4 +414,3 @@ void *mm_realloc(void *ptr, size_t size)
 	}
 
 }
-
