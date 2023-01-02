@@ -11,8 +11,9 @@
 #define ALIGNMENT 8
 #define ALIGN(size) (((size) + (ALIGNMENT-1)) & ~0x7)
 #define WSIZE     4          
-#define DSIZE     8          
-#define CHUNKSIZE (1<<6)
+#define DSIZE     8
+#define INITSIZE (1<<6)   
+#define CHUNKSIZE (1<<12)
 #define MAX_NUM     20      
 #define MAX(x, y) ((x) > (y) ? (x) : (y)) 
 #define PACK(size, alloc) ((size) | (alloc))
@@ -49,15 +50,19 @@ team_t team = {
     /* Second member's email address (leave blank if none) */
     ""
 };
-
+static void *segregated_free_lists;
+static void *extend_heap(size_t size);
+static void insert_node(void *ptr, size_t size);
+static void delete_node(void *ptr);
+static void *coalesce(void *ptr);
+static void *place(void *ptr, size_t asize);
 static void *extend_heap(size_t size)
 {
     void *ptr; 
-    size_t size;
-    // 根据传入字节数奇偶, 考虑对齐 
-    size = (words % 2) ? (words+1) * WSIZE : words * WSIZE;
+    // 对齐 
+    size = ALIGN(size);
     
-    if ((ptr = mem_sbrk(asize)) == (void *)-1)
+    if ((ptr = mem_sbrk(size)) == (void *)-1)
         return NULL;
     
     PUT(HDRP(ptr), PACK(size, 0)); //header初始化
@@ -265,7 +270,7 @@ int mm_init(void)
     PUT(heap_start + (2 * WSIZE), PACK(DSIZE, 1)); // 序言块尾
     PUT(heap_start + (3 * WSIZE), PACK(0, 1));     // 堆结尾标注
     
-    if (extend_heap(CHUNKSIZE) == NULL)
+    if (extend_heap(INITSIZE) == NULL)
         return -1;
     
     return 0;
@@ -296,7 +301,7 @@ void *mm_malloc(size_t size)
             while ((ptr != NULL) && (asize > GET_SIZE(HDRP(ptr))))
                 ptr = PRED(ptr);
             if (ptr != NULL)
-                return ptr;
+                break;
         }
         
         tmp >>= 1;
