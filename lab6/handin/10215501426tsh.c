@@ -84,6 +84,60 @@ void app_error(char *msg);
 typedef void handler_t(int);
 handler_t *Signal(int signum, handler_t *handler);
 
+
+pid_t Fork(void)
+{
+    pid_t pid;
+
+    if ((pid = fork()) < 0)
+        unix_error("Fork error");
+    return pid;
+}
+
+
+
+void Kill(pid_t pid, int signum) 
+{
+    int kr;
+    if ((kr = kill(pid, signum)) < 0)
+        unix_error("Kill error");
+    return;
+
+}
+
+void Sigemptyset(sigset_t *set)
+{
+    if(sigemptyset(set)<0)
+        unix_error("Sigemptyset error");
+    return;
+}
+
+
+void Sigaddset(sigset_t *set,int sign)
+{
+    if(sigaddset(set,sign)<0)
+        unix_error("Sigaddset error");
+    return;
+}
+
+
+void Sigprocmask(int how, sigset_t *set, sigset_t *oldset)
+{
+    if(sigprocmask(how,set,oldset)<0)
+        unix_error("Sigprocmask error");
+    return;
+}
+
+
+void Sigfillset(sigset_t *set)
+{
+    if(sigfillset(set)<0)
+        unix_error("Sigfillset error");
+    return;
+}
+
+
+
 /*
  * main - The shell's main routine 
  */
@@ -180,14 +234,14 @@ void eval(char *cmdline)
     }
     if (!builtin_cmd(argv))
     {   
-        sigfillset(&mask_all);
-        sigemptyset(&mask_one);
-        sigaddset(&mask_one,SIGCHLD);
+        Sigfillset(&mask_all);
+        Sigemptyset(&mask_one);
+        Sigaddset(&mask_one,SIGCHLD);
 
-        sigprocmask(SIG_BLOCK,&mask_one,&prev_one);
-        if ((pid = fork()) == 0)
+        Sigprocmask(SIG_BLOCK,&mask_one,&prev_one);
+        if ((pid = Fork()) == 0)
         {
-            sigprocmask(SIG_SETMASK,&prev_one,NULL);
+            Sigprocmask(SIG_SETMASK,&prev_one,NULL);
             if(setpgid(0,0)<0)
             {
                 printf("setpgid error");
@@ -200,9 +254,9 @@ void eval(char *cmdline)
             }
             /* code */
         }        
-        sigprocmask(SIG_BLOCK,&mask_all,NULL);
+        Sigprocmask(SIG_BLOCK,&mask_all,NULL);
         addjob(jobs,pid,bg==1? BG : FG,cmdline);
-        sigprocmask(SIG_SETMASK,&prev_one,NULL);
+        Sigprocmask(SIG_SETMASK,&prev_one,NULL);
 
     
         if (!bg)
@@ -360,7 +414,7 @@ void do_bgfg(char **argv)
             {
             printf("[%d] (%d) %s",jobid,pid,job->cmdline);
             job->state = BG;
-            kill(-pid,SIGCONT);
+            Kill(-pid,SIGCONT);
             }
         }
         else{
@@ -398,7 +452,7 @@ void do_bgfg(char **argv)
             if(pid>0)
             {
             job->state=FG;
-            kill(-pid,SIGCONT);
+            Kill(-pid,SIGCONT);
             waitfg(pid);
             }
         }
@@ -436,10 +490,10 @@ void sigchld_handler(int sig)
     sigset_t mask_all ,prev_all;
     int status;
     pid_t pid;
-    sigfillset(&mask_all);
+    Sigfillset(&mask_all);
     while((pid = waitpid(-1,&status,WNOHANG|WUNTRACED))>0)
     {                         
-        sigprocmask(SIG_BLOCK,&mask_all,&prev_all);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+        Sigprocmask(SIG_BLOCK,&mask_all,&prev_all);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
         if(WIFEXITED(status))                                                                  
         {
         deletejob(jobs,pid);
@@ -457,7 +511,7 @@ void sigchld_handler(int sig)
             printf("Job [%d] (%d) stopped by signal %d\n",jid,pid,WSTOPSIG(status));
             job->state = ST;
         }
-        sigprocmask(SIG_SETMASK,&prev_all,NULL);
+        Sigprocmask(SIG_SETMASK,&prev_all,NULL);
     }
     errno = olderror;
     return;
@@ -473,7 +527,7 @@ void sigint_handler(int sig)
    pid_t pid = fgpid(jobs);
    if(pid>0)
    {
-    kill(-pid,sig);
+    Kill(-pid,sig);
    }
    return;
 }
@@ -488,7 +542,7 @@ void sigtstp_handler(int sig)
     pid_t pid = fgpid(jobs);
     if(pid>0)
     {
-        kill(-pid,sig);
+        Kill(-pid,sig);
     }
     return;
 }
