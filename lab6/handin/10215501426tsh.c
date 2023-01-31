@@ -204,6 +204,7 @@ void eval(char *cmdline)
         addjob(jobs,pid,bg==1? BG : FG,cmdline);
         sigprocmask(SIG_SETMASK,&prev_one,NULL);
 
+    
         if (!bg)
         {
            waitfg(pid);    
@@ -212,8 +213,8 @@ void eval(char *cmdline)
           printf("[%d] (%d) %s",pid2jid(pid),pid,cmdline);
         }
         
-    }
     
+    }
     return;
 
 }
@@ -313,7 +314,7 @@ void do_bgfg(char **argv)
 {   
     
         pid_t pid;
-        int jid;
+        int jobid;
         struct job_t * job;
         
         if(argv[1] == NULL)
@@ -331,11 +332,11 @@ void do_bgfg(char **argv)
                     return ;
                 }
                 
-                jid = change_string_to_number(argv[1]+1);
-                job = getjobjid(jobs,jid);
+                jobid = change_string_to_number(argv[1]+1);
+                job = getjobjid(jobs,jobid);
                 if(job == NULL)
                 {
-                    printf("%%%d: No such job \n ",jid);
+                    printf("%%%d: No such job \n ",jobid);
                     return ;
                 }
                 pid = job->pid;
@@ -353,11 +354,11 @@ void do_bgfg(char **argv)
                     printf("%%%d: No such job \n ",pid);
                     return ;
                 }
-                jid = job->jid;
+                jobid = job->jid;
             }
             if(pid>0)
             {
-            printf("[%d] (%d) %s",jid,pid,job->cmdline);
+            printf("[%d] (%d) %s",jobid,pid,job->cmdline);
             job->state = BG;
             kill(-pid,SIGCONT);
             }
@@ -370,11 +371,11 @@ void do_bgfg(char **argv)
                     printf("fg : argument must be a PID or %%jobid\n");
                     return ;
                 }
-                jid = change_string_to_number(argv[1]+1);
-                job = getjobjid(jobs,jid);
+                jobid = change_string_to_number(argv[1]+1);
+                job = getjobjid(jobs,jobid);
                 if (job == NULL)
                 {
-                    printf("%%%d: No such job \n ",jid);
+                    printf("%%%d: No such job \n ",jobid);
                     return ;
                 }
                 pid = job->pid;
@@ -392,7 +393,7 @@ void do_bgfg(char **argv)
                     printf("%%%d: No such job \n ",pid);
                     return ;
                 }
-                jid = job->jid;
+                jobid = job->jid;
             }
             if(pid>0)
             {
@@ -437,12 +438,11 @@ void sigchld_handler(int sig)
     pid_t pid;
     sigfillset(&mask_all);
     while((pid = waitpid(-1,&status,WNOHANG|WUNTRACED))>0)
-    {
-        if(WIFEXITED(status))
+    {                         
+        sigprocmask(SIG_BLOCK,&mask_all,&prev_all);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+        if(WIFEXITED(status))                                                                  
         {
-        sigprocmask(SIG_BLOCK,&mask_all,&prev_all);
         deletejob(jobs,pid);
-        sigprocmask(SIG_SETMASK,&prev_all,NULL);
         }
         if(WIFSIGNALED(status))
         {
@@ -457,6 +457,7 @@ void sigchld_handler(int sig)
             printf("Job [%d] (%d) stopped by signal %d\n",jid,pid,WSTOPSIG(status));
             job->state = ST;
         }
+        sigprocmask(SIG_SETMASK,&prev_all,NULL);
     }
     errno = olderror;
     return;
