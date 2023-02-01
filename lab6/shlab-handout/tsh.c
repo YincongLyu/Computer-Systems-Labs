@@ -86,17 +86,6 @@ typedef void handler_t(int);
 handler_t *Signal(int signum, handler_t *handler);
 
 /*
- * Self-defined helper functions
- */
-static inline pid_t Fork();
-static inline void Kill(pid_t pid, int signum);
-static inline void Sigemptyset(sigset_t *set);
-static inline void Sigaddset(sigset_t *set, int signum);
-static inline void Sigprocmask(int how, const sigset_t *set, sigset_t *oldset);
-static inline void Sigfillset(sigset_t *set);
-static inline void Setpgid(pid_t pid, pid_t pgid);
-
-/*
  * main - The shell's main routine 
  */
 int main(int argc, char **argv) 
@@ -176,46 +165,7 @@ int main(int argc, char **argv)
 */
 void eval(char *cmdline) 
 {
-    char *argv[MAXARGS];
-    char buf[MAXLINE];
-    strcpy(buf, cmdline);
-    int is_bg = parseline(buf, argv);
-
-    if (!argv[0]) return ;
-
-    pid_t pid;
-    if (!builtin_cmd(argv)) {
-        sigset_t mask, prevmask;
-        Sigemptyset(&mask);
-        Sigaddset(&mask, SIGCHLD);
-        Sigprocmask(SIG_BLOCK, &mask, &prevmask);
-        if ((pid = Fork()) == 0) {
-            Setpgid(0,0);
-            Sigprocmask(SIG_SETMASK, &prevmask, NULL);
-            if (execve(argv[0], argv, environ) < 0) {
-                printf("%s: Command not found\n", argv[0]);
-                exit(0);
-            }
-        }
-        if (!is_bg) {
-            addjob(jobs, pid, FG, cmdline);
-            Sigprocmask(SIG_SETMASK, &prevmask, NULL);
-            waitfg(pid);
-        } else {
-            addjob(jobs, pid, BG, cmdline);
-            Sigprocmask(SIG_SETMASK, &prevmask, NULL);
-            printf("[%d] (%d) %s", pid2jid(pid), (int)pid, cmdline);
-        }
-    } else {
-        if (!strcmp(argv[0], "quit")) {
-            exit(0);
-        } else if (!strcmp(argv[0], "jobs")) {
-            listjobs(jobs);
-        } else {
-            do_bgfg(argv);
-        }
-    }
-
+    return;
 }
 
 /* 
@@ -281,13 +231,7 @@ int parseline(const char *cmdline, char **argv)
  */
 int builtin_cmd(char **argv) 
 {
-    int result;
-    if (!strcmp(argv[0], "quit")) result = 1;
-    else if (!strcmp(argv[0], "jobs")) result = 1;
-    else if (!strcmp(argv[0], "bg")) result = 1;
-    else if (!strcmp(argv[0], "fg")) result = 1;
-    else result = 0;   /* not a builtin command */
-    return result;    
+    return 0;     /* not a builtin command */
 }
 
 /* 
@@ -295,42 +239,7 @@ int builtin_cmd(char **argv)
  */
 void do_bgfg(char **argv) 
 {
-    if (argv[1] == NULL) {
-        printf("%s command requires PID or %%jobid argument\n", argv[0]);
-        return ;
-    }
-
-    if (!isdigit(argv[1][0]) && argv[1][0] != '%') {           
-        printf("%s: argument must be a PID or %%jobid\n", argv[0]);
-        return ;
-    }
-
-    struct job_t *job;
-    if (argv[1][0] == '%') {
-        int jid = atoi(&argv[1][1]);
-        job = getjobjid(jobs, jid);
-        if (!job) {
-            printf("%s: No such job\n", argv[1]);
-            return;
-        }
-    } else {
-        pid_t pid = atoi(argv[1]);
-        job = getjobpid(jobs, pid);
-        if (!job) {
-            printf("(%d): No such process\n", pid);
-            return;
-        }
-    }
-
-    if (!strcmp(argv[0], "bg")) {
-        job->state = BG;
-        printf("[%d] (%d) %s", job->jid, job->pid, job->cmdline);
-        Kill(-job->pid, SIGCONT);
-    } else {
-        job->state = FG;
-        Kill(-job->pid, SIGCONT);
-        waitfg(job->pid);
-    }
+    return;
 }
 
 /* 
@@ -338,10 +247,7 @@ void do_bgfg(char **argv)
  */
 void waitfg(pid_t pid)
 {
-    while (pid == fgpid(jobs)) 
-        sleep(1);
-    if (verbose) 
-        printf("waitfg: Process (%d) no longer the fg process\n", pid);
+    return;
 }
 
 /*****************
@@ -357,31 +263,7 @@ void waitfg(pid_t pid)
  */
 void sigchld_handler(int sig) 
 {
-    if (verbose) printf("sigchld_handler: entering\n");
-
-    int olderrno = errno;
-    int status;
-    pid_t pid;
-    while ((pid = waitpid(-1, &status, WNOHANG|WUNTRACED)) > 0) {
-        int jid = pid2jid(pid);
-        if (WIFEXITED(status)) {
-            deletejob(jobs, pid);
-            if (verbose) printf("sigchld_handler: Job [%d] (%d) deleted\n", jid, (int) pid);
-            if (verbose) printf("sigchld_handler: Job [%d] (%d) terminates OK (status %d)\n", jid, (int) pid, WEXITSTATUS(status));
-        } else if (WIFSTOPPED(status)) {
-            struct job_t *job = getjobpid(jobs, pid);
-            job->state = ST;
-            printf("Job [%d] (%d) stopped by signal %d\n", jid, (int) pid, WSTOPSIG(status));
-        } else if (WIFSIGNALED(status)) {
-            deletejob(jobs, pid);
-            if (verbose) printf("sigchld_handler: Job [%d] (%d) deleted\n", jid, (int) pid);
-            printf("Job [%d] (%d) terminated by signal %d\n", jid, pid, WTERMSIG(status));
-        }
-    }
-
-    errno = olderrno;
-
-    if (verbose) printf("sigchld_handler: exiting\n");
+    return;
 }
 
 /* 
@@ -391,17 +273,7 @@ void sigchld_handler(int sig)
  */
 void sigint_handler(int sig) 
 {
-    if (verbose) printf("sigint_handler: entering\n");
-    int olderrno = errno;
-
-    pid_t fpid = fgpid(jobs);
-    if (fpid > 0) {
-        Kill(-fpid, sig);
-        if (verbose) printf("sigint_handler: Job [%d] and its entire foreground jobs with same process group are killed\n", (int) fpid);
-    }
-
-    errno = olderrno;
-    if (verbose) printf("sigint_handler: exiting\n");
+    return;
 }
 
 /*
@@ -411,13 +283,7 @@ void sigint_handler(int sig)
  */
 void sigtstp_handler(int sig) 
 {
-    int olderrno = errno;
-    pid_t fpid = fgpid(jobs);
-    if (fpid != 0) {
-        Kill(-fpid, sig);
-        if (verbose) printf("sigtstp_handler: Job [%d] and its entire foreground jobs with same process group are killed\n", (int)fpid);
-    }
-    errno = olderrno;
+    return;
 }
 
 /*********************
@@ -638,49 +504,6 @@ void sigquit_handler(int sig)
     printf("Terminating after receipt of SIGQUIT signal\n");
     exit(1);
 }
-
-static inline pid_t Fork() 
-{
-    pid_t pid;
-    if ((pid = fork()) < 0) 
-        unix_error("fork error");
-    return pid;
-}
-
-static inline void Kill(pid_t pid, int signum) 
-{
-    if (kill(pid, signum) == -1) 
-        unix_error("kill error");
-}
-
-static inline void Sigemptyset(sigset_t *sigset)
-{
-    if (sigemptyset(sigset) == -1)
-        unix_error("sigemptyset error");
-}
-
-static inline void Sigaddset(sigset_t *set, int signum)
-{
-    if (sigaddset(set, signum) == -1)
-        unix_error("sigaddset error");
-}
-
-static inline void Sigprocmask(int how, const sigset_t *set, sigset_t *oldset)
-{
-    if (sigprocmask(how, set, oldset) == -1)
-        unix_error("sigaddset error");
-}
-static inline void Sigfillset(sigset_t *set)
-{
-    if (sigfillset(set) == -1)
-        unix_error("sigfillset error");
-}
-static inline void Setpgid(pid_t pid, pid_t pgid)
-{
-    if (setpgid(pid, pgid) == -1)
-        unix_error("setpgid error");
-}
-
 
 
 
