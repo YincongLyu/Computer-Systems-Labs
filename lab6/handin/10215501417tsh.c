@@ -204,7 +204,7 @@ void eval(char *cmdline)
             // 子进程取消SIGCHLD阻塞 
             sigprocmask(SIG_SETMASK, &prev_mask, NULL); 
             setpgid(0, 0);
-            // 创建子进程执行可执行文件    // ? environ 哪里来的
+            // 创建子进程执行可执行文件    
             if (execve(argv[0], argv, environ) < 0) {
                 printf("%s: Command not found\n", argv[0]);
                 exit(0);               // 子进程退出
