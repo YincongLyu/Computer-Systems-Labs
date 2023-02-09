@@ -348,10 +348,6 @@ void waitfg(pid_t pid)
 {
     sigset_t mask;
     sigemptyset(&mask);
-	sigaddset(&mask,SIGCHLD);
-    // 设定不阻塞任何信号
-    // 其实可以直接sleep显式等待信号
-	printf("等待前台信号中\n");
     while (fgpid(jobs) > 0)
     	sigsuspend(&mask);
     return;
