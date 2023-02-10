@@ -13,7 +13,7 @@
 #include <sys/wait.h>
 #include <errno.h>
 
-/* fdddd */
+/* Misc manifest constants */
 #define MAXLINE    1024   /* max line size */
 #define MAXARGS     128   /* max args on a command line */
 #define MAXJOBS      16   /* max jobs at any point in time */
@@ -24,6 +24,11 @@
 #define FG 1    /* running in foreground */
 #define BG 2    /* running in background */
 #define ST 3    /* stopped */
+
+typedef short bool;
+/* bool define */
+#define false 0
+#define true 1
 
 /* 
  * Jobs states: FG (foreground), BG (background), ST (stopped)
@@ -50,7 +55,6 @@ struct job_t {              /* The job struct */
 };
 struct job_t jobs[MAXJOBS]; /* The job list */
 /* End global variables */
-
 
 /* Function prototypes */
 
@@ -163,57 +167,64 @@ int main(int argc, char **argv)
  * background children don't receive SIGINT (SIGTSTP) from the kernel
  * when we type ctrl-c (ctrl-z) at the keyboard.  
 */
-
-void eval(char *cmdline)
+// ½âÎöÃüÁîĞĞ
+void eval(char *cmdline) 
 {
-    char* argv[MAXARGS];   //execve()å‡½æ•°çš„å‚æ•°
-    int state = UNDEF;  //å·¥ä½œçŠ¶æ€ï¼ŒFGæˆ–BG 
-    sigset_t set;
-    pid_t pid;  //è¿›ç¨‹id
-    // å¤„ç†è¾“å…¥çš„æ•°æ®
-    if(parseline(cmdline, argv) == 1)  //è§£æå‘½ä»¤è¡Œï¼Œè¿”å›ç»™argvæ•°ç»„
-        state = BG;
-    else
-        state = FG;
-    if(argv[0] == NULL)  //å‘½ä»¤è¡Œä¸ºç©ºç›´æ¥è¿”å›
+    char* argv[MAXARGS] = {NULL};  // ´æ·ÅÃüÁîĞĞ·Ö¸îºÃµÄ´ı½âÎöµÄ²ÎÊı
+    int FG_BG = parseline(cmdline,argv) + 1;
+    if(argv[0] == NULL){
         return;
-    // å¦‚æœä¸æ˜¯å†…ç½®å‘½ä»¤
+    }
+
+    // ĞÅºÅ±êÖ¾Î»ÉÏÎª1£º×èÈû
+    // Èç¹û²»ÊÇÄÚÖÃÃüÁî£¬´´½¨ĞÂµÄ×Ó½ø³Ì£¬ÔÚ×Ó½ø³ÌÖĞÖ´ĞĞ
     if(!builtin_cmd(argv))
     {
-        if(sigemptyset(&set) < 0)
-            unix_error("sigemptyset error");
-        if(sigaddset(&set, SIGINT) < 0 || sigaddset(&set, SIGTSTP) < 0 || sigaddset(&set, SIGCHLD) < 0)
-            unix_error("sigaddset error");
-        //åœ¨å®ƒæ´¾ç”Ÿå­è¿›ç¨‹ä¹‹å‰é˜»å¡SIGCHLDä¿¡å·ï¼Œé˜²æ­¢ç«äº‰ 
-        if(sigprocmask(SIG_BLOCK, &set, NULL) < 0)
-            unix_error("sigprocmask error");
+        sigset_t mask_all, mask_one, prev_one;  // ´æ·Å¹ı³ÌÖĞµÄĞÅºÅ
+        sigfillset(&mask_all);  // ½«ËùÓĞ±êÖ¾Î»ÉèÎª1£¬ÆÁ±ÎËùÓĞĞÅºÅ
+        sigemptyset(&mask_one); // ½«ËùÓĞ±êÖ¾Î»ÉèÎª0£¬Çå¿ÕËùÓĞĞÅºÅ
+        sigemptyset(&prev_one);
+        sigaddset(&mask_one, SIGCHLD); // ½«SIGCHLD£¨Ä¬ÈÏºöÂÔ£©Ìí¼Óµ½mask_oneÖĞ
+        
+        pid_t fpid;
+        // ·ÀÖ¹×Ó½ø³Ì±»ÆäËûĞÅºÅÏÈµ÷¶È£¬½«SIGCHLDÆÁ±Î£¬Ô­À´µÄĞÅºÅ´æÔÚprev_oneÀï
+        sigprocmask(SIG_BLOCK,&mask_one,&prev_one);
+        // forkÒ»¸ö×Ó½ø³Ì£¬¸¸½ø³ÌÖĞ·µ»Ø×Ó½ø³Ìid£¬×Ó½ø³Ì·µ»Ø0£¬´íÎó·µ»Ø¸ºÊı
+        fpid = fork();
 
-        if((pid = fork()) < 0)  //forkåˆ›å»ºå­è¿›ç¨‹å¤±è´¥ 
-            unix_error("fork error");
-        else if(pid == 0)  //forkåˆ›å»ºå­è¿›ç¨‹
+        // Èôµ±Ç°ÔÚ×Ó½ø³ÌÖĞ
+        if(!fpid)	
         {
-            // å­è¿›ç¨‹çš„æ§åˆ¶æµå¼€å§‹
-            if(sigprocmask(SIG_UNBLOCK, &set, NULL) < 0)  //è§£é™¤é˜»å¡
-                unix_error("sigprocmask error");
-            if(setpgid(0, 0) < 0)  //è®¾ç½®å­è¿›ç¨‹id 
-                unix_error("setpgid error");
-            if(execve(argv[0], argv, environ) < 0){
-                printf("%s: command not found\n", argv[0]);
+            setpgid(0, 0);
+            sigprocmask(SIG_SETMASK, &prev_one, NULL);  // ½«×Ó½ø³ÌĞÅºÅÉèÖÃ³ÉÔ­À´µÄĞÅºÅ
+            // Ö´ĞĞ²»³É¹¦
+            if(execve(argv[0], argv, environ) == -1){
+                printf("%s: Command not found\n", argv[0]);
                 exit(0);
             }
         }
-        // å°†å½“å‰è¿›ç¨‹æ·»åŠ è¿›jobä¸­ï¼Œæ— è®ºæ˜¯å‰å°è¿›ç¨‹è¿˜æ˜¯åå°è¿›ç¨‹
-        addjob(jobs, pid, state, cmdline);
-        // æ¢å¤å—é˜»å¡çš„ä¿¡å· SIGINT SIGTSTP SIGCHLD
-        if(sigprocmask(SIG_UNBLOCK, &set, NULL) < 0)
-            unix_error("sigprocmask error");
+        // Èôµ±Ç°²»ÔÚ×Ó½ø³ÌÖĞ
+        else{
+            sigprocmask(SIG_BLOCK, &mask_all, NULL);  // ÆÁ±ÎËùÓĞĞÅºÅ
+            addjob(jobs,fpid, FG_BG, cmdline);
+            sigprocmask(SIG_SETMASK, &mask_one, NULL);  // »Ö¸´
 
-        // åˆ¤æ–­å­è¿›ç¨‹ç±»å‹å¹¶åšå¤„ç†
-        if(state == FG)
-            waitfg(pid);  //å‰å°ä½œä¸šç­‰å¾…
-        else
-            printf("[%d] (%d) %s", pid2jid(pid), pid, cmdline);  //å°†è¿›ç¨‹idæ˜ å°„åˆ°job id   
-    }
+            // ÈôÒªÇóÇ°Ì¨ÔËĞĞ
+            if(FG_BG == FG){
+                waitfg(fpid);
+            }
+            // ÈôÒªÇóÎªºóÌ¨»òÍ£Ö¹
+            else{
+                sigprocmask(SIG_SETMASK,&mask_all,NULL);
+                int insert_jid = pid2jid(fpid);
+                // ÈôÎªºóÌ¨ÔËĞĞ
+                if(FG_BG == BG){
+                    printf("[%d] (%d) %s", insert_jid, fpid, cmdline);
+                }
+            }
+        } 
+        sigprocmask(SIG_SETMASK, &prev_one, NULL);
+    } 
     return;
 }
 
@@ -278,67 +289,82 @@ int parseline(const char *cmdline, char **argv)
  * builtin_cmd - If the user has typed a built-in command then execute
  *    it immediately.  
  */
-int builtin_cmd(char **argv)
+// ²»ÊÇÄÚÖÃÃüÁî·µ»Ø0£¬ÊÇÄÚÖÃÃüÁî¾ÍÁ¢¼´Ö´ĞĞ£¬È»ºó·µ»Ø1
+int builtin_cmd(char **argv) 
 {
-    if(!strcmp(argv[0], "quit"))  //å¦‚æœå‘½ä»¤æ˜¯quitï¼Œé€€å‡º
+    // ÎªquitÊ±
+    if(!strcmp(argv[0], "quit")){
         exit(0);
-    else if(!strcmp(argv[0], "bg") || !strcmp(argv[0], "fg"))  //å¦‚æœæ˜¯bgæˆ–è€…fgå‘½ä»¤ï¼Œæ‰§è¡Œdo_fgbgå‡½æ•° 
-        do_bgfg(argv);
-    else if(!strcmp(argv[0], "jobs"))  //å¦‚æœå‘½ä»¤æ˜¯jobsï¼Œåˆ—å‡ºæ­£åœ¨è¿è¡Œå’Œåœæ­¢çš„åå°ä½œä¸š
+    }
+
+    bool func_jobs = !(strcmp(argv[0], "jobs"));
+    bool func_fg = !(strcmp(argv[0], "fg"));
+    bool func_bg = !(strcmp(argv[0], "bg"));
+    
+    /* not a builtin command */
+    if(!func_jobs && !func_fg && !func_bg){
+        return 0;
+    }
+    if(func_jobs){
         listjobs(jobs);
-    else
-        return 0;     /* not a builtin command */
-    return 1;
+    }
+    else if(func_fg || func_bg){
+        do_bgfg(argv);
+    }
+    return 1;     
 }
 
 /* 
  * do_bgfg - Execute the builtin bg and fg commands
  */
-void do_bgfg(char **argv)
+void do_bgfg(char **argv) 
 {
-    int num;
-    struct job_t *job;
-    // æ²¡æœ‰å‚æ•°çš„fg/bgåº”è¯¥è¢«ä¸¢å¼ƒ
-    if(!argv[1]){  //å‘½ä»¤è¡Œä¸ºç©º
+    int bg_fg = (!strcmp(argv[0],"bg")) + 1;  // ´æ´¢ÊÇÇ°Ì¨orºóÌ¨×´Ì¬
+    
+    bool argv1_read = (argv[1] != NULL);  // ÅĞ¶ÏÊÇ·ñÓĞÊäÈë²ÎÊı
+    // ²ÎÊıÎª¿Õ
+    if(!argv1_read){
         printf("%s command requires PID or %%jobid argument\n", argv[0]);
-        return ;
+        return;
     }
-    // æ£€æµ‹fg/bgå‚æ•°ï¼Œå…¶ä¸­%å¼€å¤´çš„æ•°å­—æ˜¯JobIDï¼Œçº¯æ•°å­—çš„æ˜¯PID
-    if(argv[1][0] == '%'){  //è§£æjid
-        if((num = strtol(&argv[1][1], NULL, 10)) <= 0){
-            printf("%s: argument must be a PID or %%jobid\n",argv[0]);//å¤±è´¥,æ‰“å°é”™è¯¯æ¶ˆæ¯
-            return;
-        }
-        if((job = getjobjid(jobs, num)) == NULL){
-            printf("%%%d: No such job\n", num); //æ²¡æ‰¾åˆ°å¯¹åº”çš„job 
-            return;
-        }
-    } else {
-        if((num = strtol(argv[1], NULL, 10)) <= 0){
-            printf("%s: argument must be a PID or %%jobid\n",argv[0]);//å¤±è´¥,æ‰“å°é”™è¯¯æ¶ˆæ¯
-            return;
-        }
-        if((job = getjobpid(jobs, num)) == NULL){
-            printf("(%d): No such process\n", num);  //æ²¡æ‰¾åˆ°å¯¹åº”çš„è¿›ç¨‹ 
-            return;
-        }
+    
+    // ¶ÁÈë²ÎÊıµÄÀàĞÍ
+    bool pid_read = (argv[1] && argv[1][0] >= '0' && argv[1][0] <= '9');
+    bool jid_read = (argv[1] && argv[1][0] == '%');
+    
+    // ÊäÈë²ÎÊı²»ÊÇpid»òjid
+    if(!pid_read && !jid_read){
+        printf("%s: argument must be a PID or %%jobid\n", argv[0]);
+        return;
     }
-
-    if(!strcmp(argv[0], "bg")){
-        // bgä¼šå¯åŠ¨å­è¿›ç¨‹ï¼Œå¹¶å°†å…¶æ”¾ç½®äºåå°æ‰§è¡Œ
-        job->state = BG;  //è®¾ç½®çŠ¶æ€ 
-        if(kill(-job->pid, SIGCONT) < 0)  //é‡‡ç”¨è´Ÿæ•°å‘é€ä¿¡å·åˆ°è¿›ç¨‹ç»„ 
-            unix_error("kill error");
-        printf("[%d] (%d) %s", job->jid, job->pid, job->cmdline);
-    } else if(!strcmp(argv[0], "fg")) {
-        job->state = FG;  //è®¾ç½®çŠ¶æ€ 
-        if(kill(-job->pid, SIGCONT) < 0)  //é‡‡ç”¨è´Ÿæ•°å‘é€ä¿¡å·åˆ°è¿›ç¨‹ç»„ 
-            unix_error("kill error");
-        // å½“ä¸€ä¸ªè¿›ç¨‹è¢«è®¾ç½®ä¸ºå‰å°æ‰§è¡Œæ—¶ï¼Œå½“å‰tshåº”è¯¥ç­‰å¾…è¯¥å­è¿›ç¨‹ç»“æŸ
-        waitfg(job->pid);
-    } else {
-        puts("do_bgfg: Internal error");
-        exit(0);
+    
+    struct job_t* job_ptr = NULL;
+    // ¶ÁÈëÎªpid£¬»ñÈ¡¸ÃjobÎ»ÖÃ
+    if(pid_read){
+        job_ptr = getjobpid(jobs, atoi(argv[1]));
+    }
+    // ¶ÁÈëÎªjid£¬»ñÈ¡¸ÃjobÎ»ÖÃ
+    else{
+        job_ptr = getjobjid(jobs, atoi(argv[1] + 1));
+    }
+    // ÈôÃ»ÕÒµ½¸ø¶¨pid»òjidËùÖ¸ÏòµÄÄÚÈİ£¬´òÓ¡²¢·µ»Ø
+    if(!job_ptr){
+        if(pid_read){
+            printf("(%d): No such process\n", atoi(argv[1]));
+        }
+        else{
+            printf("%s: No such job\n", argv[1]);
+        }
+        return;
+    }
+    
+    job_ptr -> state = bg_fg;  // ÖØĞÂ¸ù¾İÖ¸ÁîÉèÖÃÖ¸¶¨jobµÄ×´Ì¬
+    kill(-job_ptr -> pid, SIGCONT);  // ·¢ËÍ×´Ì¬£¬ÖØÆô¹ı³Ì
+    if(bg_fg == BG){
+        printf("[%d] (%d) %s", job_ptr -> jid, job_ptr -> pid, job_ptr -> cmdline);
+    }
+    if(bg_fg == FG){
+        waitfg(job_ptr -> pid);  // µÈ´ıÇ°Ì¨Ö´ĞĞÍê³É
     }
     return;
 }
@@ -348,14 +374,18 @@ void do_bgfg(char **argv)
  */
 void waitfg(pid_t pid)
 {
-    struct job_t *job = getjobpid(jobs, pid);
-    if(!job) return;
-
-  
-    while(job->state == FG)
-   
+    sigset_t mask_none, prev_all;
+    sigemptyset(&mask_none);  // ¶¨ÒåÒ»¸ö¿ÕĞÅºÅ¼¯
+    while(1){
+        sigprocmask(SIG_SETMASK, &mask_none, &prev_all);
+        // fgpid£º·µ»Øµ±Ç°Ç°Ì¨ÔËĞĞ½ø³ÌµÄpid£¬ÈôÃ»ÓĞ£¬Ôò·µ»Ø0
+        int ret = fgpid(jobs);
+        if(!ret){
+            break;  // Ã»ÓĞÕıÔÚÔËĞĞµÄÇ°Ì¨½ø³Ì
+        }
         sleep(1);
-
+        sigprocmask(SIG_SETMASK, &prev_all, NULL);
+    }
     return;
 }
 
@@ -370,60 +400,39 @@ void waitfg(pid_t pid)
  *     available zombie children, but doesn't wait for any other
  *     currently running children to terminate.  
  */
-void sigchld_handler(int sig)
+// »ØÊÕµ±Ç°ËùÓĞÒÑ¾­ÖÕÖ¹µÄ×Ó½ø³Ì
+void sigchld_handler(int sig) 
 {
-    int status, jid;
-    pid_t pid;
-    struct job_t *job;
-
-    if(verbose)
-        puts("sigchld_handler: entering");
-
-    /*
-    ä»¥éé˜»å¡æ–¹å¼ç­‰å¾…æ‰€æœ‰å­è¿›ç¨‹
-    waitpid å‚æ•°3ï¼š
-        1.     0     ï¼š æ‰§è¡Œwaitpidæ—¶ï¼Œ åªæœ‰åœ¨å­è¿›ç¨‹ **ç»ˆæ­¢** æ—¶æ‰ä¼šè¿”å›ã€‚
-        2. WNOHANG   : è‹¥å­è¿›ç¨‹ä»ç„¶åœ¨è¿è¡Œï¼Œåˆ™è¿”å›0 ã€‚
-                æ³¨æ„åªæœ‰è®¾ç½®äº†è¿™ä¸ªæ ‡å¿—ï¼Œwaitpidæ‰æœ‰å¯èƒ½è¿”å›0
-        3. WUNTRACED : å¦‚æœå­è¿›ç¨‹ç”±äºä¼ é€’ä¿¡å·è€Œåœæ­¢ï¼Œåˆ™é©¬ä¸Šè¿”å›ã€‚
-                åªæœ‰è®¾ç½®äº†è¿™ä¸ªæ ‡å¿—ï¼Œwaitpidè¿”å›æ—¶ï¼Œå…¶WIFSTOPPED(status)æ‰æœ‰å¯èƒ½è¿”å›true
-    */
+    int olderrno = errno;  // ±ãÓÚ×îºó»Ö¸´errno
+    int status;  // ´æ·Å×Ó½ø³ÌÖÕÖ¹Ô­Òò
+    pid_t pid;  // ¼ÇÂ¼×Ó½ø³Ìpid(int)
+    sigset_t mask_all, prev_all;
+    sigemptyset(&prev_all);
+    sigfillset(&mask_all);
+    
+    // µ±ÈÎÒâÒ»¸ö×Ó½ø³Ì½áÊøºó£¨·µ»ØµÄ×Ó½ø³Ìpid²»Îª0Ê±£©£¬´ÓjoblistÖĞÉ¾³ı
     while((pid = waitpid(-1, &status, WNOHANG | WUNTRACED)) > 0){
-
-        // å¦‚æœå½“å‰è¿™ä¸ªå­è¿›ç¨‹çš„jobå·²ç»åˆ é™¤äº†ï¼Œåˆ™è¡¨ç¤ºæœ‰é”™è¯¯å‘ç”Ÿ
-        if((job = getjobpid(jobs, pid)) == NULL){
-            printf("Lost track of (%d)\n", pid);
-            return;
+        sigprocmask(SIG_BLOCK, &mask_all, &prev_all);  // ÆÁ±ÎËùÓĞĞÅºÅ
+        struct job_t *job = getjobpid(jobs, pid);
+        
+        // ÒòÎªĞÅºÅ¶øÖÕÖ¹£¬´òÓ¡¾ßÌåĞÅºÅĞÅÏ¢
+        if(WIFSIGNALED(status) && WTERMSIG(status) == SIGINT && job -> state != UNDEF){
+            printf("Job [%d] (%d) terminated by signal 2\n", job -> jid, job -> pid);
         }
-
-        jid = job->jid;
-        //æ¥ä¸‹æ¥åˆ¤æ–­ä¸‰ç§çŠ¶æ€ 
-        // å¦‚æœè¿™ä¸ªå­è¿›ç¨‹æ”¶åˆ°äº†ä¸€ä¸ªæš‚åœä¿¡å·ï¼ˆè¿˜æ²¡é€€å‡ºï¼‰ 
-        if(WIFSTOPPED(status)){
-            printf("Job [%d] (%d) stopped by signal %d\n", jid, job->pid, WSTOPSIG(status));
-            job->state = ST;  //çŠ¶æ€è®¾ä¸ºæŒ‚èµ· 
+        // ÒòÎªĞÅºÅ¶øÔİÊ±Í£Ö¹£¬´òÓ¡ĞÅºÅ
+        else if(WIFSTOPPED(status) && WSTOPSIG(status) == SIGTSTP && job -> state != ST){
+            printf("Job [%d] (%d) terminated by signal 20\n", job -> jid, job -> pid);
+            job -> state = ST;
         }
-        // å¦‚æœå­è¿›ç¨‹é€šè¿‡è°ƒç”¨ exit æˆ–è€…ä¸€ä¸ªè¿”å› (return) æ­£å¸¸ç»ˆæ­¢
-        else if(WIFEXITED(status)){
-            if(deletejob(jobs, pid))
-                if(verbose){
-                    printf("sigchld_handler: Job [%d] (%d) deleted\n", jid, pid);
-                    printf("sigchld_handler: Job [%d] (%d) terminates OK (status %d)\n", jid, pid, WEXITSTATUS(status));
-                }
+        
+        // ¸üĞÂÍê×´Ì¬ºó£¬´ËÊ±ÈÔ²»ÎªSTOPµÄ£¬¿ÉÒÔ»ØÊÕ
+        if(getjobpid(jobs, pid) -> state != ST){
+            deletejob(jobs, pid);
         }
-        // å¦‚æœå­è¿›ç¨‹æ˜¯å› ä¸ºä¸€ä¸ªæœªè¢«æ•è·çš„ä¿¡å·ç»ˆæ­¢çš„ï¼Œä¾‹å¦‚SIGKILL
-        else {
-            if(deletejob(jobs, pid)){  //æ¸…é™¤è¿›ç¨‹
-                if(verbose)
-                    printf("sigchld_handler: Job [%d] (%d) deleted\n", jid, pid);
-            }
-            printf("Job [%d] (%d) terminated by signal %d\n", jid, pid, WTERMSIG(status));  //è¿”å›å¯¼è‡´å­è¿›ç¨‹ç»ˆæ­¢çš„ä¿¡å·çš„æ•°é‡
-        }
-    }
-
-    if(verbose)
-        puts("sigchld_handler: exiting");
-
+        sigprocmask(SIG_SETMASK, &prev_all, NULL);  // »Ö¸´×èÈûÇ°ĞÅºÅ×´Ì¬
+    }                     
+    
+    errno = olderrno;
     return;
 }
 
@@ -432,22 +441,25 @@ void sigchld_handler(int sig)
  *    user types ctrl-c at the keyboard.  Catch it and send it along
  *    to the foreground job.  
  */
-void sigint_handler(int sig)
+void sigint_handler(int sig) 
 {
-    if(verbose)
-        puts("sigint_handler: entering");
-    pid_t pid = fgpid(jobs);
-
-    if(pid){
-      
-        if(kill(-pid, SIGINT) < 0)
-            unix_error("kill (sigint) error");
-        if(verbose){
-            printf("sigint_handler: Job (%d) killed\n", pid);
-        }
+    int fg_pid = fgpid(jobs);
+    int fg_jid = pid2jid(fg_pid);
+    if(!fg_pid){
+        return;  // Ã»ÕÒµ½¸Ãjob
     }
-    if(verbose)
-        puts("sigint_handler: exiting");
+
+    sigset_t mask_all,prev_all;
+    sigfillset(&mask_all);
+    sigemptyset(&prev_all);
+    // »ñÈ¡Ç°Ì¨ÔËĞĞ½ø³ÌpidÖ®Ç°£¬ÏÈ×èÈûÆäËûĞÅºÅ´«µİºóËùÔì³ÉµÄ¸ÉÈÅ
+    sigprocmask(SIG_BLOCK, &mask_all, &prev_all);
+    
+    struct job_t* job = getjobpid(jobs, fg_pid);
+    job -> state = UNDEF;
+    kill(-fg_pid, 2);  // ½«Õû¸ö½ø³Ì×éĞÅºÅÉèÖÃÎªSIGINT
+    printf("Job [%d] (%d) terminated by signal 2\n", fg_jid, fg_pid);
+    sigprocmask(SIG_SETMASK, &prev_all, NULL);  // »Ö¸´ĞÅºÅ
     return;
 }
 
@@ -456,24 +468,24 @@ void sigint_handler(int sig)
  *     the user types ctrl-z at the keyboard. Catch it and suspend the
  *     foreground job by sending it a SIGTSTP.  
  */
-void sigtstp_handler(int sig)
+void sigtstp_handler(int sig) 
 {
-    if(verbose)
-        puts("sigstp_handler: entering");
-
-    pid_t pid = fgpid(jobs);
-    struct job_t *job = getjobpid(jobs, pid);
-
-    if(pid){
-        if(kill(-pid, SIGTSTP) < 0)
-            unix_error("kill (tstp) error");
-        if(verbose){
-            printf("sigstp_handler: Job [%d] (%d) stopped\n", job->jid, pid);
-        }
+    int fg_pid = fgpid(jobs);
+    int fg_jid = pid2jid(fg_pid);
+    if(!fg_pid){
+        return;
     }
-    if(verbose)
-        puts("sigstp_handler: exiting");
-    return;
+
+    sigset_t mask_all, prev_all;
+    sigfillset(&mask_all);
+    sigemptyset(&prev_all);
+    sigprocmask(SIG_BLOCK, &mask_all, &prev_all);
+    
+    struct job_t* job = getjobpid(jobs,fg_pid);
+    job -> state = ST;
+    kill(-fg_pid, 20);
+    printf("Job [%d] (%d) stopped by signal 20\n", fg_jid, fg_pid);
+    sigprocmask(SIG_SETMASK, &prev_all, NULL);
 }
 
 /*********************
@@ -694,6 +706,3 @@ void sigquit_handler(int sig)
     printf("Terminating after receipt of SIGQUIT signal\n");
     exit(1);
 }
-
-
-
