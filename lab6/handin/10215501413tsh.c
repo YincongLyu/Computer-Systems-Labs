@@ -180,7 +180,7 @@ void eval(char *cmdline) {
         sigemptyset(&prev_one);
         sigaddset(&mask_one,SIGCHLD);
         pid_t pid;
-        sigprocmask(SIG_BLOCK,&mask_one,NULL); // block sigchild
+        sigprocmask(SIG_BLOCK, &mask_one, NULL); // block sigchild
         if ((pid = fork()) == 0) { // children
             setpgid(0, 0);
             if(execve(argv[0], argv, environ) < 0){
@@ -192,7 +192,7 @@ void eval(char *cmdline) {
         // parent
         addjob(jobs, pid, state, cmdline);
         // after addjob unblock sigchild
-        sigprocmask(SIG_UNBLOCK,&mask_one,NULL);
+        sigprocmask(SIG_UNBLOCK, &mask_one, NULL);
 
         if (state == FG) { // foreground
             waitfg(pid);
@@ -309,17 +309,14 @@ void do_bgfg(char **argv) {
 
 
     if (!strcmp(argv[0], "bg")) {
-        job->state = BG;
-        if (kill(-job -> pid, SIGCONT) < 0)
-            unix_error("kill error");
+        job -> state = BG;
+        kill(-job -> pid, SIGCONT);
         printf("[%d] (%d) %s", job -> jid, job -> pid, job -> cmdline);
     } else if(!strcmp(argv[0], "fg")) {
-        job->state = FG; 
-        if (kill(-job -> pid, SIGCONT) < 0) 
-            unix_error("kill error");
+        job -> state = FG; 
+        kill(-job -> pid, SIGCONT);
         waitfg(job -> pid);
     } else {
-        puts("do_bgfg: Internal error");
         exit(0);
     }
     return;
@@ -329,11 +326,10 @@ void do_bgfg(char **argv) {
  * waitfg - Block until process pid is no longer the foreground process
  */
 void waitfg(pid_t pid) {
-    if (pid == 0) return;
-    sigset_t prev;
-    while(pid == fgpid(jobs))
-        sigsuspend(&prev);
-
+    struct job_t *job = getjobpid(jobs, pid);
+    if(!job) return;
+    while(job->state == FG)
+        sleep(1);
     return;
 }
 
