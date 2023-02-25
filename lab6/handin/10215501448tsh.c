@@ -166,57 +166,57 @@ int main(int argc, char **argv)
 
 void eval(char *cmdline)
 {
-    char* argv[MAXARGS];   //execve()函数的参数
-    int state = UNDEF;  //工作状态，FG或BG 
-    sigset_t set;
-    pid_t pid;  //进程id
-    // 处理输入的数据
-    if(parseline(cmdline, argv) == 1)  //解析命令行，返回给argv数组
-        state = BG;
-    else
-        state = FG;
-    if(argv[0] == NULL)  //命令行为空直接返回
+    char *argv[MAXARGS];
+    char buf[MAXLINE];
+    int bg;
+    pid_t pid;
+    strcpy(buf,cmdline);
+    bg=parseline(buf,argv);
+    if(argv==NULL)
         return;
-    // 如果不是内置命令
+    sigset_t mask_all, mask_one, prev_one;
     if(!builtin_cmd(argv))
     {
-        if(sigemptyset(&set) < 0)
-            unix_error("sigemptyset error");
-        if(sigaddset(&set, SIGINT) < 0 || sigaddset(&set, SIGTSTP) < 0 || sigaddset(&set, SIGCHLD) < 0)
-            unix_error("sigaddset error");
-        //在它派生子进程之前阻塞SIGCHLD信号，防止竞争 
-        if(sigprocmask(SIG_BLOCK, &set, NULL) < 0)
-            unix_error("sigprocmask error");
-
-        if((pid = fork()) < 0)  //fork创建子进程失败 
-            unix_error("fork error");
-        else if(pid == 0)  //fork创建子进程
-        {
-            // 子进程的控制流开始
-            if(sigprocmask(SIG_UNBLOCK, &set, NULL) < 0)  //解除阻塞
-                unix_error("sigprocmask error");
-            if(setpgid(0, 0) < 0)  //设置子进程id 
-                unix_error("setpgid error");
-            if(execve(argv[0], argv, environ) < 0){
-                printf("%s: command not found\n", argv[0]);
-                exit(0);
-            }
-        }
-        // 将当前进程添加进job中，无论是前台进程还是后台进程
-        addjob(jobs, pid, state, cmdline);
-        // 恢复受阻塞的信号 SIGINT SIGTSTP SIGCHLD
-        if(sigprocmask(SIG_UNBLOCK, &set, NULL) < 0)
-            unix_error("sigprocmask error");
-
-        // 判断子进程类型并做处理
-        if(state == FG)
-            waitfg(pid);  //前台作业等待
+        
+        sigfillset(&mask_all);  
+        sigemptyset(&mask_one); 
+        sigaddset(&mask_one,SIGCHLD);
+        sigprocmask(SIG_BLOCK,&mask_one,&prev_one);
+        
+        if((pid=fork())==0)
+           { 
+            sigprocmask(SIG_SETMASK, &prev_one,NULL);
+             
+               setpgid(0,0);                  
+               if(execve(argv[0],argv,environ)<0)
+               {
+                   printf("%s: Command not found .\n", argv[0]);
+                   exit(0);
+               }
+           }
+       
+        sigprocmask(SIG_BLOCK,&mask_all,NULL);
+        if(bg)
+            addjob(jobs,pid,BG,cmdline);
         else
-            printf("[%d] (%d) %s", pid2jid(pid), pid, cmdline);  //将进程id映射到job id   
-    }
+            addjob(jobs,pid,FG,cmdline);
+        sigprocmask(SIG_SETMASK,&prev_one,NULL);
+        if(!bg)
+           {
+               waitfg(pid);
+           }
+       else{ 
+            printf("[%d] (%d) %s",pid2jid(pid),pid,cmdline);
+        }
+        }
+    
+                   
+               
+    
     return;
-}
 
+
+}
 /* 
  * parseline - Parse the command line and build the argv array.
  * 
@@ -280,15 +280,37 @@ int parseline(const char *cmdline, char **argv)
  */
 int builtin_cmd(char **argv)
 {
-    if(!strcmp(argv[0], "quit"))  //如果命令是quit，退出
-        exit(0);
-    else if(!strcmp(argv[0], "bg") || !strcmp(argv[0], "fg"))  //如果是bg或者fg命令，执行do_fgbg函数 
-        do_bgfg(argv);
-    else if(!strcmp(argv[0], "jobs"))  //如果命令是jobs，列出正在运行和停止的后台作业
+    if(!strcmp(argv[0],"quit"))   
+         exit(0);
+    
+    int fun_jobs = !(strcmp(argv[0],"jobs"));
+     int fun_fg   =! strcmp(argv[0],"fg");
+    int fun_bg   = ! strcmp(argv[0],"bg");
+    if(!strcmp(argv[0],"jobs"))
+    {
         listjobs(jobs);
-    else
-        return 0;     /* not a builtin command */
-    return 1;
+        return 1;
+    }
+    if(!fun_jobs && !fun_fg && !fun_bg)	
+         return 0;
+    
+    if(!strcmp(argv[0],"&")) 
+        return 1;
+    if((! strcmp(argv[0],"fg") ))
+    {
+        do_bgfg(argv); 
+        return 1;
+    }
+   if((! strcmp(argv[0],"bg") ))
+    {
+        do_bgfg(argv); 
+        return 1;
+    }
+    
+   
+    
+
+    return 0;     /* not a builtin command */
 }
 
 /* 
@@ -296,50 +318,49 @@ int builtin_cmd(char **argv)
  */
 void do_bgfg(char **argv)
 {
-    int num;
+     pid_t pid;
+    int jid;
     struct job_t *job;
-    // 没有参数的fg/bg应该被丢弃
-    if(!argv[1]){  //命令行为空
+    if(argv[1]==NULL)
+    {
         printf("%s command requires PID or %%jobid argument\n", argv[0]);
         return ;
     }
-    // 检测fg/bg参数，其中%开头的数字是JobID，纯数字的是PID
-    if(argv[1][0] == '%'){  //解析jid
-        if((num = strtol(&argv[1][1], NULL, 10)) <= 0){
-            printf("%s: argument must be a PID or %%jobid\n",argv[0]);//失败,打印错误消息
-            return;
+    if(argv[1][0]=='%')
+    {
+        
+        jid=atoi(argv[1]+1);
+        if((job=getjobjid(jobs,jid))==NULL)
+        {
+            printf("%s No such job\n", argv[0]);
+            return ;
         }
-        if((job = getjobjid(jobs, num)) == NULL){
-            printf("%%%d: No such job\n", num); //没找到对应的job 
-            return;
-        }
-    } else {
-        if((num = strtol(argv[1], NULL, 10)) <= 0){
-            printf("%s: argument must be a PID or %%jobid\n",argv[0]);//失败,打印错误消息
-            return;
-        }
-        if((job = getjobpid(jobs, num)) == NULL){
-            printf("(%d): No such process\n", num);  //没找到对应的进程 
-            return;
-        }
+        pid=job->pid;
     }
-
-    if(!strcmp(argv[0], "bg")){
-        // bg会启动子进程，并将其放置于后台执行
-        job->state = BG;  //设置状态 
-        if(kill(-job->pid, SIGCONT) < 0)  //采用负数发送信号到进程组 
-            unix_error("kill error");
-        printf("[%d] (%d) %s", job->jid, job->pid, job->cmdline);
-    } else if(!strcmp(argv[0], "fg")) {
-        job->state = FG;  //设置状态 
-        if(kill(-job->pid, SIGCONT) < 0)  //采用负数发送信号到进程组 
-            unix_error("kill error");
-        // 当一个进程被设置为前台执行时，当前tsh应该等待该子进程结束
-        waitfg(job->pid);
-    } else {
-        puts("do_bgfg: Internal error");
-        exit(0);
+    else 
+    {
+        pid=atoi(argv[1]);
+        if((job=getjobpid(jobs,pid))==NULL)
+        {
+            printf("%s: argument must be a PID or %%jobid\n", argv[0]);
+            return ;
+        }
+        jid=job -> jid;
     }
+    if(!strcmp(argv[0],"bg"))
+    {
+        job->state=BG;
+        kill(-pid,SIGCONT);
+        printf("[%d] (%d) %s", pid2jid(pid), pid, job -> cmdline);
+    }
+    else if(!strcmp(argv[0],"fg"))
+    {
+        job->state=FG;
+        kill(-pid,SIGCONT);
+        waitfg(pid);
+    }
+        
+            
     return;
 }
 
@@ -348,14 +369,10 @@ void do_bgfg(char **argv)
  */
 void waitfg(pid_t pid)
 {
-    struct job_t *job = getjobpid(jobs, pid);
-    if(!job) return;
-
-  
-    while(job->state == FG)
-   
-        sleep(1);
-
+     while(fgpid(jobs) == pid)
+    {
+        sleep(0);
+    }
     return;
 }
 
@@ -372,58 +389,30 @@ void waitfg(pid_t pid)
  */
 void sigchld_handler(int sig)
 {
-    int status, jid;
+   int oldErrno = errno;
     pid_t pid;
+    int status;
     struct job_t *job;
-
-    if(verbose)
-        puts("sigchld_handler: entering");
-
-    /*
-    以非阻塞方式等待所有子进程
-    waitpid 参数3：
-        1.     0     ： 执行waitpid时， 只有在子进程 **终止** 时才会返回。
-        2. WNOHANG   : 若子进程仍然在运行，则返回0 。
-                注意只有设置了这个标志，waitpid才有可能返回0
-        3. WUNTRACED : 如果子进程由于传递信号而停止，则马上返回。
-                只有设置了这个标志，waitpid返回时，其WIFSTOPPED(status)才有可能返回true
-    */
-    while((pid = waitpid(-1, &status, WNOHANG | WUNTRACED)) > 0){
-
-        // 如果当前这个子进程的job已经删除了，则表示有错误发生
-        if((job = getjobpid(jobs, pid)) == NULL){
-            printf("Lost track of (%d)\n", pid);
-            return;
+    
+    while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED)) > 0)
+    {
+        if (WIFEXITED(status))
+        {
+            deletejob(jobs, pid);
         }
-
-        jid = job->jid;
-        //接下来判断三种状态 
-        // 如果这个子进程收到了一个暂停信号（还没退出） 
-        if(WIFSTOPPED(status)){
-            printf("Job [%d] (%d) stopped by signal %d\n", jid, job->pid, WSTOPSIG(status));
-            job->state = ST;  //状态设为挂起 
+        else if (WIFSIGNALED(status))
+        {
+            printf("Job [%d] (%d) terminated by signal %d\n", pid2jid(pid), pid, WTERMSIG(status));
+            deletejob(jobs, pid);
         }
-        // 如果子进程通过调用 exit 或者一个返回 (return) 正常终止
-        else if(WIFEXITED(status)){
-            if(deletejob(jobs, pid))
-                if(verbose){
-                    printf("sigchld_handler: Job [%d] (%d) deleted\n", jid, pid);
-                    printf("sigchld_handler: Job [%d] (%d) terminates OK (status %d)\n", jid, pid, WEXITSTATUS(status));
-                }
-        }
-        // 如果子进程是因为一个未被捕获的信号终止的，例如SIGKILL
-        else {
-            if(deletejob(jobs, pid)){  //清除进程
-                if(verbose)
-                    printf("sigchld_handler: Job [%d] (%d) deleted\n", jid, pid);
-            }
-            printf("Job [%d] (%d) terminated by signal %d\n", jid, pid, WTERMSIG(status));  //返回导致子进程终止的信号的数量
-        }
+        else if (WIFSTOPPED(status))
+        {
+            job = getjobpid(jobs, pid);
+            job -> state = ST;
+            printf("Job [%d] (%d) stopped by signal %d\n", job -> jid, pid, WSTOPSIG(status));
+        }            
     }
-
-    if(verbose)
-        puts("sigchld_handler: exiting");
-
+    errno = oldErrno;
     return;
 }
 
@@ -434,22 +423,14 @@ void sigchld_handler(int sig)
  */
 void sigint_handler(int sig)
 {
-    if(verbose)
-        puts("sigint_handler: entering");
     pid_t pid = fgpid(jobs);
-
-    if(pid){
-      
-        if(kill(-pid, SIGINT) < 0)
-            unix_error("kill (sigint) error");
-        if(verbose){
-            printf("sigint_handler: Job (%d) killed\n", pid);
-        }
+    if(pid == 0)
+    {
+        return;
     }
-    if(verbose)
-        puts("sigint_handler: exiting");
-    return;
+    kill(-pid, sig);
 }
+ 
 
 /*
  * sigtstp_handler - The kernel sends a SIGTSTP to the shell whenever
@@ -458,23 +439,16 @@ void sigint_handler(int sig)
  */
 void sigtstp_handler(int sig)
 {
-    if(verbose)
-        puts("sigstp_handler: entering");
-
-    pid_t pid = fgpid(jobs);
-    struct job_t *job = getjobpid(jobs, pid);
-
-    if(pid){
-        if(kill(-pid, SIGTSTP) < 0)
-            unix_error("kill (tstp) error");
-        if(verbose){
-            printf("sigstp_handler: Job [%d] (%d) stopped\n", job->jid, pid);
-        }
+     pid_t pid = fgpid(jobs);
+    if (pid != 0){
+        kill(-pid, sig);
     }
-    if(verbose)
-        puts("sigstp_handler: exiting");
+
+    
     return;
 }
+
+
 /*********************
  * End signal handlers
  *********************/
@@ -695,189 +669,4 @@ void sigquit_handler(int sig)
 }
 
 
-void eval(char *cmdline)
-{
-	char* argv[MAXARGS];
-	int state = UNDEF;
-	sigset_t set;
-	pid_t pid;
-	if(parseline(cmdline, argv) == 1)
-		state = BG;
-   	else
-        	state = FG;
-	if(argv[0] == NULL)
-		return;
-	if(!builtin_cmd(argv))
-	{
-		if(sigemptyset(&set) < 0)
-                	unix_error("sigemptyset error");
-		if(sigaddset(&set, SIGINT) < 0 || sigaddset(&set, SIGTSTP) < 0 || sigaddset(&set, SIGCHLD) < 0)
-			unix_error("sigaddset error");
-		if(sigprocmask(SIG_BLOCK, &set, NULL) < 0)
-			if(sigprocmask(SIG_BLOCK, &set, NULL) < 0);
-		if((pid = fork()) < 0)
-			unix_error("fork error");
-		else if(pid == 0)
-		{
-			if(sigprocmask(SIG_UNBLOCK, &set, NULL) < 0)
-				unix_error("sigprocmask error");
-			if(setpgid(0, 0) < 0)
-				unix_error("setpgid error");
-			if(execve(argv[0], argv, environ) < 0){
-				printf("%s: command not found\n", argv[0]);
-				exit(0);
-			}
-		}
-		addjob(jobs, pid, state, cmdline);
-		if(sigprocmask(SIG_UNBLOCK, &set, NULL) < 0)
-			unix_error("sigprocmask error");
-		if(state == FG)
-			waitfg(pid);
-		else
-			printf("[%d] (%d) %s", pid2jid(pid), pid, cmdline);
-	}
-	return ;
-}
 
-int builtin_cmd(char **argv)
-{
-    if(!strcmp(argv[0], "quit"))
-	    exit(0);
-    else if(!strcmp(argv[0], "bg") || !strcmp(argv[0], "fg"))
-	    do_bgfg(argv);
-    else if(!strcmp(argv[0], "jobs"))
-	    listjobs(jobs);
-    else
-	    return 0;     /* not a builtin command */
-    return 1;
-}
-
-void do_bgfg(char **argv)
-{
-	int num;
-	struct job_t *job;
-	if(!argv[1]){
-		printf("%s command requires PID or %%jobid argument\n", argv[0]);
-		return ;
-	}
-	if(argv[1][0] == '%'){
-		if((num = strtol(&argv[1][1], NULL, 10)) <= 0){
-			printf("%s: argument must be a PID or %%jobid\n",argv[0]);
-			return;
-		}
-		if((job = getjobjid(jobs, num)) == NULL){
-			printf("%%%d: No such job\n", num);
-			return;
-		}
-	} else {
-		if((num = strtol(argv[1], NULL, 10)) <= 0){
-			printf("%s: argument must be a PID or %%jobid\n",argv[0]);
-			return;
-		}
-		if((job = getjobpid(jobs, num)) == NULL){
-			printf("(%d): No such process\n", num);
-			return;
-		}
-	}
-	if(!strcmp(argv[0], "bg")){
-		job->state = BG;
-		if(kill(-job->pid, SIGCONT<0))
-				unix_error("kill error");
-				printf("[%d] (%d) %s", job->jid, job->pid, job->cmdline);
-	} else if(!strcmp(argv[0], "fg")) {
-				job->state = FG;
-				if(kill(-job->pid, SIGCONT) < 0)
-				unix_error("kill error");
-				waitfg(job->pid);
-				} else {
-				puts("do_bgfg: Internal error");
-				exit(0);
-				}
-				return;
-}
-
-void waitfg(pid_t pid)
-{
-    	struct job_t *job = getjobpid(jobs, pid);
-    	if(!job) 
-    		return;
-    	while(job->state == FG)
-        	sleep(1);
-    	return;
-}
-
-void sigchld_handler(int sig)
-{
-	int status, jid;
-	pid_t pid;
-	struct job_t *job;
-	if(verbose)
-		puts("sigchld_handler: entering");
-    	while((pid = waitpid(-1, &status, WNOHANG | WUNTRACED)) > 0){
-		if((job = getjobpid(jobs, pid)) == NULL){
-			printf("Lost track of (%d)\n", pid);
-			return;
-		}
-		jid = job->jid;
-		if(WIFSTOPPED(status)){
-			printf("Job [%d] (%d) stopped by signal %d\n", jid, job->pid, WSTOPSIG(status));
-			job->state = ST;
-		}
-		else if(WIFEXITED(status)){
-			if(deletejob(jobs, pid))
-				if(verbose){
-					printf("sigchld_handler: Job [%d] (%d) deleted\n", jid, pid);
-					printf("sigchld_handler: Job [%d] (%d) terminates OK (status %d)\n", jid, pid, WEXITSTATUS(status));
-				}
-		}
-		else {
-			if(deletejob(jobs, pid)){
-				if(verbose)
-					printf("sigchld_handler: Job [%d] (%d) deleted\n", jid, pid);
-			}
-			printf("Job [%d] (%d) terminated by signal %d\n", jid, pid, WTERMSIG(status));
-		}
-	}
-	if(verbose)
-		puts("sigchld_handler: exiting");
-	return;
-}
-
-
-
-void sigint_handler(int sig)
-{
-	if(verbose)
-		puts("sigint_handler: entering");
-	pid_t pid = fgpid(jobs);
-	if(pid){
-        if(kill(-pid, SIGINT) < 0)
-		unix_error("kill (sigint) error");
-	if(verbose){
-		printf("sigint_handler: Job (%d) killed\n", pid);
-	}
-	}
-	if(verbose)
-	    	puts("sigint_handler: exiting");
-    	return;
-}
-
-void sigtstp_handler(int sig)
-{
-    if(verbose)
-        puts("sigstp_handler: entering");
-
-    pid_t pid = fgpid(jobs);
-    struct job_t *job = getjobpid(jobs, pid);
-
-    if(pid){
-        if(kill(-pid, SIGTSTP) < 0)
-            unix_error("kill (tstp) error");
-        if(verbose){
-            printf("sigstp_handler: Job [%d] (%d) stopped\n", job->jid, pid);
-        }
-    }
-    if(verbose)
-        puts("sigstp_handler: exiting");
-    return;
-}
